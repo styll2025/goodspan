@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  @keyframes fadeUp{from{opacity:0.01;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  @keyframes popIn{0%{transform:scale(0.8);opacity:0.01;}60%{transform:scale(1.06);}100%{transform:scale(1);opacity:1;}}
+  @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;}}
+  ::selection{background:oklch(0.88 0.07 150);}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#ffffff;color:oklch(0.24 0.012 255);font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;">
+  <div style="max-width:980px;margin:0 auto;padding:24px 28px 120px;">
+
+    <header style="display:flex;justify-content:space-between;align-items:center;padding:6px 0 44px;flex-wrap:wrap;gap:16px;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <div style="font-family: 'Outfit',sans-serif; font-weight: 700; font-size: 25px; letter-spacing: -0.02em">GoodSpan <span style="font-weight:500;font-style:normal;color:oklch(0.5 0.012 255);">Seasons</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:18px;">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="{{ st.dotStyle }}">{{ st.num }}</div>
+            <span style="{{ st.labelStyle }}">{{ st.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </header>
+
+    <sc-if value="{{ notLoaded }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:90px 0;text-align:center;color:oklch(0.6 0.006 255);font-size:15px;">Gathering your practices…</div>
+    </sc-if>
+
+    <!-- STEP 1 — THEME -->
+    <sc-if value="{{ isStep1 }}">
+      <div style="animation:fadeUp .5s ease;">
+        <div style="display:inline-flex;align-items:center;gap:9px;background:oklch(0.992 0.003 255);border:1px solid oklch(0.9 0.008 255);border-radius:999px;padding:7px 8px 7px 16px;margin-bottom:22px;box-shadow:0 2px 10px rgba(18,28,45,0.04);">
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.42 0.015 255);">A 30-day shared journey</span>
+          <div style="display:flex;align-items:center;">
+            <sc-for list="{{ heroPeople }}" as="p" hint-placeholder-count="4"><div style="{{ p.miniStyle }}">{{ p.initial }}</div></sc-for>
+          </div>
+        </div>
+        <h1 style="font-family: 'Outfit',sans-serif; font-weight: 700; font-size: 55px; line-height: 1.0; letter-spacing: -0.035em; margin: 0 0 16px; max-width: 14em">Feel Healthy, <span style="font-family: Newsreader, serif; font-weight: 500; font-style: italic; letter-spacing: -0.01em;">together.</span></h1>
+        <p style="font-size:21px;font-weight:600;max-width:24em;color:oklch(0.3 0.012 255);margin:0 0 16px;line-height:1.3;letter-spacing:-0.01em;">Meet new people while building a healthier, happier life.</p>
+        <p style="font-size:18px;max-width:33em;color:oklch(0.42 0.01 255);margin:0 0 18px;line-height:1.55;">A Season is 30 days of small, science-backed habits, shared with a Circle of people walking the same path. Pick a theme to begin.</p>
+
+        <div style="display:flex;align-items:center;gap:14px;margin:0 0 40px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;">
+            <sc-for list="{{ circlePeople }}" as="p" hint-placeholder-count="5"><div style="{{ p.style }}">{{ p.initial }}</div></sc-for>
+            <div style="{{ youChipStyle }}">+You</div>
+          </div>
+          <span style="font-size:14px;color:oklch(0.5 0.008 255);font-weight:500;">You’ll join a Circle of 5–7 sharing the journey</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <sc-for list="{{ themes }}" as="t" hint-placeholder-count="4">
+            <button onClick="{{ t.onSelect }}" style="{{ t.cardStyle }}" style-hover="transform:translateY(-5px);">
+              <div style="{{ t.orbStyle }}"></div>
+              <div style="{{ t.orb2Style }}"></div>
+              <div style="position:relative;display:flex;flex-direction:column;height:100%;">
+                <h3 style="{{ t.nameStyle }}">{{ t.name }}</h3>
+                <p style="{{ t.taglineStyle }}">{{ t.tagline }}</p>
+                <p style="{{ t.blurbStyle }}">{{ t.blurb }}</p>
+                <div style="{{ t.ctaStyle }}">Select this challenge <span style="font-size:16px;">→</span></div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:52px;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <div style="background:oklch(0.992 0.003 255);border:1px solid oklch(0.92 0.006 255);border-radius:20px;padding:24px;">
+            <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg, oklch(0.57 0.13 132), #aece36);display:flex;align-items:center;justify-content:center;color:oklch(0.27 0.04 110);font-weight:800;font-family:'Outfit',sans-serif;margin-bottom:14px;">30</div>
+            <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.015em;margin:0 0 8px;">What is a Season?</h3>
+            <p style="font-size:14.5px;line-height:1.6;margin:0;color:oklch(0.46 0.008 255);">Thirty days devoted to one theme. Pick a level from Gentle to Deep, choose a few daily practices, and carry them for the month. Everyone starts and finishes together.</p>
+          </div>
+          <div style="background:oklch(0.992 0.003 255);border:1px solid oklch(0.92 0.006 255);border-radius:20px;padding:24px;">
+            <div style="width:38px;height:38px;border-radius:50%;border:7px solid oklch(0.58 0.2 358);background:oklch(0.96 0.04 356);margin-bottom:14px;"></div>
+            <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.015em;margin:0 0 8px;">What is a Circle?</h3>
+            <p style="font-size:14.5px;line-height:1.6;margin:0;color:oklch(0.46 0.008 255);">A small group of 5–7 people you haven’t met, all on the same Season. You share your practice, stay connected, and meet weekly. On day 30 every Circle gathers in person to close the Season.</p>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 2 — LEVEL -->
+    <sc-if value="{{ isStep2 }}">
+      <div style="animation:fadeUp .5s ease;">
+        <button onClick="{{ back }}" style="{{ backStyle }}">← Back</button>
+        <div style="display:flex;gap:9px;margin-bottom:18px;flex-wrap:wrap;">
+          <span style="{{ staticChipStyle }}">{{ themeName }}</span>
+        </div>
+        <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:48px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 16px;">How deep will you <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">go?</span></h1>
+        <p style="font-size:17px;max-width:34em;color:oklch(0.42 0.01 255);margin:0 0 36px;line-height:1.55;">Choose the intensity that fits your life right now. Enough to feel it, light enough to hold for thirty days. You can adjust later.</p>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <sc-for list="{{ levels }}" as="l" hint-placeholder-count="3">
+            <button onClick="{{ l.onSelect }}" style="{{ l.lvlStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 14px 32px rgba(18,28,45,0.1);">
+              <div style="{{ l.badgeStyle }}">{{ l.num }}</div>
+              <div style="flex:1;">
+                <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;margin:0 0 4px;letter-spacing:-0.02em;">{{ l.name }} <span style="font-family:Newsreader,serif;font-style:italic;font-weight:400;color:oklch(0.5 0.008 255);font-size:18px;letter-spacing:0;">— {{ l.summary }}</span></h3>
+                <p style="font-size:14.5px;line-height:1.5;margin:0;color:oklch(0.46 0.008 255);max-width:46em;">{{ l.desc }}</p>
+              </div>
+              <div style="{{ l.arrowStyle }}">→</div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 3 — PRACTICES -->
+    <sc-if value="{{ isStep3 }}">
+      <div style="animation:fadeUp .5s ease;">
+        <button onClick="{{ back }}" style="{{ backStyle }}">← Back</button>
+        <div style="display:flex;gap:9px;margin-bottom:18px;flex-wrap:wrap;">
+          <button onClick="{{ editTheme }}" style="{{ chipStyle }}">{{ themeName }} ✕</button>
+          <button onClick="{{ editLevel }}" style="{{ chipStyle }}">{{ levelName }} level ✕</button>
+        </div>
+        <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px;">Build your <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">practice.</span></h1>
+        <p style="font-size:16px;max-width:37em;color:oklch(0.42 0.01 255);margin:0 0 16px;line-height:1.55;">Small commitments you’ll carry every day and share with your Circle. Consistency beats ambition.</p>
+        <div style="{{ ruleBannerStyle }}">
+          <span style="font-size:15px;">🌱</span>
+          <span style="font-size:13.5px;color:oklch(0.4 0.008 255);line-height:1.45;">Choose at least <strong style="font-weight:700;">5 practices</strong>, with at least one from every section.</span>
+        </div>
+        <sc-for list="{{ categories }}" as="c" hint-placeholder-count="3">
+          <section style="margin-top:38px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:4px;">
+              <div style="{{ c.tickStyle }}">{{ c.selCount }}</div>
+              <h2 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:21px;letter-spacing:-0.02em;margin:0;">{{ c.name }}</h2>
+            </div>
+            <sc-if value="{{ c.hasEvidence }}">
+              <p style="font-size:14px;font-style:italic;line-height:1.5;color:oklch(0.5 0.009 255);margin:0 0 0 38px;max-width:48em;font-family:Newsreader,serif;">{{ c.evidence }}</p>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+              <sc-for list="{{ c.practices }}" as="p" hint-placeholder-count="4">
+                <div onClick="{{ p.onToggle }}" style="{{ p.rowStyle }}" style-hover="border-color:{{ p.hoverBorder }};">
+                  <div style="{{ p.boxStyle }}">✓</div>
+                  <div style="flex:1;min-width:0;">
+                    <sc-if value="{{ p.hasFamily }}">
+                      <div style="{{ p.familyStyle }}">{{ p.family }}</div>
+                    </sc-if>
+                    <div style="font-size:15.5px;line-height:1.4;font-weight:500;">{{ p.text }}</div>
+                    <p style="{{ insightStyle }}">{{ p.insight }}</p>
+                    <sc-if value="{{ p.hasScience }}">
+                      <span onClick="{{ p.onLearn }}" style="{{ learnStyle }}">Learn more about the science</span>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </sc-for>
+        <sc-if value="{{ hasNote }}">
+          <p style="{{ noteStyle }}">{{ themeNote }}</p>
+        </sc-if>
+        <div style="{{ footerBarStyle }}">
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:15px;color:oklch(0.32 0.008 255);font-weight:600;"><strong style="font-weight:800;">{{ selectedCount }}</strong> practices selected</span>
+            <span style="{{ reqTextStyle }}">{{ requirementText }}</span>
+          </div>
+          <button onClick="{{ toReview }}" disabled="{{ continueDisabled }}" style="{{ footerBtnStyle }}">Review my season →</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 4 — REVIEW / START -->
+    <sc-if value="{{ isStep4 }}">
+      <sc-if value="{{ notStarted }}">
+        <div style="animation:fadeUp .5s ease;">
+          <button onClick="{{ back }}" style="{{ backStyle }}">← Back</button>
+          <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:48px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 24px;">Your 30-day <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">season.</span></h1>
+          <div style="{{ summaryStyle }}">
+            <div style="{{ summarySwatchStyle }}"></div>
+            <div style="flex:1;">
+              <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em;color:{{ summaryInk }};">{{ themeName }}</div>
+              <div style="font-size:14px;color:{{ summarySubInk }};margin-top:3px;font-weight:500;">{{ levelName }} level · {{ selectedCount }} practices · 30 days</div>
+            </div>
+          </div>
+          <sc-for list="{{ reviewGroups }}" as="g" hint-placeholder-count="3">
+            <div style="margin-top:28px;">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;">
+                <div style="{{ dotStyle }}"></div>
+                <h2 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.015em;margin:0;">{{ g.name }}</h2>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <sc-for list="{{ g.practices }}" as="p" hint-placeholder-count="2">
+                  <div style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:oklch(0.32 0.008 255);">
+                    <span style="{{ checkStyle }}">✓</span>
+                    <span><sc-if value="{{ p.hasFamily }}"><strong style="font-weight:700;">{{ p.family }}: </strong></sc-if>{{ p.text }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <div style="{{ circleStyle }}">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;">
+                <sc-for list="{{ circlePeople }}" as="p" hint-placeholder-count="5"><div style="{{ p.style }}">{{ p.initial }}</div></sc-for>
+                <div style="{{ youChipStyle }}">+You</div>
+              </div>
+              <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.015em;">Your Circle is forming</div>
+            </div>
+            <p style="font-size:14.5px;line-height:1.6;margin:0;color:oklch(0.45 0.008 255);max-width:48em;">You’ll be placed with 5 to 7 people you haven’t met, all walking this same Season. You’ll connect on WhatsApp and meet weekly to share insight, challenges, and progress.</p>
+            <div style="{{ gatherNoteStyle }}">
+              <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;margin:0 0 5px;letter-spacing:-0.01em;color:oklch(0.28 0.008 255);">Day 30 — the closing gathering</div>
+              <p style="font-size:14px;line-height:1.6;margin:0;color:oklch(0.46 0.008 255);max-width:48em;">When your thirty days are done, everyone who completes the Season comes together in person. Meet your Circle face to face, connect with people from the other themes, and mark the end of the Season together.</p>
+            </div>
+          </div>
+          <div style="margin-top:32px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+            <button onClick="{{ begin }}" style="{{ beginStyle }}">Begin your season →</button>
+            <button onClick="{{ goPractices }}" style="{{ textBtnStyle }}">Adjust my practices</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ started }}">
+        <div style="animation:fadeUp .55s ease;text-align:center;max-width:580px;margin:14px auto 0;">
+          <div style="{{ startBadgeStyle }}">✓</div>
+          <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:46px;line-height:1.03;letter-spacing:-0.03em;margin:26px 0 14px;">Your season <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">begins today.</span></h1>
+          <p style="font-size:16.5px;line-height:1.6;color:oklch(0.44 0.008 255);margin:0 auto 26px;max-width:31em;">Thirty days of {{ themeName }} at {{ levelName }} level. Your Circle is forming now — your WhatsApp invite arrives shortly.</p>
+          <div style="display:flex;align-items:center;justify-content:center;margin:0 0 34px;">
+            <sc-for list="{{ circlePeople }}" as="p" hint-placeholder-count="5"><div style="{{ p.style }}">{{ p.initial }}</div></sc-for>
+            <div style="{{ youChipStyle }}">+You</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:9px;max-width:380px;margin:0 auto;">
+            <sc-for list="{{ days }}" as="d" hint-placeholder-count="30">
+              <div style="{{ d.style }}">{{ d.n }}</div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px;font-size:13px;color:oklch(0.48 0.008 255);">
+            <span style="{{ gatherChipStyle }}">30</span>
+            <span>Closing gathering — meet your Circle in person</span>
+          </div>
+          <button onClick="{{ goPractices }}" style="margin-top:34px;background:none;border:none;font-family:inherit;font-size:14px;color:oklch(0.5 0.008 255);cursor:pointer;font-weight:600;">Adjust my practices</button>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ scienceOpen }}">
+      <div onClick="{{ closeScience }}" style="{{ sciOverlayStyle }}">
+        <div onClick="{{ stopClick }}" style="{{ sciCardStyle }}">
+          <div style="{{ sciBarStyle }}"></div>
+          <div style="{{ sciPillarStyle }}">{{ science.pillar }}</div>
+          <h2 style="{{ sciTitleStyle }}">{{ science.family }}</h2>
+          <div style="{{ sciHeadStyle }}">Why it matters</div>
+          <p style="{{ sciBodyStyle }}">{{ science.why }}</p>
+          <div style="{{ sciHeadStyle }}">What the research says</div>
+          <p style="{{ sciBodyStyle }}">{{ science.research }}</p>
+          <div style="{{ sciHeadStyle }}">Sources</div>
+          <div style="{{ sciSourceWrapStyle }}">
+            <sc-for list="{{ science.sources }}" as="src" hint-placeholder-count="2">
+              <a href="{{ src.url }}" target="_blank" rel="noopener" style="{{ sciSourceStyle }}">{{ src.text }}</a>
+            </sc-for>
+          </div>
+          <button onClick="{{ closeScience }}" style="{{ sciCloseStyle }}">Close</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+/* === inlined catalogue (standalone) === */
+// GoodSpan Seasons, practice catalogue
+// Each practice: { level: 'gentle'|'moderate'|'deep'|'all', text, insight }
+
+const LEVELS = [
+  {
+    id: 'gentle',
+    name: 'Gentle',
+    summary: 'A soft entry into the season',
+    desc: 'Small, achievable shifts. Build the habit without pressure and let it settle into your days.',
+  },
+  {
+    id: 'moderate',
+    name: 'Moderate',
+    summary: 'A meaningful step up',
+    desc: 'Consistent daily practice and a real commitment to change across the full thirty days.',
+  },
+  {
+    id: 'deep',
+    name: 'Deep',
+    summary: 'Full, documented commitment',
+    desc: 'Transformative practice, tracked, refined, and shared openly with your Circle.',
+  },
+];
+
+const SEASONS = [
+  {
+    id: 'sleep',
+    name: 'GoodSleep',
+    tagline: 'Rest as the foundation of a long life',
+    blurb: 'Rebuild the rhythm, calm, and darkness your body needs to recover each night.',
+    accent: 'oklch(0.5 0.13 264)',
+    accent2: 'oklch(0.57 0.115 246)',
+    soft: 'oklch(0.962 0.022 264)',
+    note: 'A note on the evidence. These practices are designed to build healthier sleep habits in the general population — not to treat a diagnosed sleep disorder. The American Academy of Sleep Medicine (Edinger et al., 2021) found that general sleep-hygiene advice, on its own, is not an effective standalone treatment for clinical insomnia disorder. If you live with diagnosed insomnia, treat this as a complement to professional care rather than a replacement for it.',
+    categories: [
+      {
+        name: 'Circadian Alignment',
+        families: [
+          {
+            name: 'Morning Light',
+            insight: 'Light in the first part of the day is the strongest signal for setting your body clock and shifting sleep earlier.',
+            levels: { gentle: '5 min outdoors within 1 hour of waking', moderate: '10–15 min outdoors', deep: '20–30 min outdoors' },
+            science: {
+              why: 'Light in the first part of the day is the strongest signal for setting the circadian clock and advancing sleep timing earlier.',
+              research: 'Morning and daytime light exposure advances circadian phase and supports earlier, more consolidated sleep, and a systematic review confirms that light in the late biological night and early morning advances the clock. An international expert consensus recommends a daytime minimum of roughly 250 lux melanopic EDI at eye level, a level usually only reached outdoors or near a window rather than under typical indoor lighting.',
+              sources: [
+                { text: 'Tähkämö, L., Partonen, T., & Pesonen, A.-K. (2019). Systematic review of light exposure impact on human circadian rhythm. Chronobiology International, 36(2), 151–170.', url: 'https://doi.org/10.1080/07420528.2018.1527773' },
+                { text: 'Brown, T. M., et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure to best support physiology, sleep, and wakefulness in healthy adults. PLOS Biology, 20(3), e3001571.', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
+              ],
+            },
+          },
+          {
+            name: 'Regular Sleep Schedule',
+            insight: 'The body sleeps best when bedtime and wake time are predictable, and regularity matters for long-term health on its own.',
+            levels: { gentle: 'Bedtime within a 60-minute window', moderate: 'Bedtime and wake time within 45 min', deep: 'Bedtime and wake time within 30 min, including weekends' },
+            science: {
+              why: 'The body sleeps best when bedtime and wake time are predictable, and regularity appears to matter for long-term health independently of how long you sleep.',
+              research: 'A systematic review found that later and more variable sleep timing is generally associated with worse health outcomes. A large prospective cohort study using accelerometer data from roughly 61,000 UK Biobank participants found that sleep regularity was a stronger predictor of all-cause mortality than sleep duration, with the most regular sleepers showing a markedly lower mortality risk than the least regular.',
+              sources: [
+                { text: 'Chaput, J.-P., et al. (2020). Sleep timing, sleep consistency, and health in adults: A systematic review. Applied Physiology, Nutrition, and Metabolism, 45(10, Suppl. 2), S232–S247.', url: 'https://doi.org/10.1139/apnm-2020-0032' },
+                { text: 'Windred, D. P., et al. (2024). Sleep regularity is a stronger predictor of mortality risk than sleep duration: A prospective cohort study. Sleep, 47(1), zsad253.', url: 'https://doi.org/10.1093/sleep/zsad253' },
+              ],
+            },
+          },
+          {
+            name: 'Dim Evening Light',
+            insight: 'Bright light in the evening suppresses melatonin and pushes your body clock later.',
+            levels: { gentle: 'Dim lights 1 hour before bed', moderate: 'Avoid bright overhead lights 2 hours before bed', deep: 'Create a low-light evening routine' },
+            science: {
+              why: 'Bright light in the evening suppresses melatonin and pushes the circadian clock later.',
+              research: 'A systematic review with meta-analysis found that higher evening light levels measurably alter polysomnographically assessed sleep. Experimental work shows the circadian system is highly sensitive to evening light, with roughly half of melatonin suppression occurring below 30 lux — comparable to ordinary indoor and device light — and more than a 50-fold difference in sensitivity between individuals. The expert consensus recommends keeping evening light below roughly 10 lux melanopic EDI in the hours before bed.',
+              sources: [
+                { text: 'Cajochen, C., et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep: A systematic review with meta-analysis. Lighting Research & Technology, 54(6), 609–624.', url: 'https://doi.org/10.1177/14771535221078765' },
+                { text: 'Phillips, A. J. K., et al. (2019). High sensitivity and interindividual variability in the response of the human circadian system to evening light. PNAS, 116(24), 12019–12024.', url: 'https://doi.org/10.1073/pnas.1901824116' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Sleep Pressure',
+        families: [
+          {
+            name: 'Daily Movement',
+            insight: 'Physical activity builds the sleep pressure that helps you fall and stay asleep.',
+            levels: { gentle: '20-min walk', moderate: '30 min moderate activity', deep: 'Meet WHO activity guidelines' },
+            science: {
+              why: 'Physical activity builds homeostatic sleep pressure and improves sleep quality over time.',
+              research: 'A meta-analytic review found that regular exercise has small beneficial effects on total sleep time and sleep efficiency, small-to-medium benefits for sleep onset latency, and moderate benefits for overall sleep quality, with consistency mattering more than intensity. The WHO 2020 guidelines recommend at least 150 to 300 minutes of moderate activity per week for adults.',
+              sources: [
+                { text: 'Kredlow, M. A., et al. (2015). The effects of physical activity on sleep: A meta-analytic review. Journal of Behavioral Medicine, 38(3), 427–449.', url: 'https://doi.org/10.1007/s10865-015-9617-6' },
+                { text: 'Bull, F. C., et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451–1462.', url: 'https://doi.org/10.1136/bjsports-2020-102955' },
+              ],
+            },
+          },
+          {
+            name: 'Caffeine Timing',
+            insight: 'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.',
+            levels: { gentle: 'No caffeine after 4pm', moderate: 'No caffeine after 2pm', deep: 'Adjust intake to your bedtime' },
+            science: {
+              why: 'Caffeine blocks adenosine, the molecule that builds sleep pressure across the day, and it lingers long after its alerting effect fades.',
+              research: 'A systematic review and meta-analysis of 24 studies found that caffeine reduced total sleep time by approximately 45 minutes and sleep efficiency by about 7 percent, increased sleep onset latency by roughly 9 minutes, and reduced deep sleep. To avoid disruption, a standard coffee (around 107 mg) should be consumed at least roughly 9 hours before bed, though the wide variation in caffeine half-life between people (2 to 10 hours) means individuals should adjust to their own response.',
+              sources: [
+                { text: 'Gardiner, C., et al. (2023). The effect of caffeine on subsequent sleep: A systematic review and meta-analysis. Sleep Medicine Reviews, 69, 101764.', url: 'https://doi.org/10.1016/j.smrv.2023.101764' },
+                { text: 'Drake, C., et al. (2013). Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. Journal of Clinical Sleep Medicine, 9(11), 1195–1200.', url: 'https://doi.org/10.5664/jcsm.3170' },
+              ],
+            },
+          },
+          {
+            name: 'Naps',
+            insight: 'Short, early naps restore alertness without eroding the sleep pressure you need at night.',
+            levels: { gentle: 'Nap under 30 min', moderate: 'Nap before 3pm', deep: 'Nap only when needed' },
+            science: {
+              why: 'Short, early naps can restore alertness without eroding nighttime sleep pressure.',
+              research: 'A review of epidemiological and laboratory studies concluded that short daytime naps improve alertness and mood, while longer or late-afternoon naps can reduce the drive for nighttime sleep. Benefits are most reliable when naps are kept brief and taken earlier in the day.',
+              sources: [
+                { text: 'Faraut, B., et al. (2017). Napping: A public health issue. From epidemiological to laboratory studies. Sleep Medicine Reviews, 35, 85–100.', url: 'https://doi.org/10.1016/j.smrv.2016.09.002' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Wind Down',
+        families: [
+          {
+            name: 'Slow Breathing',
+            insight: 'Slow, controlled breathing shifts the body toward its calming parasympathetic state before sleep.',
+            levels: { gentle: '2 min before bed', moderate: '5 min before bed', deep: '10 min before bed' },
+            science: {
+              why: 'Slow, controlled breathing shifts the autonomic balance toward the parasympathetic system, lowering pre-sleep arousal.',
+              research: 'Slow breathing reliably increases heart rate variability and reduces physiological arousal. A systematic review of slow breathing before bed found that self-reported sleep duration and quality tend to improve, while objective sleep findings remain inconclusive — a low-risk practice with promising but not definitive evidence.',
+              sources: [
+                { text: 'Kuula, L., et al. (2020). The effects of presleep slow breathing and music listening on polysomnographic sleep measures: A pilot trial. Scientific Reports, 10, 7427.', url: 'https://doi.org/10.1038/s41598-020-64218-7' },
+                { text: 'Eide, E. M., Hernes, H. M., & Grønli, J. (2026). Slow breathing techniques before bedtime and the effects on sleep: A systematic review. Sleep Medicine Reviews, 87, 102284.', url: 'https://doi.org/10.1016/j.smrv.2026.102284' },
+              ],
+            },
+          },
+          {
+            name: 'Progressive Muscle Relaxation',
+            insight: 'Tensing and releasing muscle groups lowers physical tension and arousal before sleep.',
+            levels: { gentle: '5 min', moderate: '10 min', deep: 'Full nightly routine' },
+            science: {
+              why: 'Systematically tensing and releasing muscle groups lowers physical tension and autonomic arousal before sleep.',
+              research: 'A controlled study found that progressive muscle relaxation increased restorative slow-wave sleep during a daytime nap. A recent systematic review and meta-analysis of 31 randomised controlled trials (roughly 2,277 participants) reported a significant improvement in sleep quality alongside reductions in anxiety, though heterogeneity across trials was high. Relaxation-based techniques are endorsed as a single-component therapy in the AASM clinical practice guideline.',
+              sources: [
+                { text: 'Simon, K. C., et al. (2022). Progressive muscle relaxation increases slow-wave sleep during a daytime nap. Journal of Sleep Research, 31(5), e13574.', url: 'https://doi.org/10.1111/jsr.13574' },
+                { text: 'Donato, K. O., et al. (2026). Progressive muscle relaxation technique improves sleep quality and mental health: A systematic review and meta-analysis of randomized controlled trials. Journal of Psychosomatic Research, 203, 112563.', url: 'https://doi.org/10.1016/j.jpsychores.2026.112563' },
+              ],
+            },
+          },
+          {
+            name: 'Brain Dump / Tomorrow List',
+            insight: 'Writing down tomorrow’s tasks stops the mind rehearsing them at bedtime.',
+            levels: { gentle: 'Write one task', moderate: 'Top 3 priorities', deep: '5-minute cognitive offload' },
+            science: {
+              why: 'Writing down tomorrow’s tasks stops the mind rehearsing them at bedtime.',
+              research: 'In a polysomnography study of 57 adults, participants who spent five minutes writing a specific to-do list before bed fell asleep faster than those who journaled about completed tasks, and the more specific the list, the faster they fell asleep. This is a single well-controlled experiment rather than a meta-analysis, so the effect is promising but not yet replicated at scale.',
+              sources: [
+                { text: 'Scullin, M. K., et al. (2018). The effects of bedtime writing on difficulty falling asleep: A polysomnographic study comparing to-do lists and completed activity lists. Journal of Experimental Psychology: General, 147(1), 139–146.', url: 'https://doi.org/10.1037/xge0000374' },
+              ],
+            },
+          },
+          {
+            name: 'Relaxing Music',
+            insight: 'Calming music lowers arousal and can ease the transition into sleep.',
+            levels: { gentle: '5 min', moderate: '10 min', deep: 'Full sleep playlist' },
+            science: {
+              why: 'Calming music lowers arousal and can ease the transition into sleep.',
+              research: 'A Cochrane systematic review found evidence that listening to music can improve subjective sleep quality in adults with insomnia symptoms, while noting that the effect on objective sleep parameters is less clear and more research is needed. Music works best as part of a consistent wind-down routine.',
+              sources: [
+                { text: 'Jespersen, K. V., et al. (2022). Listening to music for insomnia in adults. Cochrane Database of Systematic Reviews, 2022(8), CD010459.', url: 'https://doi.org/10.1002/14651858.CD010459.pub3' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Sleep Environment',
+        families: [
+          {
+            name: 'Cool Bedroom',
+            insight: 'Core body temperature falls as you prepare for sleep, and an overheated room works against that.',
+            levels: { gentle: 'Comfortable temperature', moderate: '18–20°C if possible', deep: 'Optimise consistently' },
+            science: {
+              why: 'Core body temperature falls as you prepare for sleep, and an overheated room works against that.',
+              research: 'A longitudinal field study in community-dwelling older adults found that sleep was most efficient when nighttime bedroom temperature was roughly 20 to 25°C, with a clinically meaningful 5 to 10 percent drop in sleep efficiency as the room warmed from 25 to 30°C, and substantial variation between individuals. The defensible message is to keep the room cool and comfortable and above all avoid overheating, with the exact set point being individual.',
+              sources: [
+                { text: 'Baniassadi, A., et al. (2023). Nighttime ambient temperature and sleep in community-dwelling older adults. Science of the Total Environment, 899, 165623.', url: 'https://doi.org/10.1016/j.scitotenv.2023.165623' },
+              ],
+            },
+          },
+          {
+            name: 'Dark Bedroom',
+            insight: 'Even low light can interfere with melatonin and disrupt circadian timing.',
+            levels: { gentle: 'Close curtains', moderate: 'Remove light sources', deep: 'Complete darkness' },
+            science: {
+              why: 'Even low light can interfere with melatonin and disrupt circadian timing.',
+              research: 'The expert consensus recommends keeping the sleep environment as dark as possible, below roughly 1 lux melanopic EDI, since evening and night light suppress melatonin and shift the clock. Blackout curtains or an eye mask can make a meaningful difference.',
+              sources: [
+                { text: 'Brown, T. M., et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure in healthy adults. PLOS Biology, 20(3), e3001571.', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
+                { text: 'Cajochen, C., et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep. Lighting Research & Technology, 54(6), 609–624.', url: 'https://doi.org/10.1177/14771535221078765' },
+              ],
+            },
+          },
+          {
+            name: 'Quiet Bedroom',
+            insight: 'The brain keeps processing sound during sleep, so noise fragments it even without fully waking you.',
+            levels: { gentle: 'Reduce one noise source', moderate: 'Earplugs or white noise', deep: 'Consistent quiet environment' },
+            science: {
+              why: 'The brain continues to process sound during sleep, so noise fragments it even when it does not fully wake you.',
+              research: 'A WHO systematic review and meta-analysis of 74 studies found that environmental noise increases awakenings and self-reported sleep disturbance, reducing sleep continuity and time in deep and REM sleep. Earplugs or white noise can help where the noise source itself cannot be removed.',
+              sources: [
+                { text: 'Basner, M., & McGuire, S. (2018). WHO Environmental Noise Guidelines for the European Region: A systematic review on environmental noise and effects on sleep. International Journal of Environmental Research and Public Health, 15(3), 519.', url: 'https://doi.org/10.3390/ijerph15030519' },
+              ],
+            },
+          },
+          {
+            name: 'Bed = Sleep',
+            insight: 'The brain learns to associate the bed with whatever it is repeatedly used for.',
+            levels: { gentle: 'No phone in bed', moderate: 'No work in bed', deep: 'Bed only for sleep' },
+            science: {
+              why: 'The brain learns to associate the bed with whatever it is repeatedly used for.',
+              research: 'Stimulus control — the practice of reserving the bed for sleep — is recommended as a single-component therapy in the AASM clinical practice guideline, which was built on a GRADE-assessed systematic review and meta-analysis. Working, scrolling, or watching television in bed weakens the bed–sleep association over time.',
+              sources: [
+                { text: 'Edinger, J. D., et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: An AASM clinical practice guideline. Journal of Clinical Sleep Medicine, 17(2), 255–262.', url: 'https://doi.org/10.5664/jcsm.8986' },
+              ],
+            },
+          },
+          {
+            name: 'Alcohol Timing',
+            insight: 'Alcohol can speed sleep onset but degrades sleep quality later in the night.',
+            levels: { gentle: 'Alcohol-free 2h before bed', moderate: 'Alcohol-free 3h before bed', deep: 'Skip alcohol on weekdays' },
+            science: {
+              why: 'Alcohol can speed sleep onset but degrades sleep quality later in the night.',
+              research: 'A systematic review and meta-analysis of 27 controlled studies found that alcohol disrupts REM sleep in a dose-dependent way, delaying its onset and reducing its duration even at low doses of around two standard drinks, and worsening with higher doses. Higher doses shorten sleep onset latency, but at the cost of greater REM disruption, so alcohol is not an appropriate sleep aid.',
+              sources: [
+                { text: 'Gardiner, C. L., et al. (2025). The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis. Sleep Medicine Reviews, 80, 102030.', url: 'https://doi.org/10.1016/j.smrv.2024.102030' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Social Accountability',
+        families: [
+          {
+            name: 'Share Tomorrow’s Goal',
+            insight: 'Deciding in advance exactly what you will do, and committing to it, makes follow-through more likely.',
+            levels: { gentle: 'Share one sleep intention', moderate: 'Share your bedtime target', deep: 'Review together the next day' },
+            science: {
+              why: 'Deciding in advance exactly what you will do, and committing to it, makes follow-through more likely.',
+              research: 'A meta-analysis of 94 independent tests found that forming implementation intentions — specific if-then plans linking a behaviour to a cue — had a medium-to-large effect on goal attainment. Meta-reviews of health behaviour change similarly identify goal setting, commitment, and monitoring among the more effective techniques.',
+              sources: [
+                { text: 'Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology, 38, 69–119.', url: 'https://doi.org/10.1016/S0065-2601(06)38002-1' },
+                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
+              ],
+            },
+          },
+          {
+            name: 'Celebrate Progress',
+            insight: 'Feedback on progress reinforces new habits and sustains motivation.',
+            levels: { gentle: 'Congratulate one teammate', moderate: 'Celebrate weekly wins', deep: 'Build a shared streak' },
+            science: {
+              why: 'Feedback on progress reinforces new habits and sustains motivation.',
+              research: 'Reviews of behaviour change consistently find that feedback and self-monitoring are among the most frequently used and effective techniques, and that acknowledging progress strengthens motivation. An umbrella review of digital health interventions reached the same conclusion across a large pooled evidence base.',
+              sources: [
+                { text: 'Mair, J. L., et al. (2023). Effective behavior change techniques in digital health interventions for the prevention or management of noncommunicable diseases: An umbrella review. Annals of Behavioral Medicine, 57(10), 817–835.', url: 'https://doi.org/10.1093/abm/kaad041' },
+                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
+              ],
+            },
+          },
+          {
+            name: 'Reflect Together',
+            insight: 'Reviewing what worked helps people learn from experience and stay engaged.',
+            levels: { gentle: 'Share one thing that helped', moderate: 'Share one lesson learned', deep: 'Weekly Circle reflection' },
+            science: {
+              why: 'Reviewing what worked helps people learn from experience and stay engaged.',
+              research: 'Self-monitoring and reflection are core components of effective behaviour change, and a meta-review of self-regulatory techniques across diet, activity, and weight outcomes (drawing on 30 meta-analyses and more than 400,000 participants) found goal setting and self-monitoring to be among the most examined and useful techniques. Sharing reflections adds accountability.',
+              sources: [
+                { text: 'Spring, B., et al. (2020). Self-regulatory behaviour change techniques in interventions to promote healthy eating, physical activity, or weight loss: A meta-review. Health Psychology Review, 15(4), 508–539.', url: 'https://doi.org/10.1080/17437199.2020.1721310' },
+                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'eat',
+    name: 'GoodEat',
+    tagline: 'Eat for energy, rhythm, and connection',
+    blurb: 'Nourish well, find a steady eating rhythm, and bring presence and people back to the table.',
+    accent: 'oklch(0.58 0.2 358)',
+    accent2: '#E84A8A',
+    soft: 'oklch(0.96 0.04 356)',
+    categories: [
+      {
+        name: 'Nourish',
+        evidence: 'What you eat shapes long-term metabolic health; protein, plants and minimally processed foods do the heaviest lifting.',
+        practices: [
+          { level: 'gentle', text: 'Add a source of protein to every main meal', insight: 'Protein at each meal preserves muscle as you age and keeps you fuller for longer.' },
+          { level: 'gentle', text: 'Eat two portions of vegetables today', insight: 'Higher vegetable intake is linked to lower risk of heart disease and all-cause mortality.' },
+          { level: 'gentle', text: 'Replace one ultra-processed snack with fruit or nuts', insight: 'Swapping ultra-processed snacks cuts excess salt, sugar and additives tied to poorer health.' },
+          { level: 'gentle', text: 'Drink water before each meal', insight: 'Water before meals aids satiety and stops thirst being mistaken for hunger.' },
+          { level: 'moderate', text: 'Build every lunch around protein and vegetables', insight: 'Protein-and-vegetable meals steady blood sugar and curb the afternoon energy crash.' },
+          { level: 'moderate', text: 'Include legumes or whole grains three times this week', insight: 'Legumes and whole grains feed gut bacteria and help lower cholesterol and inflammation.' },
+          { level: 'moderate', text: 'Reach your personal daily protein target', insight: 'Meeting a protein target protects against age-related muscle loss (sarcopenia).' },
+          { level: 'moderate', text: 'Eat 20 different plant foods during the week', insight: 'Plant diversity is the strongest dietary predictor of a healthy, varied gut microbiome.' },
+          { level: 'deep', text: 'Plan all weekday lunches and dinners in advance', insight: 'Planning meals reduces reliance on convenience food and improves overall diet quality.' },
+          { level: 'deep', text: 'Avoid ultra-processed foods for five consecutive days', insight: 'Cutting ultra-processed foods quickly lowers calorie intake and improves metabolic markers.' },
+          { level: 'deep', text: 'Prioritise seasonal and minimally processed ingredients', insight: 'Minimally processed, seasonal foods retain more nutrients and carry fewer additives.' },
+          { level: 'deep', text: 'Keep a simple food journal for the entire week', insight: 'Simply recording what you eat raises awareness and supports lasting dietary change.' },
+        ],
+      },
+      {
+        name: 'Rhythm',
+        evidence: 'When you eat matters too: a regular eating window aligns your metabolism with your circadian clock.',
+        practices: [
+          { level: 'gentle', text: 'Eat breakfast (or your first meal) at a consistent time', insight: 'Eating on a regular schedule helps align your metabolism with your body clock.' },
+          { level: 'gentle', text: 'Avoid eating after 10pm', insight: 'Late-night eating works against your circadian rhythm and is linked to poorer metabolic health.' },
+          { level: 'gentle', text: 'Sit down for every main meal', insight: 'Sitting to eat slows the meal and supports better digestion and fullness signalling.' },
+          { level: 'gentle', text: 'Leave at least 2 hours between dinner and sleep', insight: 'A gap before bed lets digestion settle and protects your sleep quality.' },
+          { level: 'moderate', text: 'Keep a consistent 12-hour eating window', insight: 'A steady eating window gives the gut a nightly rest and supports metabolic health.' },
+          { level: 'moderate', text: 'Avoid unnecessary snacking between meals', insight: 'Fewer eating occasions steady insulin and let the body burn fat between meals.' },
+          { level: 'moderate', text: 'Eat lunch before 2pm', insight: 'Eating the main meal earlier is associated with better weight and glucose control.' },
+          { level: 'moderate', text: 'Finish dinner at roughly the same time every day', insight: 'A regular dinner time reinforces your circadian rhythm and overnight metabolism.' },
+          { level: 'deep', text: 'Maintain your chosen eating window for 30 days', insight: 'Sustained time-restricted eating can improve blood sugar, lipids and energy over weeks.' },
+          { level: 'deep', text: 'Avoid food within 3 hours of bedtime', insight: 'An early last meal aligns digestion with your body clock and deepens sleep.' },
+          { level: 'deep', text: "Plan your week's meal schedule every Sunday", insight: 'Weekly planning smooths your eating rhythm and removes daily decision fatigue.' },
+          { level: 'deep', text: 'Reserve one meal each week for slow, uninterrupted eating', insight: 'Slow, unhurried eating improves digestion and helps you recognise fullness.' },
+          { level: 'deep', text: 'Intermittent fasting 5 times per week or more', insight: 'Regular fasting periods may improve insulin sensitivity and cellular repair (autophagy).' },
+        ],
+      },
+      {
+        name: 'Presence',
+        evidence: 'Eating slowly and without distraction improves digestion and lets fullness signals reach the brain in time.',
+        practices: [
+          { level: 'gentle', text: 'Eat one meal each day without your phone', insight: 'Phone-free meals slow eating and reduce the mindless overeating that distraction drives.' },
+          { level: 'gentle', text: 'Take one deep breath before eating', insight: 'A pause before eating shifts you into “rest-and-digest” mode for better digestion.' },
+          { level: 'gentle', text: 'Spend at least 20 minutes on one meal', insight: 'Eating more slowly gives fullness signals time to reach the brain, reducing overeating.' },
+          { level: 'gentle', text: 'Notice one flavour you normally overlook', insight: 'Paying attention to taste increases meal satisfaction and curbs the urge for more.' },
+          { level: 'moderate', text: 'Eat every dinner without screens', insight: 'Screen-free dinners improve portion awareness and the quality of mealtime connection.' },
+          { level: 'moderate', text: 'Stop eating when comfortably satisfied rather than full', insight: 'Tuning into satiety, not the plate, naturally calibrates your portion size.' },
+          { level: 'moderate', text: 'Chew slowly during the first five minutes of each meal', insight: 'Thorough chewing aids digestion and slows the meal enough to register fullness.' },
+          { level: 'moderate', text: 'Express gratitude for one aspect of your meal', insight: 'Savouring and gratitude at meals heighten enjoyment and reduce stress eating.' },
+          { level: 'deep', text: 'Practice mindful eating for one meal every day', insight: 'Mindful eating is shown to reduce binge episodes and emotional eating.' },
+          { level: 'deep', text: 'Create a pleasant table setting even when eating alone', insight: 'A cared-for setting turns eating into a ritual that supports slower, calmer meals.' },
+          { level: 'deep', text: 'Never multitask while eating', insight: 'Undistracted eating improves both digestion and how satisfying the meal feels.' },
+          { level: 'deep', text: 'End each meal with one reflection on how it made you feel', insight: 'Reflecting on meals builds the body awareness that guides healthier future choices.' },
+        ],
+      },
+      {
+        name: 'Share',
+        evidence: '',
+        practices: [
+          { level: 'gentle', text: 'Share one meal this week with a friend, family member or colleague', insight: 'Shared meals are a cornerstone of the world’s longest-lived communities.' },
+          { level: 'gentle', text: 'Exchange one healthy recipe with your Circle', insight: 'Swapping recipes spreads healthy habits through your social network.' },
+          { level: 'gentle', text: 'Send a message inviting someone to have coffee or lunch', insight: 'Reaching out strengthens the social bonds that protect long-term health.' },
+          { level: 'moderate', text: 'Organise a healthy lunch or dinner with another person once a week', insight: 'Regular shared meals build the routine connection linked to longevity.' },
+          { level: 'moderate', text: "Cook a meal inspired by a Circle member's recommendation", insight: 'Trying others’ dishes broadens your diet and deepens community ties.' },
+          { level: 'moderate', text: 'Eat one meal this week without anyone using a phone at the table', insight: 'Device-free shared meals improve conversation quality and connection.' },
+          { level: 'moderate', text: 'Introduce one meaningful conversation question during a shared meal', insight: 'Meaningful table talk turns eating into a source of belonging, not just fuel.' },
+          { level: 'deep', text: 'Host a GoodEat Table with friends or family centred on health and conviviality', insight: 'Hosting around health and conviviality blends two longevity factors: diet and community.' },
+          { level: 'deep', text: 'Invite someone who might otherwise eat alone to join you', insight: 'Including others combats loneliness, itself a major risk to health and lifespan.' },
+          { level: 'deep', text: 'Share with your Circle one story or lesson from that meal', insight: 'Storytelling around food strengthens the social fabric of your Circle.' },
+          { level: 'deep', text: 'Ask everyone at the table: “What is one thing you hope to give more of to others this year?”', insight: 'Conversations about generosity deepen relationships and a sense of purpose.' },
+        ],
+      },
+      {
+        name: 'Celebrate',
+        evidence: '',
+        practices: [
+          { level: 'gentle', text: 'Cook a family recipe with a younger generation', insight: 'Passing recipes across generations preserves identity and strengthens family bonds.' },
+          { level: 'moderate', text: 'Share a meaningful food memory with your Circle', insight: 'Recalling meaningful meals deepens connection and a shared sense of belonging.' },
+          { level: 'moderate', text: 'Thank the person who prepared your meal', insight: 'Expressing thanks strengthens relationships and lifts wellbeing on both sides.' },
+          { level: 'deep', text: 'Invite someone new to your table', insight: 'Widening your table builds the new connections that enrich a long life.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'move',
+    name: 'GoodMove',
+    tagline: 'Movement woven through every day',
+    blurb: 'Build steady daily movement, strength, and the joy of moving alongside others.',
+    accent: 'oklch(0.55 0.014 260)',
+    accent2: 'oklch(0.62 0.012 255)',
+    soft: 'oklch(0.95 0.005 260)',
+    cardFill: 'linear-gradient(140deg, oklch(0.915 0.004 260), oklch(0.935 0.004 258))',
+    cardDark: true,
+    categories: [
+      {
+        name: 'Daily practices',
+        evidence: 'Steps, strength and cardio each lower mortality risk through different, complementary pathways.',
+        practices: [
+          { level: 'gentle', text: '7,000 steps a day', insight: 'Around 7,000 steps a day is linked to a sharply lower risk of early death.' },
+          { level: 'gentle', text: '5-minute mobility flow every morning', insight: 'A short morning mobility flow improves joint range and reduces stiffness through the day.' },
+          { level: 'gentle', text: 'Take the stairs instead of the elevator', insight: 'Stair climbing is a potent micro-workout that improves cardiovascular fitness.' },
+          { level: 'gentle', text: 'Stand up every 60 minutes during work', insight: 'Breaking up sitting improves blood sugar and circulation, independent of exercise.' },
+          { level: 'moderate', text: '8–10k steps daily', insight: 'Higher daily step counts keep lowering mortality risk up to around 10,000.' },
+          { level: 'moderate', text: '2 strength sessions per week', insight: 'Two weekly strength sessions preserve muscle and bone and lower all-cause mortality.' },
+          { level: 'moderate', text: '1 cardio session of 30–45 minutes per week', insight: 'Regular cardio strengthens the heart and raises the VO₂ max tied to longevity.' },
+          { level: 'moderate', text: '10 minutes of mobility or stretching, 4x a week', insight: 'Frequent mobility work maintains flexibility and reduces injury risk as you age.' },
+          { level: 'deep', text: '10k+ steps daily', insight: 'Higher activity volumes add further gains in fitness, mood and metabolic health.' },
+          { level: 'deep', text: '3 strength sessions per week', insight: 'Three sessions accelerate strength and muscle gains for power and independence with age.' },
+          { level: 'deep', text: '1 VO₂ max session per week', insight: 'VO₂ max is one of the strongest single predictors of long-term survival.' },
+          { level: 'deep', text: 'Daily mobility, 15 minutes', insight: 'Daily mobility builds lasting flexibility and resilient, well-moving joints.' },
+        ],
+      },
+      {
+        name: 'Social & stretch practices',
+        evidence: '',
+        practices: [
+          { level: 'gentle', text: '20-minute walk with a friend or colleague', insight: 'Walking with others combines movement with the social connection that supports health.' },
+          { level: 'gentle', text: 'Walk-and-talk call instead of a seated call', insight: 'Turning calls into walks adds easy activity and breaks up prolonged sitting.' },
+          { level: 'moderate', text: 'One Circle walking challenge', insight: 'Shared goals boost motivation and make activity far more likely to stick.' },
+          { level: 'moderate', text: 'One partner workout during the month', insight: 'Exercising with a partner improves consistency and accountability.' },
+          { level: 'deep', text: 'Complete one physical challenge: a 10km hike, swim, dance event, or cycling challenge', insight: 'Training toward a challenge builds fitness and a rewarding sense of achievement.' },
+          { level: 'deep', text: 'Lead one movement session for your Circle (even 10 minutes on Zoom)', insight: 'Leading others reinforces your own habit and strengthens your Circle’s bonds.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'mind',
+    name: 'GoodMind',
+    tagline: 'Attention, calm, and connection',
+    blurb: 'Train a steadier mind through breath, reflection, and honest connection with others.',
+    accent: 'oklch(0.57 0.13 132)',
+    accent2: '#aece36',
+    soft: 'oklch(0.95 0.055 122)',
+    cardFill: 'linear-gradient(140deg, oklch(0.84 0.165 121), oklch(0.86 0.16 118))',
+    light: true,
+    categories: [
+      {
+        name: 'Daily practices',
+        evidence: 'Brief, regular practices in attention and reflection compound into measurable reductions in stress and anxiety.',
+        practices: [
+          { level: 'gentle', text: '2 minutes of conscious breathing daily', insight: 'Even brief daily breathing practice lowers stress reactivity and calms the nervous system.' },
+          { level: 'gentle', text: 'No phone for the first 15 minutes after waking', insight: 'A phone-free start protects your attention and sets a calmer tone for the day.' },
+          { level: 'gentle', text: 'Write 3 gratitude lines before sleep', insight: 'Regular gratitude practice is reliably linked to higher wellbeing and lower stress.' },
+          { level: 'gentle', text: '5 minutes of quiet reflection', insight: 'Short daily stillness builds the attention control that buffers against stress.' },
+          { level: 'moderate', text: '10-minute meditation, 4x a week', insight: 'Regular meditation measurably reduces anxiety and improves emotional regulation.' },
+          { level: 'moderate', text: 'Daily emotional check-in (“What am I feeling?”)', insight: 'Naming feelings (“affect labelling”) reduces their intensity and improves self-regulation.' },
+          { level: 'moderate', text: '1 hour of distraction-free deep work a day', insight: 'Protected, distraction-free focus strengthens attention and a sense of accomplishment.' },
+          { level: 'moderate', text: 'One screen-light evening per week', insight: 'Periodic breaks from screens reduce overstimulation and improve mood and sleep.' },
+          { level: 'moderate', text: 'Leave your phone at home when going to sports or a restaurant', insight: 'Time away from your phone deepens presence and the quality of real-world connection.' },
+          { level: 'deep', text: '15–20 minute meditation daily', insight: 'Longer daily practice produces larger, lasting gains in attention and calm.' },
+          { level: 'deep', text: 'Daily journaling', insight: 'Expressive writing reduces rumination and improves both mood and stress resilience.' },
+          { level: 'deep', text: 'One half-day digital detox per week', insight: 'Regular digital breaks reset attention and ease the low mood linked to heavy use.' },
+          { level: 'deep', text: 'Practice cognitive reframing under stress', insight: 'Reframing stressful thoughts is a core CBT skill shown to lower anxiety.' },
+        ],
+      },
+      {
+        name: 'Social & stretch practices',
+        evidence: '',
+        practices: [
+          { level: 'gentle', text: 'Send one thoughtful message a week to someone you appreciate', insight: 'Small acts of reaching out strengthen relationships and lift both people’s mood.' },
+          { level: 'gentle', text: 'Have one meaningful conversation during the month', insight: 'Deeper conversations, more than small talk, are associated with greater happiness.' },
+          { level: 'moderate', text: 'One Circle vulnerability check-in weekly: “What drained you? What nourished you?”', insight: 'Honest sharing builds the trust and belonging that protect mental health.' },
+          { level: 'moderate', text: 'Share one personal reflection in the WhatsApp group', insight: 'Expressing vulnerability deepens connection and reduces feelings of isolation.' },
+          { level: 'deep', text: 'Offer one act of service during the month: mentor, help, listen, or volunteer', insight: 'Helping others reliably boosts the helper’s own wellbeing and sense of purpose.' },
+          { level: 'deep', text: 'Host a deep conversation with another participant: “What changed you? What do you fear? Who are you becoming?”', insight: 'Meaningful dialogue fosters the close relationships central to a long, good life.' },
+        ],
+      },
+    ],
+  },
+];
+
+class Component extends DCLogic {
+  state = { loaded:false, seasons:[], levels:[], step:1, themeId:null, levelId:null, selected:{}, started:false, science:null };
+
+  async componentDidMount(){
+    this.setState({ loaded:true, seasons:SEASONS, levels:LEVELS });
+  }
+
+  renderVals(){
+    const s = this.state;
+    const ink = 'oklch(0.24 0.012 255)';
+    const line = 'oklch(0.91 0.006 255)';
+    const theme = s.seasons.find(t=>t.id===s.themeId) || null;
+    const level = s.levels.find(l=>l.id===s.levelId) || null;
+    const accent = theme ? theme.accent : 'oklch(0.57 0.13 132)';
+    const accent2 = theme ? (theme.accent2 || theme.accent) : '#aece36';
+    const soft = theme ? theme.soft : 'oklch(0.95 0.055 122)';
+    const lightTheme = !!(theme && theme.light); // yellow & lime: dark ink on colored surfaces
+    const grad = `linear-gradient(135deg, ${accent}, ${accent2})`;
+    const aInk = lightTheme ? 'oklch(0.27 0.04 110)' : '#ffffff';        // text/icon on accent
+    const aSub = lightTheme ? 'oklch(0.4 0.05 110)' : 'rgba(255,255,255,0.9)';
+
+    // labelled stepper
+    const stepNames = ['Season','Level','Practices','Begin'];
+    const steps = stepNames.map((nm,i) => {
+      const n = i+1; const active = s.step===n; const done = s.step>n;
+      const on = active || done;
+      return {
+        num: done ? '✓' : String(n),
+        label: nm,
+        dotStyle:`width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex:0 0 auto;transition:all .25s ease;${on?`background:${accent};color:#fff;`:'background:oklch(0.92 0.008 70);color:oklch(0.6 0.006 255);'}`,
+        labelStyle:`font-size:12.5px;font-weight:${active?'700':'500'};letter-spacing:0.01em;color:${active?ink:'oklch(0.62 0.006 255)'};`,
+      };
+    });
+
+    // community avatars
+    const people = [
+      { initial:'M', bg:'oklch(0.5 0.13 264)', ink:'#ffffff' },           // blue (GoodSleep)
+      { initial:'K', bg:'oklch(0.56 0.014 260)', ink:'#ffffff' },         // grey (GoodMove)
+      { initial:'A', bg:'oklch(0.57 0.13 132)', ink:'oklch(0.27 0.04 110)' },// lime (GoodMind)
+      { initial:'J', bg:'oklch(0.58 0.2 358)', ink:'#ffffff' },            // fuchsia (GoodEat)
+      { initial:'S', bg:'oklch(0.5 0.13 264)', ink:'#ffffff' },            // blue
+    ];
+    const circlePeople = people.map((p,i) => ({
+      initial:p.initial,
+      style:`width:42px;height:42px;border-radius:50%;background:${p.bg};color:${p.ink};display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:3px solid #ffffff;margin-left:${i?-12:0}px;box-shadow:0 2px 8px rgba(18,28,45,0.12);`,
+    }));
+    const heroPeople = people.slice(0,4).map((p,i) => ({
+      initial:p.initial,
+      style:'', miniStyle:`width:26px;height:26px;border-radius:50%;background:${p.bg};color:${p.ink};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid oklch(0.992 0.003 255);margin-left:${i?-9:0}px;`,
+    }));
+    const youChipStyle = `margin-left:-12px;height:42px;padding:0 16px 0 22px;border-radius:999px;background:${grad};color:${aInk};display:flex;align-items:center;font-size:13.5px;font-weight:700;border:3px solid #ffffff;box-shadow:0 2px 8px rgba(18,28,45,0.14);`;
+
+    const themeOrder = ['sleep','move','mind','eat'];
+    const orderedSeasons = themeOrder.map(id => s.seasons.find(t=>t.id===id)).filter(Boolean);
+    const themes = orderedSeasons.map(t => {
+      const tGrad = t.cardFill ? t.cardFill : `linear-gradient(140deg, ${t.accent}, ${t.accent2 || t.accent})`;
+      const sel = t.id===s.themeId;
+      const dark = !!(t.light || t.cardDark); // light cards use dark ink
+      let ink, sub, tag;
+      if (dark && t.id === 'mind') { ink='oklch(0.27 0.07 130)'; sub='oklch(0.36 0.06 130)'; tag='oklch(0.4 0.09 130)'; }
+      else if (dark) { ink='oklch(0.3 0.012 260)'; sub='oklch(0.42 0.01 260)'; tag='oklch(0.48 0.01 260)'; }
+      else { ink='#ffffff'; sub='rgba(255,255,255,0.92)'; tag='rgba(255,255,255,0.82)'; }
+      const glow = t.accent.replace(')', ' / 0.34)');
+      const orbTint = dark ? 'rgba(20,24,33,0.05)' : 'rgba(255,255,255,0.16)';
+      const orbTint2 = dark ? 'rgba(20,24,33,0.03)' : 'rgba(255,255,255,0.09)';
+      return {
+        name:t.name, tagline:t.tagline, blurb:t.blurb,
+        onSelect: () => this.setState({ themeId:t.id, levelId:null, selected:{}, step:2 }),
+        cardStyle:`position:relative;overflow:hidden;text-align:left;cursor:pointer;background:${tGrad};border:none;border-radius:24px;padding:28px;font-family:inherit;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 12px 32px ${glow}${sel?`, 0 0 0 3px #fff, 0 0 0 6px ${t.accent}`:''};min-height:206px;`,
+        orbStyle:`position:absolute;top:-54px;right:-44px;width:170px;height:170px;border-radius:50%;background:${orbTint};`,
+        orb2Style:`position:absolute;bottom:-66px;left:-30px;width:130px;height:130px;border-radius:50%;background:${orbTint2};`,
+        nameStyle:`font-family:'Outfit',sans-serif;font-weight:700;font-size:29px;margin:0 0 7px;letter-spacing:-0.02em;color:${ink};`,
+        taglineStyle:`font-size:12px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin:0 0 11px;color:${tag};`,
+        blurbStyle:`font-size:14.5px;line-height:1.5;margin:0;color:${sub};`,
+        ctaStyle:`margin-top:auto;padding-top:18px;display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:${ink};`,
+      };
+    });
+
+    const levels = s.levels.map((l,i) => {
+      const sel = l.id===s.levelId;
+      return {
+        name:l.name, summary:l.summary, desc:l.desc, num:String(i+1),
+        onSelect: () => this.setState({ levelId:l.id, selected:{}, step:3 }),
+        lvlStyle:`display:flex;gap:20px;align-items:center;text-align:left;width:100%;cursor:pointer;background:#fff;border:1.5px solid ${sel?accent:'oklch(0.92 0.006 255)'};border-radius:20px;padding:22px 24px;font-family:inherit;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;box-shadow:0 2px 10px rgba(18,28,45,0.04);`,
+        badgeStyle:`flex:0 0 auto;width:54px;height:54px;border-radius:50%;background:${grad};color:${aInk};display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:24px;box-shadow:0 4px 14px ${soft};`,
+        arrowStyle:`flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:${soft};color:${accent};display:flex;align-items:center;justify-content:center;font-size:17px;`,
+      };
+    });
+
+    let categories = [];
+    if (theme && level){
+      categories = theme.categories.map((c,ci) => {
+        let avail;
+        if (c.families){
+          avail = c.families.map((f,fi) => ({
+            id:`${theme.id}.${ci}.${fi}`,
+            text:f.levels[level.id], family:f.name,
+            insight:f.insight || '', science:f.science || null,
+          })).filter(p => p.text);
+        } else {
+          avail = c.practices
+            .map((p,pi) => ({ ...p, id:`${theme.id}.${ci}.${pi}` }))
+            .filter(p => p.level===level.id || p.level==='all');
+        }
+        const catSelected = avail.filter(p => s.selected[p.id]).length;
+        const ps = avail.map(p => {
+            const checked = !!s.selected[p.id];
+            return {
+              text:p.text, family:p.family || '', hasFamily:!!p.family,
+              insight:p.insight || '', hasScience:!!p.science,
+              hoverBorder: checked ? accent : 'oklch(0.8 0.01 255)',
+              onLearn: (e) => { if(e&&e.stopPropagation){e.stopPropagation();e.preventDefault();} this.setState({ science:{ pillar:c.name, family:p.family || p.text, why:p.science.why, research:p.science.research, sources:p.science.sources } }); },
+              onToggle: () => this.setState(st => ({ selected:{ ...st.selected, [p.id]:!st.selected[p.id] } })),
+              rowStyle:`display:flex;gap:15px;align-items:flex-start;padding:16px 18px;border-radius:16px;cursor:pointer;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;border:1.5px solid ${checked?accent:line};background:${checked?soft:'#fff'};${checked?`box-shadow:0 4px 16px ${soft};`:''}`,
+              boxStyle:`flex:0 0 auto;width:24px;height:24px;border-radius:8px;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;transition:all .15s ease;border:2px solid ${checked?'transparent':'oklch(0.82 0.008 60)'};background:${checked?grad:'#fff'};color:#fff;`,
+              familyStyle:`display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:${accent};background:${soft};padding:3px 9px;border-radius:999px;margin:0 0 6px;`,
+            };
+          });
+        return { name:c.name, evidence:c.evidence, hasEvidence:!!c.evidence, practices:ps, selCount:catSelected,
+          tickStyle:`flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .2s ease;${catSelected>0?`background:${grad};color:${aInk};`:`background:oklch(0.93 0.005 255);color:oklch(0.6 0.006 255);`}`,
+        };
+      }).filter(c => c.practices.length);
+    }
+
+    const selectedCount = Object.values(s.selected).filter(Boolean).length;
+    const MIN_TOTAL = 5;
+    const missingSections = categories.filter(c => c.selCount === 0).map(c => c.name);
+    const moreNeeded = Math.max(0, MIN_TOTAL - selectedCount);
+    const canContinue = selectedCount >= MIN_TOTAL && missingSections.length === 0;
+    let requirementText;
+    if (canContinue) {
+      requirementText = '✓ Ready — at least one from every section';
+    } else {
+      const parts = [];
+      if (moreNeeded > 0) parts.push(`${moreNeeded} more to reach ${MIN_TOTAL}`);
+      if (missingSections.length) parts.push(`one from ${missingSections.join(', ')}`);
+      requirementText = 'Still needed: ' + parts.join(' · ');
+    }
+
+    let reviewGroups = [];
+    if (theme && level){
+      reviewGroups = theme.categories.map((c,ci) => {
+        let ps;
+        if (c.families){
+          ps = c.families.map((f,fi)=>({ text:f.levels[level.id], family:f.name, hasFamily:true, id:`${theme.id}.${ci}.${fi}` })).filter(p => p.text && s.selected[p.id]);
+        } else {
+          ps = c.practices.map((p,pi)=>({ text:p.text, family:'', hasFamily:false, id:`${theme.id}.${ci}.${pi}` })).filter(p => s.selected[p.id]);
+        }
+        return { name:c.name, practices:ps };
+      }).filter(g => g.practices.length);
+    }
+
+    const days = Array.from({length:30}, (_,i) => {
+      const today = i===0; const gather = i===29;
+      let st;
+      if (today) st = `background:${grad};color:${aInk};box-shadow:0 4px 12px ${soft};`;
+      else if (gather) st = `background:#fff;color:${accent};box-shadow:inset 0 0 0 2px ${accent};`;
+      else st = `background:${soft};color:${accent};`;
+      return { n:i+1, style:`aspect-ratio:1;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;${st}` };
+    });
+
+    const primary = `flex:0 0 auto;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:9px;background:${grad};color:${aInk};border:none;border-radius:999px;padding:16px 34px;font-family:'Hanken Grotesk',sans-serif;font-size:15.5px;font-weight:700;cursor:pointer;letter-spacing:0.01em;box-shadow:0 8px 24px ${soft};transition:transform .15s ease,box-shadow .15s ease;`;
+    const disabledBtn = `flex:0 0 auto;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:9px;background:oklch(0.91 0.006 75);color:oklch(0.62 0.006 255);border:none;border-radius:999px;padding:16px 34px;font-family:'Hanken Grotesk',sans-serif;font-size:15.5px;font-weight:700;cursor:not-allowed;letter-spacing:0.01em;`;
+
+    return {
+      notLoaded: !s.loaded,
+      steps,
+      isStep1: s.loaded && s.step===1,
+      isStep2: s.loaded && s.step===2,
+      isStep3: s.loaded && s.step===3,
+      isStep4: s.loaded && s.step===4,
+      themes, levels, categories, reviewGroups, days,
+      circlePeople, heroPeople, youChipStyle,
+      themeName: theme?theme.name:'', levelName: level?level.name:'',
+      selectedCount, continueDisabled: !canContinue, requirementText, canContinue,
+      notStarted: !s.started, started: s.started,
+      backStyle:`background:oklch(0.992 0.003 255);border:1px solid oklch(0.92 0.006 255);font-family:inherit;font-size:13px;font-weight:600;color:oklch(0.45 0.008 255);cursor:pointer;padding:8px 16px;border-radius:999px;margin:0 0 22px;display:inline-flex;align-items:center;gap:6px;`,
+      chipStyle:`display:inline-flex;align-items:center;gap:7px;background:${soft};color:${accent};border:1px solid transparent;padding:8px 15px;border-radius:999px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;`,
+      staticChipStyle:`display:inline-flex;align-items:center;gap:7px;background:${soft};color:${accent};padding:8px 15px;border-radius:999px;font-size:13px;font-weight:700;`,
+      ruleBannerStyle:`display:inline-flex;align-items:center;gap:10px;background:oklch(0.992 0.003 255);border:1px solid oklch(0.9 0.008 255);border-radius:14px;padding:12px 16px;margin-top:6px;`,
+      insightStyle:`font-size:13.5px;font-style:italic;line-height:1.5;color:oklch(0.5 0.009 255);margin:7px 0 0;font-family:Newsreader,serif;`,
+      learnStyle:`display:inline-block;margin-top:9px;font-size:12.5px;font-weight:700;letter-spacing:0.01em;color:${accent};cursor:pointer;border-bottom:2px solid ${soft};padding-bottom:1px;`,
+      themeNote: theme && theme.note ? theme.note : '',
+      hasNote: !!(theme && theme.note),
+      noteStyle:`margin:36px 0 0;font-size:12.5px;line-height:1.6;color:oklch(0.55 0.008 255);max-width:54em;padding:16px 18px;background:${soft};border-radius:14px;`,
+      footerBarStyle:`margin-top:32px;padding:20px 22px;background:#fff;border:1.5px solid ${line};border-radius:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 6px 22px rgba(18,28,45,0.06);`,
+      reqTextStyle:`font-size:13px;color:${canContinue ? accent : 'oklch(0.55 0.008 255)'};font-weight:600;`,
+      footerBtnStyle: canContinue ? primary : disabledBtn,
+      beginStyle: primary,
+      textBtnStyle:`background:none;border:none;font-family:inherit;font-size:14px;color:oklch(0.5 0.008 255);cursor:pointer;font-weight:600;`,
+      summaryStyle:`display:flex;align-items:center;gap:18px;background:${grad};border-radius:22px;padding:24px 26px;box-shadow:0 12px 34px ${soft};`,
+      summarySwatchStyle:`flex:0 0 auto;width:50px;height:50px;border-radius:50%;border:7px solid ${lightTheme?'rgba(40,30,10,0.35)':'rgba(255,255,255,0.85)'};background:${lightTheme?'rgba(40,30,10,0.12)':'rgba(255,255,255,0.2)'};`,
+      summaryInk: aInk,
+      summarySubInk: aSub,
+      dotStyle:`width:10px;height:10px;border-radius:50%;background:${grad};`,
+      checkStyle:`flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:${soft};color:${accent};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px;`,
+      circleStyle:`margin-top:36px;border:1.5px solid ${line};border-radius:22px;padding:26px;background:#fff;box-shadow:0 6px 22px rgba(18,28,45,0.05);`,
+      gatherNoteStyle:`margin-top:18px;padding-top:18px;border-top:1px solid ${line};`,
+      gatherChipStyle:`flex:0 0 auto;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:${accent};box-shadow:inset 0 0 0 2px ${accent};`,
+      startBadgeStyle:`width:80px;height:80px;border-radius:50%;background:${grad};color:${aInk};font-size:36px;display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 12px 34px ${soft};animation:popIn .55s ease;`,
+      scienceOpen: !!s.science,
+      science: s.science || { pillar:'', family:'', why:'', research:'', sources:[] },
+      closeScience: () => this.setState({ science:null }),
+      sciOverlayStyle:`position:fixed;inset:0;background:rgba(28,22,12,0.46);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;z-index:60;overflow-y:auto;animation:fadeUp .25s ease;`,
+      sciCardStyle:`position:relative;background:#fff;max-width:600px;width:100%;border-radius:26px;padding:34px 38px 30px;box-shadow:0 30px 70px rgba(28,22,12,0.32);margin:auto;overflow:hidden;`,
+      sciBarStyle:`position:absolute;top:0;left:0;right:0;height:6px;background:${grad};`,
+      sciPillarStyle:`font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${accent};margin:6px 0 6px;`,
+      sciTitleStyle:`font-family:'Outfit',sans-serif;font-weight:700;font-size:28px;letter-spacing:-0.025em;margin:0 0 22px;color:${ink};`,
+      sciHeadStyle:`font-size:11.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:oklch(0.5 0.008 255);margin:22px 0 7px;`,
+      sciBodyStyle:`font-size:15px;line-height:1.62;color:oklch(0.34 0.008 255);margin:0;`,
+      sciSourceStyle:`font-size:12.5px;line-height:1.5;color:${accent};text-decoration:none;display:block;`,
+      sciSourceWrapStyle:`display:flex;flex-direction:column;gap:10px;margin-top:8px;padding-top:4px;`,
+      sciCloseStyle:`margin-top:28px;display:inline-flex;align-items:center;justify-content:center;background:${ink};color:#fff;border:none;border-radius:999px;padding:13px 30px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;`,
+      stopClick:(e)=>{ if(e&&e.stopPropagation){ e.stopPropagation(); e.preventDefault(); } },
+      back: () => this.setState(st => ({ step:Math.max(1, st.step-1) })),
+      editTheme: () => this.setState({ step:1 }),
+      editLevel: () => this.setState({ step:2 }),
+      goPractices: () => this.setState({ step:3 }),
+      toReview: () => this.setState({ step:4 }),
+      begin: () => this.setState({ started:true }),
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#ffffff">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#ffffff"/>
+    <rect x="250" y="250" width="300" height="300" rx="34" fill="oklch(0.5 0.13 264)"/>
+    <rect x="650" y="250" width="300" height="300" rx="34" fill="oklch(0.84 0.165 121)"/>
+    <text x="600" y="690" font-family="Outfit, sans-serif" font-weight="700" font-size="60" fill="#1c2a3a" text-anchor="middle">GoodSpan Seasons</text>
+  </svg>
+</template>
+</body>
+</html>
