@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Begin a Season — GoodSpan</title>
+  <meta name="description" content="Choose your Season, shape your practice, and find your Circle.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #FBF9F4; color: #20251F; font-family: 'Hanken Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    ::selection { background: #cdd9c8; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp .45s ease both; }
+
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(251,249,244,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #ECE6DA; }
+    .nav-logo { text-decoration: none; color: #20251F; font-family: 'Newsreader', serif; font-size: 23px; font-weight: 600; letter-spacing: -0.01em; }
+
+    /* STEPPER */
+    .stepper { display: flex; align-items: center; gap: 8px; }
+    .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; transition: all .25s ease; }
+    .step-dot.pending { background: #EAE3D6; color: #9AA690; }
+    .step-dot.active  { background: #2C4636; color: #fff; }
+    .step-dot.done    { background: #2C4636; color: #fff; }
+    .step-label { font-size: 12.5px; font-weight: 500; color: #9AA690; transition: color .25s; }
+    .step-label.active { font-weight: 700; color: #20251F; }
+    .step-sep { width: 20px; height: 1px; background: #E2DBCC; flex-shrink: 0; }
+
+    /* MAIN */
+    main { max-width: 960px; margin: 0 auto; padding: 56px 40px 120px; }
+
+    /* THEME CARDS */
+    .theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .theme-card { border: none; background: #fff; border-radius: 20px; overflow: hidden; cursor: pointer; text-align: left; padding: 0; box-shadow: 0 2px 12px rgba(40,44,30,0.07); transition: transform .2s ease, box-shadow .2s ease; }
+    .theme-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(40,44,30,0.14); }
+    .theme-photo { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .theme-body { padding: 22px 24px 24px; }
+
+    /* LEVEL CARDS */
+    .level-card { display: flex; align-items: flex-start; gap: 18px; background: #fff; border: 1.5px solid #E8E1D3; border-radius: 16px; padding: 22px 24px; cursor: pointer; text-align: left; width: 100%; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; margin-bottom: 14px; }
+    .level-card:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(18,28,45,0.1); }
+    .level-badge { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; color: #fff; }
+
+    /* PRACTICE ROWS */
+    .practice-row { display: flex; align-items: flex-start; gap: 14px; border: 1.5px solid #E8E1D3; border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: border-color .15s, background .15s; margin-bottom: 10px; background: #fff; }
+    .practice-row:hover { border-color: #9AA690; }
+    .practice-row.selected { border-color: var(--accent); background: var(--soft); }
+    .check-box { width: 22px; height: 22px; border: 2px solid #D4CFC6; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: transparent; margin-top: 2px; transition: all .15s; }
+    .practice-row.selected .check-box { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* BUTTONS */
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #2C4636; color: #fff; border: none; padding: 15px 32px; border-radius: 999px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .18s; }
+    .btn-primary:hover { background: #1E3327; }
+    .btn-primary:disabled { background: #C5CCB8; cursor: not-allowed; }
+    .btn-back { background: none; border: none; color: #4B5249; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; padding: 0; margin-bottom: 28px; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-back:hover { color: #20251F; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
+
+    /* FOOTER BAR */
+    .footer-bar { position: sticky; bottom: 0; background: rgba(251,249,244,0.95); backdrop-filter: blur(8px); border-top: 1px solid #E8E1D3; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 -40px; }
+
+    /* REVIEW */
+    .review-summary { border: 1.5px solid #E8E1D3; border-radius: 16px; padding: 24px; background: #fff; display: flex; gap: 18px; align-items: center; margin-bottom: 32px; }
+    .review-swatch { width: 8px; align-self: stretch; border-radius: 999px; flex-shrink: 0; }
+    .review-group { margin-bottom: 28px; }
+
+    /* SUCCESS */
+    .success-box { background: #27352A; border-radius: 24px; padding: 56px 48px; text-align: center; }
+
+    /* SECTION LABEL */
+    .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+    .label-line { width: 26px; height: 1px; background: #B7A98C; }
+    .label-text { color: #5E6B4E; font-size: 12.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+
+    /* AVATARS */
+    .avatars { display: flex; align-items: center; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-shadow: 0 2px 8px rgba(18,28,45,0.12); }
+
+    @media (max-width: 640px) {
+      nav { padding: 14px 20px; }
+      main { padding: 40px 20px 100px; }
+      .theme-grid { grid-template-columns: 1fr; }
+      .footer-bar { margin: 0 -20px; padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">GoodSpan</a>
+  <div class="stepper" id="stepper"></div>
+</nav>
+
+<main>
+  <!-- STEP 1: THEME -->
+  <div class="step-panel active fade-up" id="step1">
+    <div class="section-label"><span class="label-line"></span><span class="label-text">Begin here</span></div>
+    <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:52px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 16px;">Your season, <span style="font-style:italic;">together.</span></h1>
+    <p style="font-size:18px;font-weight:600;max-width:26em;color:#2C3A2A;margin:0 0 12px;line-height:1.35;">Meet new people while building a longer, fuller life.</p>
+    <p style="font-size:16px;max-width:36em;color:#5A5F56;margin:0 0 32px;line-height:1.6;">A Season is 30 days of small, science-backed habits, shared with a Circle of people walking the same path. Pick a theme to begin.</p>
+
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:44px;flex-wrap:wrap;">
+      <div class="avatars" id="hero-avatars"></div>
+      <span style="font-size:14px;color:#5A5F56;font-weight:500;">You'll join a Circle of 5–7 sharing the journey</span>
+    </div>
+
+    <div class="theme-grid" id="theme-grid"></div>
+  </div>
+
+  <!-- STEP 2: LEVEL -->
+  <div class="step-panel" id="step2">
+    <button class="btn-back" onclick="goToStep(1)">← Back</button>
+    <div id="step2-chip" style="margin-bottom:20px;"></div>
+    <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:48px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 14px;">How deep will you <span style="font-style:italic;">go?</span></h1>
+    <p style="font-size:16px;max-width:36em;color:#5A5F56;margin:0 0 36px;line-height:1.6;">Choose the intensity that fits your life right now. Enough to feel it, light enough to hold for thirty days.</p>
+    <div id="level-list"></div>
+  </div>
+
+  <!-- STEP 3: PRACTICES -->
+  <div class="step-panel" id="step3">
+    <button class="btn-back" onclick="goToStep(2)">← Back</button>
+    <div id="step3-chips" style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;"></div>
+    <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:44px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 12px;">Build your <span style="font-style:italic;">practice.</span></h1>
+    <p style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;">Small commitments you'll carry every day and share with your Circle. Consistency beats ambition.</p>
+    <div id="rule-banner" style="display:flex;align-items:center;gap:10px;background:#F2EEE4;border-radius:12px;padding:12px 16px;margin-bottom:8px;">
+      <span>🌱</span><span style="font-size:13.5px;color:#4B5249;line-height:1.45;">Choose at least <strong>5 practices</strong>, with at least one from every section.</span>
+    </div>
+    <div id="practice-list"></div>
+    <div style="height:80px;"></div>
+    <div class="footer-bar">
+      <div>
+        <div style="font-size:15px;color:#20251F;font-weight:600;" id="sel-count">0 practices selected</div>
+        <div style="font-size:13px;color:#9AA690;" id="req-text">Select at least 5 to continue</div>
+      </div>
+      <button class="btn-primary" id="to-review-btn" onclick="goToStep(4)" disabled>Review my season →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: REVIEW -->
+  <div class="step-panel" id="step4">
+    <div id="step4-content"></div>
+  </div>
+</main>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const LEVELS = [
+  { id:'gentle',   name:'Gentle',   summary:'A soft entry into the season',      desc:'Small, achievable shifts. Build the habit without pressure and let it settle into your days.' },
+  { id:'moderate', name:'Moderate', summary:'A meaningful step up',              desc:'Consistent daily practice and a real commitment to change across the full thirty days.' },
+  { id:'deep',     name:'Deep',     summary:'Full, documented commitment',       desc:'Transformative practice, tracked, refined, and shared openly with your Circle.' },
+];
+
+const SEASONS = [
+  {
+    id:'sleep', name:'GoodSleep', tagline:'Rest as the foundation of a long life',
+    blurb:'Rebuild the rhythm, calm, and darkness your body needs to recover each night.',
+    accent:'oklch(0.4 0.052 168)', soft:'oklch(0.95 0.03 158)', img:'uploads/sleep.png',
+    note:'These practices build healthier sleep habits in the general population — they are not a treatment for diagnosed insomnia.',
+    categories:[
+      { name:'Circadian Alignment', evidence:'Morning light, regular timing and dim evenings are the three most evidence-backed ways to align the body clock.', practices:[
+        { level:'gentle',   text:'5 min outdoors within 1 hour of waking',            insight:'Light early in the day is the strongest signal for setting your body clock.' },
+        { level:'moderate', text:'10–15 min outdoors within 1 hour of waking',        insight:'Light early in the day is the strongest signal for setting your body clock.' },
+        { level:'deep',     text:'20–30 min outdoors within 1 hour of waking',        insight:'Light early in the day is the strongest signal for setting your body clock.' },
+        { level:'gentle',   text:'Bedtime within a 60-minute window each night',      insight:'The body sleeps best when bedtime and wake time are predictable.' },
+        { level:'moderate', text:'Bedtime and wake time within 45 min, every day',    insight:'Regularity matters for long-term health independently of how long you sleep.' },
+        { level:'deep',     text:'Bedtime and wake time within 30 min, incl. weekends',insight:'Regularity matters for long-term health independently of how long you sleep.' },
+        { level:'gentle',   text:'Dim lights 1 hour before bed',                      insight:'Bright light in the evening suppresses melatonin and pushes your body clock later.' },
+        { level:'moderate', text:'Avoid bright overhead lights 2 hours before bed',   insight:'Bright light in the evening suppresses melatonin and pushes your body clock later.' },
+        { level:'deep',     text:'Create a low-light evening routine',                insight:'Bright light in the evening suppresses melatonin and pushes your body clock later.' },
+      ]},
+      { name:'Sleep Pressure', evidence:'Movement, caffeine timing and naps each affect the build-up of sleep drive that makes you fall and stay asleep.', practices:[
+        { level:'gentle',   text:'20-min walk during the day',                        insight:'Physical activity builds the sleep pressure that helps you fall and stay asleep.' },
+        { level:'moderate', text:'30 min moderate activity during the day',           insight:'Physical activity builds the sleep pressure that helps you fall and stay asleep.' },
+        { level:'deep',     text:'Meet WHO activity guidelines (150 min/week)',        insight:'Physical activity builds the sleep pressure that helps you fall and stay asleep.' },
+        { level:'gentle',   text:'No caffeine after 2pm',                             insight:'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.' },
+        { level:'moderate', text:'No caffeine after 1pm',                             insight:'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.' },
+        { level:'deep',     text:'No caffeine after 12pm',                            insight:'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.' },
+      ]},
+      { name:'Wind Down', evidence:'Relaxation practices before bed lower arousal and make the transition into sleep smoother.', practices:[
+        { level:'gentle',   text:'2 min slow breathing before bed',                   insight:'Slow, controlled breathing shifts the body toward its calming parasympathetic state.' },
+        { level:'moderate', text:'5 min slow breathing before bed',                   insight:'Slow, controlled breathing shifts the body toward its calming parasympathetic state.' },
+        { level:'deep',     text:'10 min slow breathing before bed',                  insight:'Slow, controlled breathing shifts the body toward its calming parasympathetic state.' },
+        { level:'gentle',   text:'Write one task for tomorrow before bed',            insight:'Writing down tomorrow\'s tasks stops the mind rehearsing them at bedtime.' },
+        { level:'moderate', text:'Write your top 3 priorities for tomorrow',          insight:'Writing down tomorrow\'s tasks stops the mind rehearsing them at bedtime.' },
+        { level:'deep',     text:'5-minute cognitive offload before bed',             insight:'Writing down tomorrow\'s tasks stops the mind rehearsing them at bedtime.' },
+        { level:'gentle',   text:'5 min relaxing music before bed',                   insight:'Calming music lowers arousal and can ease the transition into sleep.' },
+        { level:'moderate', text:'10 min relaxing music before bed',                  insight:'Calming music lowers arousal and can ease the transition into sleep.' },
+        { level:'deep',     text:'Full sleep playlist each night',                    insight:'Calming music lowers arousal and can ease the transition into sleep.' },
+      ]},
+      { name:'Sleep Environment', evidence:'Cool, dark and quiet are the three conditions most strongly linked to restorative sleep.', practices:[
+        { level:'gentle',   text:'Keep bedroom at a comfortable temperature',         insight:'Core body temperature falls as you prepare for sleep — overheating works against that.' },
+        { level:'moderate', text:'Keep bedroom at 18–20°C if possible',              insight:'Core body temperature falls as you prepare for sleep — overheating works against that.' },
+        { level:'deep',     text:'Optimise bedroom temperature consistently',         insight:'Core body temperature falls as you prepare for sleep — overheating works against that.' },
+        { level:'gentle',   text:'Close the curtains before bed',                    insight:'Even low light can interfere with melatonin and disrupt circadian timing.' },
+        { level:'moderate', text:'Remove light sources from the bedroom',             insight:'Even low light can interfere with melatonin and disrupt circadian timing.' },
+        { level:'deep',     text:'Create complete darkness in the bedroom',           insight:'Even low light can interfere with melatonin and disrupt circadian timing.' },
+        { level:'gentle',   text:'No phone in bed',                                   insight:'The brain learns to associate the bed with whatever it is repeatedly used for.' },
+        { level:'moderate', text:'No work in bed',                                    insight:'The brain learns to associate the bed with whatever it is repeatedly used for.' },
+        { level:'deep',     text:'Bed only for sleep',                                insight:'The brain learns to associate the bed with whatever it is repeatedly used for.' },
+      ]},
+      { name:'Social Accountability', evidence:'Sharing intentions and celebrating progress are among the most effective behaviour-change techniques.', practices:[
+        { level:'gentle',   text:'Share one sleep intention with your Circle',        insight:'Deciding in advance and committing to it makes follow-through more likely.' },
+        { level:'moderate', text:'Share your bedtime target with your Circle',        insight:'Deciding in advance and committing to it makes follow-through more likely.' },
+        { level:'deep',     text:'Share your bedtime goal and review together next day',insight:'Deciding in advance and committing to it makes follow-through more likely.' },
+        { level:'gentle',   text:'Congratulate one teammate on a sleep win',         insight:'Feedback on progress reinforces new habits and sustains motivation.' },
+        { level:'moderate', text:'Celebrate weekly sleep wins with your Circle',      insight:'Feedback on progress reinforces new habits and sustains motivation.' },
+        { level:'deep',     text:'Weekly Circle sleep reflection',                    insight:'Reviewing what worked helps people learn from experience and stay engaged.' },
+      ]},
+    ],
+  },
+  {
+    id:'eat', name:'GoodEat', tagline:'Eat for energy, rhythm, and connection',
+    blurb:'Nourish well, find a steady eating rhythm, and bring presence and people back to the table.',
+    accent:'oklch(0.45 0.075 158)', soft:'oklch(0.95 0.035 150)', img:'uploads/eat.png',
+    categories:[
+      { name:'Nourish', evidence:'Protein, plants and minimally processed foods do the heaviest lifting for long-term metabolic health.', practices:[
+        { level:'gentle',   text:'Add a source of protein to every main meal',        insight:'Protein at each meal preserves muscle as you age and keeps you fuller for longer.' },
+        { level:'gentle',   text:'Eat two portions of vegetables today',              insight:'Higher vegetable intake is linked to lower risk of heart disease and all-cause mortality.' },
+        { level:'gentle',   text:'Replace one ultra-processed snack with fruit or nuts',insight:'Swapping ultra-processed snacks cuts excess salt, sugar and additives tied to poorer health.' },
+        { level:'gentle',   text:'Drink water before each meal',                      insight:'Water before meals aids satiety and stops thirst being mistaken for hunger.' },
+        { level:'moderate', text:'Build every lunch around protein and vegetables',   insight:'Protein-and-vegetable meals steady blood sugar and curb the afternoon energy crash.' },
+        { level:'moderate', text:'Include legumes or whole grains three times this week',insight:'Legumes and whole grains feed gut bacteria and help lower cholesterol and inflammation.' },
+        { level:'moderate', text:'Reach your personal daily protein target',          insight:'Meeting a protein target protects against age-related muscle loss (sarcopenia).' },
+        { level:'moderate', text:'Eat 20 different plant foods during the week',      insight:'Plant diversity is the strongest dietary predictor of a healthy gut microbiome.' },
+        { level:'deep',     text:'Plan all weekday lunches and dinners in advance',   insight:'Planning meals reduces reliance on convenience food and improves overall diet quality.' },
+        { level:'deep',     text:'Avoid ultra-processed foods for five consecutive days',insight:'Cutting ultra-processed foods quickly lowers calorie intake and improves metabolic markers.' },
+        { level:'deep',     text:'Keep a simple food journal for the entire week',    insight:'Simply recording what you eat raises awareness and supports lasting dietary change.' },
+      ]},
+      { name:'Rhythm', evidence:'A regular eating window aligns your metabolism with your circadian clock.', practices:[
+        { level:'gentle',   text:'Eat breakfast (or your first meal) at a consistent time',insight:'Eating on a regular schedule helps align your metabolism with your body clock.' },
+        { level:'gentle',   text:'Avoid eating after 10pm',                           insight:'Late-night eating works against your circadian rhythm and metabolic health.' },
+        { level:'gentle',   text:'Sit down for every main meal',                      insight:'Sitting to eat slows the meal and supports better digestion and fullness signalling.' },
+        { level:'gentle',   text:'Leave at least 2 hours between dinner and sleep',   insight:'A gap before bed lets digestion settle and protects your sleep quality.' },
+        { level:'moderate', text:'Keep a consistent 12-hour eating window',           insight:'A steady eating window gives the gut a nightly rest and supports metabolic health.' },
+        { level:'moderate', text:'Avoid unnecessary snacking between meals',          insight:'Fewer eating occasions steady insulin and let the body burn fat between meals.' },
+        { level:'moderate', text:'Eat lunch before 2pm',                              insight:'Eating the main meal earlier is associated with better weight and glucose control.' },
+        { level:'deep',     text:'Maintain your chosen eating window for 30 days',    insight:'Sustained time-restricted eating can improve blood sugar, lipids and energy over weeks.' },
+        { level:'deep',     text:'Avoid food within 3 hours of bedtime',              insight:'An early last meal aligns digestion with your body clock and deepens sleep.' },
+        { level:'deep',     text:'Intermittent fasting 5 times per week or more',    insight:'Regular fasting periods may improve insulin sensitivity and cellular repair (autophagy).' },
+      ]},
+      { name:'Presence', evidence:'Eating slowly and without distraction improves digestion and lets fullness signals reach the brain in time.', practices:[
+        { level:'gentle',   text:'Eat one meal each day without your phone',          insight:'Phone-free meals slow eating and reduce the mindless overeating that distraction drives.' },
+        { level:'gentle',   text:'Spend at least 20 minutes on one meal',             insight:'Eating more slowly gives fullness signals time to reach the brain, reducing overeating.' },
+        { level:'gentle',   text:'Notice one flavour you normally overlook',          insight:'Paying attention to taste increases meal satisfaction and curbs the urge for more.' },
+        { level:'moderate', text:'Eat every dinner without screens',                  insight:'Screen-free dinners improve portion awareness and the quality of mealtime connection.' },
+        { level:'moderate', text:'Stop eating when comfortably satisfied rather than full',insight:'Tuning into satiety, not the plate, naturally calibrates your portion size.' },
+        { level:'deep',     text:'Practice mindful eating for one meal every day',    insight:'Mindful eating is shown to reduce binge episodes and emotional eating.' },
+        { level:'deep',     text:'Never multitask while eating',                      insight:'Undistracted eating improves both digestion and how satisfying the meal feels.' },
+      ]},
+      { name:'Share', evidence:'Shared meals are a cornerstone of the world\'s longest-lived communities.', practices:[
+        { level:'gentle',   text:'Share one meal this week with a friend or family member',insight:'Shared meals are a cornerstone of the world\'s longest-lived communities.' },
+        { level:'gentle',   text:'Exchange one healthy recipe with your Circle',      insight:'Swapping recipes spreads healthy habits through your social network.' },
+        { level:'moderate', text:'Organise a healthy lunch or dinner with someone once a week',insight:'Regular shared meals build the routine connection linked to longevity.' },
+        { level:'moderate', text:'Eat one meal this week without anyone using a phone at the table',insight:'Device-free shared meals improve conversation quality and connection.' },
+        { level:'deep',     text:'Host a GoodEat Table with friends or family',       insight:'Hosting around health and conviviality blends two longevity factors: diet and community.' },
+        { level:'deep',     text:'Invite someone who might otherwise eat alone to join you',insight:'Including others combats loneliness, itself a major risk to health and lifespan.' },
+      ]},
+    ],
+  },
+  {
+    id:'move', name:'GoodMove', tagline:'Movement woven through every day',
+    blurb:'Build steady daily movement, strength, and the joy of moving alongside others.',
+    accent:'oklch(0.56 0.12 140)', soft:'oklch(0.95 0.05 132)', img:'uploads/move.png',
+    categories:[
+      { name:'Daily practices', evidence:'Steps, strength and cardio each lower mortality risk through different, complementary pathways.', practices:[
+        { level:'gentle',   text:'7,000 steps a day',                                 insight:'Around 7,000 steps a day is linked to a sharply lower risk of early death.' },
+        { level:'gentle',   text:'5-minute mobility flow every morning',              insight:'A short morning mobility flow improves joint range and reduces stiffness through the day.' },
+        { level:'gentle',   text:'Take the stairs instead of the elevator',           insight:'Stair climbing is a potent micro-workout that improves cardiovascular fitness.' },
+        { level:'gentle',   text:'Stand up every 60 minutes during work',             insight:'Breaking up sitting improves blood sugar and circulation, independent of exercise.' },
+        { level:'moderate', text:'8–10k steps daily',                                 insight:'Higher daily step counts keep lowering mortality risk up to around 10,000.' },
+        { level:'moderate', text:'2 strength sessions per week',                      insight:'Two weekly strength sessions preserve muscle and bone and lower all-cause mortality.' },
+        { level:'moderate', text:'1 cardio session of 30–45 minutes per week',        insight:'Regular cardio strengthens the heart and raises the VO₂ max tied to longevity.' },
+        { level:'moderate', text:'10 minutes of mobility or stretching, 4x a week',  insight:'Frequent mobility work maintains flexibility and reduces injury risk as you age.' },
+        { level:'deep',     text:'10,000+ steps daily',                               insight:'Higher activity volumes add further gains in fitness, mood and metabolic health.' },
+        { level:'deep',     text:'3 strength sessions per week',                      insight:'Three sessions accelerate strength and muscle gains for power and independence with age.' },
+        { level:'deep',     text:'1 VO₂ max session per week',                        insight:'VO₂ max is one of the strongest single predictors of long-term survival.' },
+        { level:'deep',     text:'Daily mobility, 15 minutes',                        insight:'Daily mobility builds lasting flexibility and resilient, well-moving joints.' },
+      ]},
+      { name:'Social & stretch practices', evidence:'Moving with others improves consistency and makes activity far more likely to stick.', practices:[
+        { level:'gentle',   text:'20-minute walk with a friend or colleague',         insight:'Walking with others combines movement with the social connection that supports health.' },
+        { level:'gentle',   text:'Walk-and-talk call instead of a seated call',       insight:'Turning calls into walks adds easy activity and breaks up prolonged sitting.' },
+        { level:'moderate', text:'One Circle walking challenge',                      insight:'Shared goals boost motivation and make activity far more likely to stick.' },
+        { level:'moderate', text:'One partner workout during the month',              insight:'Exercising with a partner improves consistency and accountability.' },
+        { level:'deep',     text:'Complete one physical challenge: a 10km hike, swim, dance event or cycling challenge',insight:'Training toward a challenge builds fitness and a rewarding sense of achievement.' },
+        { level:'deep',     text:'Lead one movement session for your Circle (even 10 min on Zoom)',insight:'Leading others reinforces your own habit and strengthens your Circle\'s bonds.' },
+      ]},
+    ],
+  },
+  {
+    id:'mind', name:'GoodMind', tagline:'Attention, calm, and connection',
+    blurb:'Train a steadier mind through breath, reflection, and honest connection with others.',
+    accent:'oklch(0.5 0.095 150)', soft:'oklch(0.95 0.04 142)', img:'uploads/mind.png',
+    categories:[
+      { name:'Daily practices', evidence:'Brief, regular practices in attention and reflection compound into measurable reductions in stress and anxiety.', practices:[
+        { level:'gentle',   text:'2 minutes of conscious breathing daily',            insight:'Even brief daily breathing practice lowers stress reactivity and calms the nervous system.' },
+        { level:'gentle',   text:'No phone for the first 15 minutes after waking',   insight:'A phone-free start protects your attention and sets a calmer tone for the day.' },
+        { level:'gentle',   text:'Write 3 gratitude lines before sleep',              insight:'Regular gratitude practice is reliably linked to higher wellbeing and lower stress.' },
+        { level:'gentle',   text:'5 minutes of quiet reflection',                    insight:'Short daily stillness builds the attention control that buffers against stress.' },
+        { level:'moderate', text:'10-minute meditation, 4x a week',                  insight:'Regular meditation measurably reduces anxiety and improves emotional regulation.' },
+        { level:'moderate', text:'Daily emotional check-in ("What am I feeling?")',  insight:'Naming feelings reduces their intensity and improves self-regulation.' },
+        { level:'moderate', text:'1 hour of distraction-free deep work a day',       insight:'Protected, distraction-free focus strengthens attention and a sense of accomplishment.' },
+        { level:'moderate', text:'One screen-light evening per week',                insight:'Periodic breaks from screens reduce overstimulation and improve mood and sleep.' },
+        { level:'moderate', text:'Leave your phone at home when going to sports or a restaurant',insight:'Time away from your phone deepens presence and the quality of real-world connection.' },
+        { level:'deep',     text:'15–20 minute meditation daily',                    insight:'Longer daily practice produces larger, lasting gains in attention and calm.' },
+        { level:'deep',     text:'Daily journaling',                                  insight:'Expressive writing reduces rumination and improves both mood and stress resilience.' },
+        { level:'deep',     text:'One half-day digital detox per week',               insight:'Regular digital breaks reset attention and ease the low mood linked to heavy use.' },
+        { level:'deep',     text:'Practice cognitive reframing under stress',         insight:'Reframing stressful thoughts is a core CBT skill shown to lower anxiety.' },
+      ]},
+      { name:'Social & stretch practices', evidence:'Honest connection with others is as protective of mental health as any individual practice.', practices:[
+        { level:'gentle',   text:'Send one thoughtful message to someone you appreciate',insight:'Small acts of reaching out strengthen relationships and lift both people\'s mood.' },
+        { level:'gentle',   text:'Have one meaningful conversation during the month', insight:'Deeper conversations, more than small talk, are associated with greater happiness.' },
+        { level:'moderate', text:'Weekly Circle check-in: "What drained you? What nourished you?"',insight:'Honest sharing builds the trust and belonging that protect mental health.' },
+        { level:'moderate', text:'Share one personal reflection in the group',        insight:'Expressing vulnerability deepens connection and reduces feelings of isolation.' },
+        { level:'deep',     text:'Offer one act of service during the month: mentor, help, listen, or volunteer',insight:'Helping others reliably boosts the helper\'s own wellbeing and sense of purpose.' },
+        { level:'deep',     text:'Host a deep conversation: "What changed you? What do you fear? Who are you becoming?"',insight:'Meaningful dialogue fosters the close relationships central to a long, good life.' },
+      ]},
+    ],
+  },
+];
+
+const PEOPLE = [
+  { initial:'M', bg:'oklch(0.4 0.052 168)', ink:'#fff' },
+  { initial:'K', bg:'oklch(0.56 0.12 140)', ink:'#fff' },
+  { initial:'A', bg:'oklch(0.5 0.095 150)', ink:'#fff' },
+  { initial:'J', bg:'oklch(0.45 0.075 158)', ink:'#fff' },
+  { initial:'S', bg:'oklch(0.7 0.155 128)', ink:'oklch(0.26 0.05 140)' },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+
+let state = { step: 1, themeId: null, levelId: null, selected: {} };
+
+function theme()  { return SEASONS.find(s => s.id === state.themeId); }
+function level()  { return LEVELS.find(l => l.id === state.levelId); }
+function accent() { return theme()?.accent || '#2C4636'; }
+function soft()   { return theme()?.soft || '#F2EEE4'; }
+
+// ─── STEPPER ─────────────────────────────────────────────────────────────────
+
+function renderStepper() {
+  const labels = ['Season', 'Level', 'Practices', 'Begin'];
+  const el = document.getElementById('stepper');
+  el.innerHTML = labels.map((lbl, i) => {
+    const n = i + 1;
+    const done   = state.step > n;
+    const active = state.step === n;
+    const cls = done ? 'done' : active ? 'active' : 'pending';
+    const sep = i < labels.length - 1 ? '<div class="step-sep"></div>' : '';
+    return `
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="step-dot ${cls}">${done ? '✓' : n}</div>
+        <span class="step-label ${active ? 'active' : ''}">${lbl}</span>
+      </div>${sep}`;
+  }).join('');
+}
+
+// ─── NAV BETWEEN STEPS ───────────────────────────────────────────────────────
+
+function goToStep(n) {
+  state.step = n;
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('step' + n);
+  panel.classList.add('active');
+  panel.classList.remove('fade-up');
+  void panel.offsetWidth;
+  panel.classList.add('fade-up');
+  renderStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (n === 2) renderStep2();
+  if (n === 3) renderStep3();
+  if (n === 4) renderStep4();
+}
+
+// ─── STEP 1 ──────────────────────────────────────────────────────────────────
+
+function renderStep1() {
+  // Avatars
+  const avatarEl = document.getElementById('hero-avatars');
+  avatarEl.innerHTML = PEOPLE.map((p, i) =>
+    `<div class="avatar" style="background:${p.bg};color:${p.ink};margin-left:${i ? -10 : 0}px;">${p.initial}</div>`
+  ).join('') + `<div class="avatar" style="background:linear-gradient(135deg,${SEASONS[0].accent},${SEASONS[2].accent});color:#fff;margin-left:-10px;font-size:12px;">+You</div>`;
+
+  // Theme grid
+  const grid = document.getElementById('theme-grid');
+  grid.innerHTML = SEASONS.map(s => `
+    <button class="theme-card" onclick="selectTheme('${s.id}')">
+      <img src="${s.img}" alt="${s.name}" class="theme-photo" onerror="this.style.height='120px';this.style.background='${s.accent}';">
+      <div class="theme-body">
+        <div style="width:32px;height:5px;border-radius:999px;background:${s.accent};margin-bottom:14px;"></div>
+        <h3 style="font-family:'Newsreader',serif;font-size:24px;font-weight:600;margin:0 0 6px;color:#20251F;letter-spacing:-0.01em;">${s.name}</h3>
+        <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 16px;">${s.blurb}</p>
+        <span style="font-size:13px;font-weight:600;color:${s.accent};">Select this Season →</span>
+      </div>
+    </button>
+  `).join('');
+}
+
+function selectTheme(id) {
+  state.themeId = id;
+  state.selected = {};
+  goToStep(2);
+}
+
+// ─── STEP 2 ──────────────────────────────────────────────────────────────────
+
+function renderStep2() {
+  const t = theme();
+  document.getElementById('step2-chip').innerHTML =
+    `<span class="chip" style="background:${soft()};color:${accent()};">${t.name}</span>`;
+
+  document.getElementById('level-list').innerHTML = LEVELS.map((l, i) => `
+    <button class="level-card" onclick="selectLevel('${l.id}')" style="--accent:${accent()};">
+      <div class="level-badge" style="background:${accent()};">${i + 1}</div>
+      <div style="flex:1;">
+        <h3 style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;margin:0 0 4px;letter-spacing:-0.01em;color:#20251F;">${l.name} <span style="font-size:17px;font-weight:400;color:#6B7462;font-style:italic;">— ${l.summary}</span></h3>
+        <p style="font-size:14.5px;line-height:1.5;margin:0;color:#5A5F56;">${l.desc}</p>
+      </div>
+      <span style="font-size:20px;color:${accent()};">→</span>
+    </button>
+  `).join('');
+}
+
+function selectLevel(id) {
+  state.levelId = id;
+  goToStep(3);
+}
+
+// ─── STEP 3 ──────────────────────────────────────────────────────────────────
+
+function renderStep3() {
+  const t = theme();
+  const l = level();
+
+  // Update CSS vars on body
+  document.documentElement.style.setProperty('--accent', accent());
+  document.documentElement.style.setProperty('--soft', soft());
+
+  // Chips
+  document.getElementById('step3-chips').innerHTML = `
+    <button class="chip" style="background:${soft()};color:${accent()};" onclick="goToStep(1)">${t.name} ✕</button>
+    <button class="chip" style="background:#F2EEE4;color:#5A5F56;" onclick="goToStep(2)">${l.name} level ✕</button>
+  `;
+
+  // Filter practices by level (include 'all')
+  const practiceList = document.getElementById('practice-list');
+  practiceList.innerHTML = t.categories.map(cat => {
+    const practices = cat.practices.filter(p => p.level === state.levelId || p.level === 'all');
+    if (!practices.length) return '';
+    return `
+      <section style="margin-top:36px;">
+        <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
+        ${cat.evidence ? `<p style="font-size:13.5px;font-style:italic;color:#7A8275;margin:0 0 14px;line-height:1.5;">${cat.evidence}</p>` : '<div style="height:12px;"></div>'}
+        ${practices.map((p, pi) => {
+          const key = cat.name + '|' + pi;
+          const sel = !!state.selected[key];
+          return `
+            <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
+              <div class="check-box">${sel ? '✓' : ''}</div>
+              <div>
+                <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${p.text}</div>
+                <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${p.insight}</p>
+              </div>
+            </div>`;
+        }).join('')}
+      </section>`;
+  }).join('');
+
+  updateProgress();
+}
+
+function togglePractice(encodedKey) {
+  const key = decodeURIComponent(encodedKey);
+  if (state.selected[key]) {
+    delete state.selected[key];
+  } else {
+    // Find practice text to store
+    state.selected[key] = true;
+  }
+  // Re-render just the changed row
+  renderStep3();
+}
+
+function countSelected() { return Object.keys(state.selected).length; }
+
+function updateProgress() {
+  const count = countSelected();
+  const t = theme();
+  const catCount = t.categories.filter(c => c.practices.some(p => p.level === state.levelId)).length;
+  const meetsMin = count >= 5;
+  document.getElementById('sel-count').textContent = `${count} practice${count !== 1 ? 's' : ''} selected`;
+  document.getElementById('req-text').textContent = meetsMin ? '✓ Ready to review' : `Select at least 5 to continue`;
+  document.getElementById('req-text').style.color = meetsMin ? accent() : '#9AA690';
+  document.getElementById('to-review-btn').disabled = !meetsMin;
+  document.getElementById('to-review-btn').style.background = meetsMin ? accent() : '';
+}
+
+// ─── STEP 4 ──────────────────────────────────────────────────────────────────
+
+function renderStep4() {
+  const t = theme();
+  const l = level();
+  const count = countSelected();
+
+  // Build review groups
+  const groups = t.categories.map(cat => {
+    const practices = cat.practices.filter((p, pi) => state.selected[cat.name + '|' + pi]);
+    return { name: cat.name, practices };
+  }).filter(g => g.practices.length > 0);
+
+  document.getElementById('step4-content').innerHTML = `
+    <div class="fade-up">
+      <button class="btn-back" onclick="goToStep(3)">← Back</button>
+      <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:48px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 24px;">Your 30-day <span style="font-style:italic;">season.</span></h1>
+
+      <div class="review-summary">
+        <div class="review-swatch" style="background:${accent()};"></div>
+        <div>
+          <div style="font-family:'Newsreader',serif;font-size:26px;font-weight:600;color:${accent()};">${t.name}</div>
+          <div style="font-size:14px;color:#7A8275;margin-top:3px;font-weight:500;">${l.name} level · ${count} practices · 30 days</div>
+        </div>
+      </div>
+
+      ${groups.map(g => `
+        <div class="review-group">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:${accent()};flex-shrink:0;"></div>
+            <h2 style="font-family:'Newsreader',serif;font-size:17px;font-weight:600;margin:0;">${g.name}</h2>
+          </div>
+          ${g.practices.map(p => `
+            <div style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#3A3F38;margin-bottom:9px;">
+              <span style="color:${accent()};font-weight:700;flex-shrink:0;">✓</span>
+              <span>${p.text}</span>
+            </div>`).join('')}
+        </div>`).join('')}
+
+      <div style="background:#F2EEE4;border-radius:16px;padding:24px;margin:32px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div class="avatars">
+          ${PEOPLE.map((p, i) => `<div class="avatar" style="background:${p.bg};color:${p.ink};margin-left:${i ? -10 : 0}px;">${p.initial}</div>`).join('')}
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:600;color:#20251F;">Your Circle is forming</div>
+          <div style="font-size:13.5px;color:#7A8275;">5–7 people walking the same path</div>
+        </div>
+      </div>
+
+      <div class="success-box">
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="width:26px;height:1px;background:rgba(244,242,234,0.4);"></span>
+          <span style="color:#C7D2BD;font-size:12px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Join the waitlist</span>
+          <span style="width:26px;height:1px;background:rgba(244,242,234,0.4);"></span>
+        </div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:36px;line-height:1.1;letter-spacing:-0.02em;margin:0 0 14px;color:#fff;">Your Circle is <span style="font-style:italic;">waiting.</span></h2>
+        <p style="font-size:16px;line-height:1.65;color:rgba(244,242,234,0.78);margin:0 auto 28px;max-width:28em;">We'll let you know as soon as your ${t.name} Circle is ready to form.</p>
+        <form style="display:flex;gap:12px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;" onsubmit="handleSubmit(event)">
+          <input type="email" placeholder="your@email.com" required id="email-input"
+            style="flex:1;min-width:200px;padding:14px 20px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-size:15px;font-family:'Hanken Grotesk',sans-serif;outline:none;">
+          <button type="submit" class="btn-primary" style="background:${accent()};">Begin This Season →</button>
+        </form>
+        <div id="form-msg" style="margin-top:16px;font-size:13.5px;color:#C7D2BD;display:none;">You're on the list. We'll be in touch.</div>
+      </div>
+    </div>`;
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  // TODO: wire up to Netlify Forms or your email service
+  // For Netlify Forms: add data-netlify="true" name="waitlist" to the <form> tag
+  document.getElementById('form-msg').style.display = 'block';
+  e.target.querySelector('button').textContent = '✓ You\'re on the list';
+  e.target.querySelector('button').disabled = true;
+  e.target.querySelector('input').disabled = true;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderStepper();
+renderStep1();
+</script>
+</body>
+</html>
