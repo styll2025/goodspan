@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GoodSpan — The Longevity Circle</title>
+  <meta name="description" content="A thirty-day Season of small, science-backed practices, lived alongside a Circle of people walking the same path.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: #cdd9c8; }
+
+    /* Photo helper */
+    .gs-photo {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+      transform-origin: center;
+    }
+
+    /* ---- Hover states ---- */
+
+    /* Nav CTA */
+    .btn-nav-cta {
+      text-decoration: none;
+      background: #2C4636;
+      color: #fff;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.18s ease;
+    }
+    .btn-nav-cta:hover { background: #1E3327; }
+
+    /* Hero primary */
+    .btn-hero-primary {
+      text-decoration: none;
+      background: #fff;
+      color: #1E2A20;
+      padding: 16px 32px;
+      border-radius: 999px;
+      font-size: 15.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      transition: background 0.18s ease;
+    }
+    .btn-hero-primary:hover { background: #F0EFE9; }
+
+    /* Hero secondary */
+    .btn-hero-secondary {
+      text-decoration: none;
+      color: #fff;
+      padding: 16px 26px;
+      border-radius: 999px;
+      font-size: 15.5px;
+      font-weight: 600;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+    .btn-hero-secondary:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Season cards */
+    .season-card {
+      text-decoration: none;
+      display: block;
+      background: #fff;
+      border: 1px solid #E8E1D3;
+      border-radius: 18px;
+      padding: 26px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .season-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(40,44,30,0.1);
+    }
+
+    /* Season CTA */
+    .btn-season-cta {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: #2C4636;
+      color: #fff;
+      padding: 16px 34px;
+      border-radius: 999px;
+      font-size: 15.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.18s ease;
+    }
+    .btn-season-cta:hover { background: #1E3327; }
+
+    /* Final CTA */
+    .btn-final-cta {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: #fff;
+      color: #1E2A20;
+      padding: 17px 38px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+      transition: background 0.18s ease;
+    }
+    .btn-final-cta:hover { background: #F0EFE9; }
+
+    /* Footer links */
+    .footer-link {
+      text-decoration: none;
+      color: rgba(244,242,234,0.7);
+      transition: color 0.18s ease;
+    }
+    .footer-link:hover { color: #fff; }
+
+    /* Nav links */
+    .nav-link {
+      text-decoration: none;
+      color: #4B5249;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.18s ease;
+    }
+    .nav-link:hover { color: #20251F; }
+
+    /* ---- Image placeholder fallback (shown when images are missing) ---- */
+    .img-wrap-hero   { background: #2a3a2e; }
+    .img-wrap-why    { background: #3d4f35; }
+    .img-wrap-circle { background: #1f2e24; }
+    .img-wrap-belong { background: #2e2b1e; }
+    .img-wrap-gather { background: #3a4632; }
+  </style>
+</head>
+
+<body style="background:#FBF9F4;color:#20251F;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;">
+
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(251,249,244,0.82);backdrop-filter:blur(12px);border-bottom:1px solid #ECE6DA;">
+    <a href="#top" style="text-decoration:none;color:#20251F;font-family:'Newsreader',serif;font-size:23px;font-weight:600;letter-spacing:-0.01em;">GoodSpan</a>
+    <div style="display:flex;align-items:center;gap:34px;">
+      <a href="#circle" class="nav-link">The Circle</a>
+      <a href="#rhythm" class="nav-link">How a Season works</a>
+      <a href="#seasons" class="nav-link">The Seasons</a>
+      <a href="#gathering" class="nav-link">Gatherings</a>
+      <a href="seasons.html" class="btn-nav-cta">Begin a Season</a>
+    </div>
+  </nav>
+
+  <span id="top"></span>
+
+  <!-- HERO -->
+  <header style="position:relative;width:100%;height:min(86vh,800px);min-height:580px;overflow:hidden;" class="img-wrap-hero">
+    <!-- Replace images/hero.jpg with your actual photo -->
+    <img src="images/hero.jpg" alt="A group walking together through a sunlit meadow" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.12);object-position:center 38%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,21,16,0.66) 0%, rgba(18,21,16,0.38) 42%, rgba(18,21,16,0.12) 72%, rgba(18,21,16,0.04) 100%);"></div>
+    <div style="position:relative;height:100%;max-width:1280px;margin:0 auto;padding:0 40px;display:flex;flex-direction:column;justify-content:center;">
+      <div style="max-width:660px;">
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;">
+          <span style="width:26px;height:1px;background:rgba(255,255,255,0.6);"></span>
+          <span style="color:#EAE6DC;font-size:12.5px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;">The Longevity Circle</span>
+        </div>
+        <h1 style="font-family:'Newsreader',serif;font-weight:500;color:#fff;font-size:64px;line-height:1.04;letter-spacing:-0.022em;margin:0 0 24px;">The years ahead are <span style="font-style:italic;">better shared.</span></h1>
+        <p style="color:rgba(255,255,255,0.92);font-size:19px;line-height:1.6;margin:0 0 36px;max-width:34em;font-weight:400;">A thirty-day Season of small, science-backed practices, lived alongside a Circle of people walking the same path. Because the longest, fullest lives are never lived alone.</p>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <a href="seasons.html" class="btn-hero-primary">Find your Circle</a>
+          <a href="#rhythm" class="btn-hero-secondary">How a Season works</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:22px;margin-top:40px;color:rgba(255,255,255,0.8);font-size:13.5px;font-weight:500;letter-spacing:0.02em;">
+          <span>30 days</span>
+          <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);"></span>
+          <span>a Circle of 5–7</span>
+          <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);"></span>
+          <span>four Seasons a year</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY IT MATTERS -->
+  <section style="max-width:1180px;margin:0 auto;padding:130px 40px 110px;">
+    <div style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:80px;align-items:center;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+          <span style="width:26px;height:1px;background:#B7A98C;"></span>
+          <span style="color:#5E6B4E;font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Why it matters</span>
+        </div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:46px;line-height:1.1;letter-spacing:-0.02em;margin:0 0 28px;color:#20251F;">We were never meant to <span style="font-style:italic;">do it alone.</span></h2>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:34em;">The science of longevity keeps arriving at the same truth: the people around us shape how long, and how well, we live. Strong relationships rank among the most powerful predictors of a long life, alongside how we sleep, move, eat and think.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0;max-width:34em;">GoodSpan turns that truth into a way of living. A Circle to belong to and a shared rhythm that brings more energy, connection and purpose every day.</p>
+      </div>
+      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(40,44,30,0.16);" class="img-wrap-why">
+        <!-- Replace images/why.jpg with your actual photo -->
+        <img src="images/why.jpg" alt="Three generations walking together" class="gs-photo" style="transform:scale(1.18);object-position:50% 40%;">
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:84px;">
+      <div style="border-top:1px solid #E2DBCC;padding-top:24px;">
+        <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:#2C4636;margin-bottom:10px;">Energy</div>
+        <p style="font-size:15px;line-height:1.6;color:#5A5F56;margin:0;">Small shared daily practices that compound, so the body feels lighter, steadier, more awake.</p>
+      </div>
+      <div style="border-top:1px solid #E2DBCC;padding-top:24px;">
+        <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:#2C4636;margin-bottom:10px;">Connection</div>
+        <p style="font-size:15px;line-height:1.6;color:#5A5F56;margin:0;">A Circle of people who know what you're working toward and share the journey with you.</p>
+      </div>
+      <div style="border-top:1px solid #E2DBCC;padding-top:24px;">
+        <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:#2C4636;margin-bottom:10px;">Purpose</div>
+        <p style="font-size:15px;line-height:1.6;color:#5A5F56;margin:0;">A reason to begin, a rhythm to keep, and people to become a little more yourself with.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CIRCLE -->
+  <section id="circle" style="background:#27352A;color:#F4F2EA;padding:120px 0;position:relative;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 40px;">
+      <div style="max-width:720px;margin-bottom:64px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+          <span style="width:26px;height:1px;background:rgba(244,242,234,0.45);"></span>
+          <span style="color:#C7D2BD;font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">The heart of GoodSpan</span>
+        </div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:50px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px;color:#fff;">Everything happens in a <span style="font-style:italic;">Circle.</span></h2>
+        <p style="font-size:18px;line-height:1.7;color:rgba(244,242,234,0.82);margin:0;max-width:38em;">When you join a Season, you're placed in a small Circle of five to seven people you haven't met, all walking the same path. The practices are how we begin. The Circle is why we keep going.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:stretch;">
+        <div style="position:relative;border-radius:20px;overflow:hidden;min-height:440px;box-shadow:0 30px 60px rgba(0,0,0,0.3);" class="img-wrap-circle">
+          <!-- Replace images/circle.jpg with your actual photo -->
+          <img src="images/circle.jpg" alt="A Circle gathered together, sharing tea outdoors" class="gs-photo" style="transform:scale(1.16);object-position:50% 45%;">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">Five to seven companions</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">A group small enough to be known, drawn together for one Season.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">A facilitator who holds the space</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">Trained to guide, share expert insight, and keep the Circle warm.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">Weekly gatherings</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">You meet each week to share practices, progress and challenges, and stay close between.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">Accountability, gently held</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">No streaks or scores, just people who notice, and keep you going.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW A SEASON WORKS -->
+  <section id="rhythm" style="max-width:1180px;margin:0 auto;padding:120px 40px;">
+    <div style="text-align:center;max-width:640px;margin:0 auto 70px;">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;">
+        <span style="width:26px;height:1px;background:#B7A98C;"></span>
+        <span style="color:#5E6B4E;font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">The rhythm of a Season</span>
+        <span style="width:26px;height:1px;background:#B7A98C;"></span>
+      </div>
+      <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:44px;line-height:1.1;letter-spacing:-0.02em;margin:0;color:#20251F;">Four gentle steps, then <span style="font-style:italic;">thirty days together.</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">01</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Choose a Season</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">Sleep, movement, nourishment or the mind.</p>
+      </div>
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">02</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Choose your depth</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">Gentle, Moderate or Deep. Enough to feel it, light enough to hold for a month.</p>
+      </div>
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">03</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Shape your practice</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">Choose a handful of practices to carry and to share with your Circle.</p>
+      </div>
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">04</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Walk it together</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">Thirty days, side by side with your Circle.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:60px;">
+      <a href="seasons.html" class="btn-season-cta">Shape your Season <span style="font-size:17px;">→</span></a>
+    </div>
+  </section>
+
+  <!-- THE FOUR SEASONS -->
+  <section id="seasons" style="background:#F2EEE4;padding:120px 0;border-top:1px solid #EAE3D6;border-bottom:1px solid #EAE3D6;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 40px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;margin-bottom:56px;">
+        <div style="max-width:620px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
+            <span style="width:26px;height:1px;background:#B7A98C;"></span>
+            <span style="color:#5E6B4E;font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Four Seasons, one pursuit</span>
+          </div>
+          <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:44px;line-height:1.1;letter-spacing:-0.02em;margin:0;color:#20251F;">More good years — from <span style="font-style:italic;">four directions.</span></h2>
+        </div>
+        <p style="font-size:15.5px;line-height:1.65;color:#5A5F56;max-width:25em;margin:0;">Each Season is simply where you begin. Whichever you choose, you arrive at the same place: a Circle, and a rhythm worth keeping.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+        <a href="seasons.html" class="season-card">
+          <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.4 0.052 168);margin-bottom:22px;"></span>
+          <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodSleep</h3>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Rebuild the rhythm and rest the body needs to recover.</p>
+          <span style="font-size:13px;font-weight:600;color:oklch(0.4 0.052 168);">Begin here →</span>
+        </a>
+        <a href="seasons.html" class="season-card">
+          <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.62 0.14 134);margin-bottom:22px;"></span>
+          <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodMove</h3>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Weave movement through the day — steps, strength, ease.</p>
+          <span style="font-size:13px;font-weight:600;color:oklch(0.5 0.1 140);">Begin here →</span>
+        </a>
+        <a href="seasons.html" class="season-card">
+          <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.5 0.095 150);margin-bottom:22px;"></span>
+          <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodMind</h3>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Train a steadier mind through breath, reflection and focus.</p>
+          <span style="font-size:13px;font-weight:600;color:oklch(0.5 0.095 150);">Begin here →</span>
+        </a>
+        <a href="seasons.html" class="season-card">
+          <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.45 0.075 158);margin-bottom:22px;"></span>
+          <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodEat</h3>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Eat for energy and rhythm — and bring people back to the table.</p>
+          <span style="font-size:13px;font-weight:600;color:oklch(0.45 0.075 158);">Begin here →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BELONGING BAND -->
+  <section style="position:relative;height:min(64vh,560px);min-height:420px;overflow:hidden;display:flex;align-items:center;" class="img-wrap-belong">
+    <!-- Replace images/belonging.jpg with your actual photo -->
+    <img src="images/belonging.jpg" alt="Friends watching the sunset, arms around one another" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.1);object-position:50% 42%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(30,28,20,0.34), rgba(30,28,20,0.5));"></div>
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 40px;width:100%;text-align:center;">
+      <p style="font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:40px;line-height:1.22;letter-spacing:-0.015em;color:#fff;margin:0 auto;max-width:18em;text-shadow:0 2px 20px rgba(0,0,0,0.25);">"We didn't just build better habits. We found each other."</p>
+      <div style="margin-top:26px;color:rgba(255,255,255,0.85);font-size:13.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;">— A GoodSpan Circle, Season of Movement</div>
+    </div>
+  </section>
+
+  <!-- THE GATHERING -->
+  <section id="gathering" style="max-width:1180px;margin:0 auto;padding:120px 40px;">
+    <div style="display:grid;grid-template-columns:0.95fr 1.05fr;gap:80px;align-items:center;">
+      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:5/4;box-shadow:0 30px 60px rgba(40,44,30,0.16);order:1;" class="img-wrap-gather">
+        <!-- Replace images/gathering.jpg with your actual photo -->
+        <img src="images/gathering.jpg" alt="A Circle watching the sunset together" class="gs-photo" style="transform:scale(1.12);object-position:50% 45%;">
+      </div>
+      <div style="order:2;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+          <span style="width:26px;height:1px;background:#B7A98C;"></span>
+          <span style="color:#5E6B4E;font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Day thirty</span>
+        </div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:46px;line-height:1.1;letter-spacing:-0.02em;margin:0 0 26px;color:#20251F;">Every Season ends <span style="font-style:italic;">in person.</span></h2>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:33em;">When your thirty days are done, everyone who completes the Season comes together for a closing gathering. You connect with everyone in your Seasons, and mark the journey you've made together.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0;max-width:33em;">It's where a month of practice becomes faces, names and shared stories — the people you keep, long after the Season ends.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section style="background:#2C4636;color:#F4F2EA;padding:130px 0;">
+    <div style="max-width:760px;margin:0 auto;padding:0 40px;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;">
+        <span style="width:26px;height:1px;background:rgba(244,242,234,0.45);"></span>
+        <span style="color:#C7D2BD;font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">The next Season is forming</span>
+        <span style="width:26px;height:1px;background:rgba(244,242,234,0.45);"></span>
+      </div>
+      <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:54px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px;color:#fff;">Your Circle is <span style="font-style:italic;">waiting.</span></h2>
+      <p style="font-size:18px;line-height:1.7;color:rgba(244,242,234,0.82);margin:0 auto 38px;max-width:30em;">Choose a theme, shape your practice, and step into thirty days you won't walk alone.</p>
+      <a href="seasons.html" class="btn-final-cta">Begin This Season <span style="font-size:17px;">→</span></a>
+      <div style="margin-top:24px;color:rgba(244,242,234,0.62);font-size:13.5px;font-weight:500;">Next cohort opens soon</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#1F2A23;color:rgba(244,242,234,0.7);padding:56px 40px;">
+    <div style="max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:-0.01em;">GoodSpan</div>
+        <div style="font-size:13.5px;margin-top:6px;color:rgba(244,242,234,0.55);">More good years, shared.</div>
+      </div>
+      <div style="display:flex;gap:30px;flex-wrap:wrap;font-size:14px;">
+        <a href="#circle" class="footer-link">The Circle</a>
+        <a href="#rhythm" class="footer-link">How it works</a>
+        <a href="#seasons" class="footer-link">The Seasons</a>
+        <a href="#gathering" class="footer-link">Gatherings</a>
+      </div>
+    </div>
+    <div style="max-width:1180px;margin:36px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);font-size:12.5px;color:rgba(244,242,234,0.45);">© 2026 GoodSpan Seasons. A community-led programme for a longer, fuller life. Practices support general wellbeing and are not a substitute for medical care.</div>
+  </footer>
+
+</body>
+</html>
