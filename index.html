@@ -5,70 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GoodSpan — The Longevity Circle</title>
   <meta name="description" content="A thirty-day Season of small, science-backed practices, lived alongside a Circle of people walking the same path.">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    img { display: block; max-width: 100%; }
-    ::selection { background: #cdd9c8; }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    img{display:block;max-width:100%;}
+    ::selection{background:#cdd9c8;}
+    .gs-photo{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:center;}
 
-    .gs-photo {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transform: scale(1.08);
-      transform-origin: center;
-    }
-
-    /* Hover states */
-    .btn-nav-cta { text-decoration:none;background:#2C4636;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:0.01em;transition:background .18s ease; }
+    /* Hover states converted from style-hover attributes */
     .btn-nav-cta:hover { background:#1E3327; }
-
-    .btn-hero-primary { text-decoration:none;background:#fff;color:#1E2A20;padding:16px 32px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 12px 30px rgba(0,0,0,0.18);transition:background .18s ease; }
     .btn-hero-primary:hover { background:#F0EFE9; }
-
-    .btn-hero-secondary { text-decoration:none;color:#fff;padding:16px 26px;border-radius:999px;font-size:15.5px;font-weight:600;border:1.5px solid rgba(255,255,255,0.5);transition:border-color .18s ease,background .18s ease; }
-    .btn-hero-secondary:hover { border-color:#fff;background:rgba(255,255,255,0.08); }
-
-    .season-card { text-decoration:none;display:block;background:#fff;border:1px solid #E8E1D3;border-radius:18px;padding:26px;transition:transform .2s ease,box-shadow .2s ease; }
-    .season-card:hover { transform:translateY(-4px);box-shadow:0 18px 36px rgba(40,44,30,0.1); }
-
-    .btn-season-cta { text-decoration:none;display:inline-flex;align-items:center;gap:9px;background:#2C4636;color:#fff;padding:16px 34px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;transition:background .18s ease; }
+    .btn-hero-secondary:hover { border-color:#fff; background:rgba(255,255,255,0.08); }
+    .season-card:hover { transform:translateY(-4px); box-shadow:0 18px 36px rgba(40,44,30,0.1); }
     .btn-season-cta:hover { background:#1E3327; }
-
-    .btn-final-cta { text-decoration:none;display:inline-flex;align-items:center;gap:9px;background:#fff;color:#1E2A20;padding:17px 38px;border-radius:999px;font-size:16px;font-weight:600;letter-spacing:0.01em;box-shadow:0 16px 36px rgba(0,0,0,0.25);transition:background .18s ease; }
     .btn-final-cta:hover { background:#F0EFE9; }
-
-    .nav-link { text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .18s ease; }
-    .nav-link:hover { color:#20251F; }
-
-    .footer-link { text-decoration:none;color:rgba(244,242,234,0.7);transition:color .18s ease; }
     .footer-link:hover { color:#fff; }
+    .nav-link:hover { color:#20251F; }
   </style>
 </head>
-
 <body style="background:#FBF9F4;color:#20251F;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;">
 
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(251,249,244,0.82);backdrop-filter:blur(12px);border-bottom:1px solid #ECE6DA;">
     <a href="#top" style="text-decoration:none;color:#20251F;font-family:'Newsreader',serif;font-size:23px;font-weight:600;letter-spacing:-0.01em;">GoodSpan</a>
     <div style="display:flex;align-items:center;gap:34px;">
-      <a href="#circle" class="nav-link">The Circle</a>
-      <a href="#rhythm" class="nav-link">How a Season works</a>
-      <a href="#seasons" class="nav-link">The Seasons</a>
-      <a href="#gathering" class="nav-link">Gatherings</a>
-      <a href="seasons.html" class="btn-nav-cta">Begin a Season</a>
+      <a href="#circle" class="nav-link" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">The Circle</a>
+      <a href="#rhythm" class="nav-link" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">How a Season works</a>
+      <a href="#seasons" class="nav-link" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">The Seasons</a>
+      <a href="#gathering" class="nav-link" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">Gatherings</a>
+      <a href="seasons.html" class="btn-nav-cta" style="text-decoration:none;background:#2C4636;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:0.01em;">Begin a Season</a>
     </div>
   </nav>
 
   <span id="top"></span>
 
   <!-- HERO -->
-  <header style="position:relative;width:100%;height:min(86vh,800px);min-height:580px;overflow:hidden;background:#2a3a2e;">
+  <header style="position:relative;width:100%;height:min(86vh,800px);min-height:580px;overflow:hidden;">
     <img src="uploads/18.png" alt="A group walking together through a sunlit meadow" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.12);object-position:center 38%;">
     <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,21,16,0.66) 0%, rgba(18,21,16,0.38) 42%, rgba(18,21,16,0.12) 72%, rgba(18,21,16,0.04) 100%);"></div>
     <div style="position:relative;height:100%;max-width:1280px;margin:0 auto;padding:0 40px;display:flex;flex-direction:column;justify-content:center;">
@@ -80,8 +56,8 @@
         <h1 style="font-family:'Newsreader',serif;font-weight:500;color:#fff;font-size:64px;line-height:1.04;letter-spacing:-0.022em;margin:0 0 24px;">The years ahead are <span style="font-style:italic;">better shared.</span></h1>
         <p style="color:rgba(255,255,255,0.92);font-size:19px;line-height:1.6;margin:0 0 36px;max-width:34em;font-weight:400;">A thirty-day Season of small, science-backed practices, lived alongside a Circle of people walking the same path. Because the longest, fullest lives are never lived alone.</p>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <a href="seasons.html" class="btn-hero-primary">Find your Circle</a>
-          <a href="#rhythm" class="btn-hero-secondary">How a Season works</a>
+          <a href="seasons.html" class="btn-hero-primary" style="text-decoration:none;background:#fff;color:#1E2A20;padding:16px 32px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 12px 30px rgba(0,0,0,0.18);">Find your Circle</a>
+          <a href="#rhythm" class="btn-hero-secondary" style="text-decoration:none;color:#fff;padding:16px 26px;border-radius:999px;font-size:15.5px;font-weight:600;border:1.5px solid rgba(255,255,255,0.5);">How a Season works</a>
         </div>
         <div style="display:flex;align-items:center;gap:22px;margin-top:40px;color:rgba(255,255,255,0.8);font-size:13.5px;font-weight:500;letter-spacing:0.02em;">
           <span>30 days</span>
@@ -106,7 +82,7 @@
         <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:34em;">The science of longevity keeps arriving at the same truth: the people around us shape how long, and how well, we live. Strong relationships rank among the most powerful predictors of a long life, alongside how we sleep, move, eat and think.</p>
         <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0;max-width:34em;">GoodSpan turns that truth into a way of living. A Circle to belong to and a shared rhythm that brings more energy, connection and purpose every day.</p>
       </div>
-      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(40,44,30,0.16);background:#3d4f35;">
+      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(40,44,30,0.16);">
         <img src="uploads/4.png" alt="Three generations walking together" class="gs-photo" style="transform:scale(1.18);object-position:50% 40%;">
       </div>
     </div>
@@ -140,7 +116,7 @@
       </div>
 
       <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:stretch;">
-        <div style="position:relative;border-radius:20px;overflow:hidden;min-height:440px;box-shadow:0 30px 60px rgba(0,0,0,0.3);background:#1f2e24;">
+        <div style="position:relative;border-radius:20px;overflow:hidden;min-height:440px;box-shadow:0 30px 60px rgba(0,0,0,0.3);">
           <img src="uploads/17.png" alt="A Circle gathered together, sharing tea outdoors" class="gs-photo" style="transform:scale(1.16);object-position:50% 45%;">
         </div>
         <div style="display:flex;flex-direction:column;gap:14px;">
@@ -198,7 +174,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:60px;">
-      <a href="seasons.html" class="btn-season-cta">Shape your Season <span style="font-size:17px;">→</span></a>
+      <a href="seasons.html" class="btn-season-cta" style="text-decoration:none;display:inline-flex;align-items:center;gap:9px;background:#2C4636;color:#fff;padding:16px 34px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;">Shape your Season <span style="font-size:17px;">→</span></a>
     </div>
   </section>
 
@@ -217,25 +193,25 @@
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
-        <a href="seasons.html" class="season-card">
+        <a href="seasons.html" class="season-card" style="text-decoration:none;display:block;background:#fff;border:1px solid #E8E1D3;border-radius:18px;padding:26px;transition:transform .2s ease,box-shadow .2s ease;">
           <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.4 0.052 168);margin-bottom:22px;"></span>
           <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodSleep</h3>
           <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Rebuild the rhythm and rest the body needs to recover.</p>
           <span style="font-size:13px;font-weight:600;color:oklch(0.4 0.052 168);">Begin here →</span>
         </a>
-        <a href="seasons.html" class="season-card">
+        <a href="seasons.html" class="season-card" style="text-decoration:none;display:block;background:#fff;border:1px solid #E8E1D3;border-radius:18px;padding:26px;transition:transform .2s ease,box-shadow .2s ease;">
           <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.62 0.14 134);margin-bottom:22px;"></span>
           <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodMove</h3>
           <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Weave movement through the day — steps, strength, ease.</p>
           <span style="font-size:13px;font-weight:600;color:oklch(0.5 0.1 140);">Begin here →</span>
         </a>
-        <a href="seasons.html" class="season-card">
+        <a href="seasons.html" class="season-card" style="text-decoration:none;display:block;background:#fff;border:1px solid #E8E1D3;border-radius:18px;padding:26px;transition:transform .2s ease,box-shadow .2s ease;">
           <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.5 0.095 150);margin-bottom:22px;"></span>
           <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodMind</h3>
           <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Train a steadier mind through breath, reflection and focus.</p>
           <span style="font-size:13px;font-weight:600;color:oklch(0.5 0.095 150);">Begin here →</span>
         </a>
-        <a href="seasons.html" class="season-card">
+        <a href="seasons.html" class="season-card" style="text-decoration:none;display:block;background:#fff;border:1px solid #E8E1D3;border-radius:18px;padding:26px;transition:transform .2s ease,box-shadow .2s ease;">
           <span style="display:block;width:34px;height:6px;border-radius:999px;background:oklch(0.45 0.075 158);margin-bottom:22px;"></span>
           <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#20251F;letter-spacing:-0.01em;">GoodEat</h3>
           <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">Eat for energy and rhythm — and bring people back to the table.</p>
@@ -246,7 +222,7 @@
   </section>
 
   <!-- BELONGING BAND -->
-  <section style="position:relative;height:min(64vh,560px);min-height:420px;overflow:hidden;display:flex;align-items:center;background:#2e2b1e;">
+  <section style="position:relative;height:min(64vh,560px);min-height:420px;overflow:hidden;display:flex;align-items:center;">
     <img src="uploads/12.png" alt="Friends watching the sunset, arms around one another" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.1);object-position:50% 42%;">
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(30,28,20,0.34), rgba(30,28,20,0.5));"></div>
     <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 40px;width:100%;text-align:center;">
@@ -258,7 +234,7 @@
   <!-- THE GATHERING -->
   <section id="gathering" style="max-width:1180px;margin:0 auto;padding:120px 40px;">
     <div style="display:grid;grid-template-columns:0.95fr 1.05fr;gap:80px;align-items:center;">
-      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:5/4;box-shadow:0 30px 60px rgba(40,44,30,0.16);order:1;background:#3a4632;">
+      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:5/4;box-shadow:0 30px 60px rgba(40,44,30,0.16);order:1;">
         <img src="uploads/6.png" alt="A Circle watching the sunset together" class="gs-photo" style="transform:scale(1.12);object-position:50% 45%;">
       </div>
       <div style="order:2;">
@@ -283,7 +259,7 @@
       </div>
       <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:54px;line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px;color:#fff;">Your Circle is <span style="font-style:italic;">waiting.</span></h2>
       <p style="font-size:18px;line-height:1.7;color:rgba(244,242,234,0.82);margin:0 auto 38px;max-width:30em;">Choose a theme, shape your practice, and step into thirty days you won't walk alone.</p>
-      <a href="seasons.html" class="btn-final-cta">Begin This Season <span style="font-size:17px;">→</span></a>
+      <a href="seasons.html" class="btn-final-cta" style="text-decoration:none;display:inline-flex;align-items:center;gap:9px;background:#fff;color:#1E2A20;padding:17px 38px;border-radius:999px;font-size:16px;font-weight:600;letter-spacing:0.01em;box-shadow:0 16px 36px rgba(0,0,0,0.25);">Begin This Season <span style="font-size:17px;">→</span></a>
       <div style="margin-top:24px;color:rgba(244,242,234,0.62);font-size:13.5px;font-weight:500;">Next cohort opens soon</div>
     </div>
   </section>
@@ -296,10 +272,10 @@
         <div style="font-size:13.5px;margin-top:6px;color:rgba(244,242,234,0.55);">More good years, shared.</div>
       </div>
       <div style="display:flex;gap:30px;flex-wrap:wrap;font-size:14px;">
-        <a href="#circle" class="footer-link">The Circle</a>
-        <a href="#rhythm" class="footer-link">How it works</a>
-        <a href="#seasons" class="footer-link">The Seasons</a>
-        <a href="#gathering" class="footer-link">Gatherings</a>
+        <a href="#circle" class="footer-link" style="text-decoration:none;color:rgba(244,242,234,0.7);">The Circle</a>
+        <a href="#rhythm" class="footer-link" style="text-decoration:none;color:rgba(244,242,234,0.7);">How it works</a>
+        <a href="#seasons" class="footer-link" style="text-decoration:none;color:rgba(244,242,234,0.7);">The Seasons</a>
+        <a href="#gathering" class="footer-link" style="text-decoration:none;color:rgba(244,242,234,0.7);">Gatherings</a>
       </div>
     </div>
     <div style="max-width:1180px;margin:36px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);font-size:12.5px;color:rgba(244,242,234,0.45);">© 2026 GoodSpan Seasons. A community-led programme for a longer, fuller life. Practices support general wellbeing and are not a substitute for medical care.</div>
