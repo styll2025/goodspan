@@ -7,12 +7,12 @@
   <meta name="description" content="Choose your Season, shape your practice, and find your Circle.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: #FBF9F4; color: #20251F; font-family: 'Hanken Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    body { background: #ffffff; color: #20251F; font-family: 'Hanken Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
     ::selection { background: #cdd9c8; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -22,8 +22,8 @@
     .step-panel.active { display: block; }
 
     /* NAV */
-    nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(251,249,244,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #ECE6DA; }
-    .nav-logo { text-decoration: none; color: #20251F; font-family: 'Newsreader', serif; font-size: 23px; font-weight: 600; letter-spacing: -0.01em; }
+    nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #ECECEC; }
+    .nav-logo { text-decoration: none; color: #20251F; font-family: 'Outfit', sans-serif; font-size: 25px; font-weight: 700; letter-spacing: -0.02em; }
 
     /* STEPPER */
     .stepper { display: flex; align-items: center; gap: 8px; }
@@ -66,7 +66,7 @@
     .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; }
 
     /* FOOTER BAR */
-    .footer-bar { position: sticky; bottom: 0; background: rgba(251,249,244,0.95); backdrop-filter: blur(8px); border-top: 1px solid #E8E1D3; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 -40px; }
+    .footer-bar { position: sticky; bottom: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-top: 1px solid #ECECEC; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 -40px; }
 
     /* REVIEW */
     .review-summary { border: 1.5px solid #E8E1D3; border-radius: 16px; padding: 24px; background: #fff; display: flex; gap: 18px; align-items: center; margin-bottom: 32px; }
@@ -103,10 +103,9 @@
 <main>
   <!-- STEP 1: THEME -->
   <div class="step-panel active fade-up" id="step1">
-    <div class="section-label"><span class="label-line"></span><span class="label-text">Begin here</span></div>
-    <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:52px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 16px;">Your season, <span style="font-style:italic;">together.</span></h1>
-    <p style="font-size:18px;font-weight:600;max-width:26em;color:#2C3A2A;margin:0 0 12px;line-height:1.35;">Meet new people while building a longer, fuller life.</p>
-    <p style="font-size:16px;max-width:36em;color:#5A5F56;margin:0 0 32px;line-height:1.6;">A Season is 30 days of small, science-backed habits, shared with a Circle of people walking the same path. Pick a theme to begin.</p>
+    <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:55px;line-height:1.0;letter-spacing:-0.035em;margin:0 0 16px;max-width:14em;">Your season, <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;letter-spacing:-0.01em;">together.</span></h1>
+    <p style="font-size:21px;font-weight:600;max-width:24em;color:#2C3A2A;margin:0 0 16px;line-height:1.3;letter-spacing:-0.01em;">Meet new people while building a longer, fuller life.</p>
+    <p style="font-size:18px;max-width:33em;color:#5A5F56;margin:0 0 18px;line-height:1.55;">A Season is 30 days of small, science-backed habits, shared with a Circle of people. Pick one of the four pillars to begin.</p>
 
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:44px;flex-wrap:wrap;">
       <div class="avatars" id="hero-avatars"></div>
@@ -120,7 +119,7 @@
   <div class="step-panel" id="step2">
     <button class="btn-back" onclick="goToStep(1)">← Back</button>
     <div id="step2-chip" style="margin-bottom:20px;"></div>
-    <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:48px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 14px;">How deep will you <span style="font-style:italic;">go?</span></h1>
+    <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:48px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 16px;">How deep will you <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">go?</span></h1>
     <p style="font-size:16px;max-width:36em;color:#5A5F56;margin:0 0 36px;line-height:1.6;">Choose the intensity that fits your life right now. Enough to feel it, light enough to hold for thirty days.</p>
     <div id="level-list"></div>
   </div>
@@ -129,9 +128,9 @@
   <div class="step-panel" id="step3">
     <button class="btn-back" onclick="goToStep(2)">← Back</button>
     <div id="step3-chips" style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;"></div>
-    <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:44px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 12px;">Build your <span style="font-style:italic;">practice.</span></h1>
+    <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px;">Build your <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">practice.</span></h1>
     <p style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;">Small commitments you'll carry every day and share with your Circle. Consistency beats ambition.</p>
-    <div id="rule-banner" style="display:flex;align-items:center;gap:10px;background:#F2EEE4;border-radius:12px;padding:12px 16px;margin-bottom:8px;">
+    <div id="rule-banner" style="display:flex;align-items:center;gap:10px;background:#F5F5F4;border-radius:12px;padding:12px 16px;margin-bottom:8px;">
       <span>🌱</span><span style="font-size:13.5px;color:#4B5249;line-height:1.45;">Choose at least <strong>5 practices</strong>, with at least one from every section.</span>
     </div>
     <div id="practice-list"></div>
@@ -149,6 +148,11 @@
   <div class="step-panel" id="step4">
     <div id="step4-content"></div>
   </div>
+
+  <!-- STEP 5: PRICING -->
+  <div class="step-panel" id="step5">
+    <div id="step5-content"></div>
+  </div>
 </main>
 
 <script>
@@ -164,7 +168,7 @@ const SEASONS = [
   {
     id:'sleep', name:'GoodSleep', tagline:'Rest as the foundation of a long life',
     blurb:'Rebuild the rhythm, calm, and darkness your body needs to recover each night.',
-    accent:'oklch(0.4 0.052 168)', soft:'oklch(0.95 0.03 158)', img:'uploads/sleep.png',
+    accent:'oklch(0.4 0.09 158)', bar:'oklch(0.4 0.09 158)', soft:'oklch(0.95 0.03 155)', img:'uploads/sleep.png',
     note:'These practices build healthier sleep habits in the general population — they are not a treatment for diagnosed insomnia.',
     categories:[
       { name:'Circadian Alignment', evidence:'Morning light, regular timing and dim evenings are the three most evidence-backed ways to align the body clock.', practices:[
@@ -221,7 +225,7 @@ const SEASONS = [
   {
     id:'eat', name:'GoodEat', tagline:'Eat for energy, rhythm, and connection',
     blurb:'Nourish well, find a steady eating rhythm, and bring presence and people back to the table.',
-    accent:'oklch(0.45 0.075 158)', soft:'oklch(0.95 0.035 150)', img:'uploads/eat.png',
+    accent:'oklch(0.56 0.2 47)', bar:'oklch(0.62 0.2 47)', soft:'oklch(0.96 0.04 47)', img:'uploads/eat.png',
     categories:[
       { name:'Nourish', evidence:'Protein, plants and minimally processed foods do the heaviest lifting for long-term metabolic health.', practices:[
         { level:'gentle',   text:'Add a source of protein to every main meal',        insight:'Protein at each meal preserves muscle as you age and keeps you fuller for longer.' },
@@ -270,7 +274,7 @@ const SEASONS = [
   {
     id:'move', name:'GoodMove', tagline:'Movement woven through every day',
     blurb:'Build steady daily movement, strength, and the joy of moving alongside others.',
-    accent:'oklch(0.56 0.12 140)', soft:'oklch(0.95 0.05 132)', img:'uploads/move.png',
+    accent:'oklch(0.52 0.14 74)', bar:'oklch(0.62 0.155 76)', soft:'oklch(0.95 0.05 74)', img:'uploads/move.png',
     categories:[
       { name:'Daily practices', evidence:'Steps, strength and cardio each lower mortality risk through different, complementary pathways.', practices:[
         { level:'gentle',   text:'7,000 steps a day',                                 insight:'Around 7,000 steps a day is linked to a sharply lower risk of early death.' },
@@ -299,7 +303,7 @@ const SEASONS = [
   {
     id:'mind', name:'GoodMind', tagline:'Attention, calm, and connection',
     blurb:'Train a steadier mind through breath, reflection, and honest connection with others.',
-    accent:'oklch(0.5 0.095 150)', soft:'oklch(0.95 0.04 142)', img:'uploads/mind.png',
+    accent:'oklch(0.5 0.13 128)', bar:'#AECE36', soft:'oklch(0.96 0.06 120)', img:'uploads/mind.png',
     categories:[
       { name:'Daily practices', evidence:'Brief, regular practices in attention and reflection compound into measurable reductions in stress and anxiety.', practices:[
         { level:'gentle',   text:'2 minutes of conscious breathing daily',            insight:'Even brief daily breathing practice lowers stress reactivity and calms the nervous system.' },
@@ -329,10 +333,10 @@ const SEASONS = [
 ];
 
 const PEOPLE = [
-  { initial:'M', bg:'oklch(0.4 0.052 168)', ink:'#fff' },
-  { initial:'K', bg:'oklch(0.56 0.12 140)', ink:'#fff' },
-  { initial:'A', bg:'oklch(0.5 0.095 150)', ink:'#fff' },
-  { initial:'J', bg:'oklch(0.45 0.075 158)', ink:'#fff' },
+  { initial:'M', bg:'oklch(0.4 0.09 158)', ink:'#fff' },
+  { initial:'K', bg:'oklch(0.62 0.155 76)', ink:'#fff' },
+  { initial:'A', bg:'oklch(0.5 0.13 128)', ink:'#fff' },
+  { initial:'J', bg:'oklch(0.56 0.2 47)', ink:'#fff' },
   { initial:'S', bg:'oklch(0.7 0.155 128)', ink:'oklch(0.26 0.05 140)' },
 ];
 
@@ -343,12 +347,13 @@ let state = { step: 1, themeId: null, levelId: null, selected: {} };
 function theme()  { return SEASONS.find(s => s.id === state.themeId); }
 function level()  { return LEVELS.find(l => l.id === state.levelId); }
 function accent() { return theme()?.accent || '#2C4636'; }
-function soft()   { return theme()?.soft || '#F2EEE4'; }
+function bar()    { return theme()?.bar || accent(); }
+function soft()   { return theme()?.soft || '#F5F5F4'; }
 
 // ─── STEPPER ─────────────────────────────────────────────────────────────────
 
 function renderStepper() {
-  const labels = ['Season', 'Level', 'Practices', 'Begin'];
+  const labels = ['Season', 'Level', 'Practices', 'Review', 'Plan'];
   const el = document.getElementById('stepper');
   el.innerHTML = labels.map((lbl, i) => {
     const n = i + 1;
@@ -379,6 +384,7 @@ function goToStep(n) {
   if (n === 2) renderStep2();
   if (n === 3) renderStep3();
   if (n === 4) renderStep4();
+  if (n === 5) renderStep5();
 }
 
 // ─── STEP 1 ──────────────────────────────────────────────────────────────────
@@ -394,12 +400,18 @@ function renderStep1() {
   const grid = document.getElementById('theme-grid');
   grid.innerHTML = SEASONS.map(s => `
     <button class="theme-card" onclick="selectTheme('${s.id}')">
-      <img src="${s.img}" alt="${s.name}" class="theme-photo" onerror="this.style.height='120px';this.style.background='${s.accent}';">
-      <div class="theme-body">
-        <div style="width:32px;height:5px;border-radius:999px;background:${s.accent};margin-bottom:14px;"></div>
-        <h3 style="font-family:'Newsreader',serif;font-size:24px;font-weight:600;margin:0 0 6px;color:#20251F;letter-spacing:-0.01em;">${s.name}</h3>
-        <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 16px;">${s.blurb}</p>
-        <span style="font-size:13px;font-weight:600;color:${s.accent};">Select this Season →</span>
+      <div style="height:8px;background:${s.bar || s.accent};"></div>
+      <div style="position:relative;height:180px;overflow:hidden;">
+        <img src="${s.img}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.background='${s.accent}';this.style.height='180px';">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0) 100%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 18px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-size:21px;font-weight:700;margin:0 0 3px;color:#fff;letter-spacing:-0.02em;">${s.name}</h3>
+          <p style="font-size:12.5px;line-height:1.35;color:rgba(255,255,255,0.85);margin:0;">${s.tagline}</p>
+        </div>
+      </div>
+      <div style="padding:18px 20px 22px;">
+        <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 14px;">${s.blurb}</p>
+        <span style="font-size:13px;font-weight:700;color:${s.accent};">I want to start here →</span>
       </div>
     </button>
   `).join('');
@@ -422,7 +434,7 @@ function renderStep2() {
     <button class="level-card" onclick="selectLevel('${l.id}')" style="--accent:${accent()};">
       <div class="level-badge" style="background:${accent()};">${i + 1}</div>
       <div style="flex:1;">
-        <h3 style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;margin:0 0 4px;letter-spacing:-0.01em;color:#20251F;">${l.name} <span style="font-size:17px;font-weight:400;color:#6B7462;font-style:italic;">— ${l.summary}</span></h3>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-0.02em;color:#20251F;">${l.name} <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;color:#6B7462;font-size:18px;letter-spacing:0;">— ${l.summary}</span></h3>
         <p style="font-size:14.5px;line-height:1.5;margin:0;color:#5A5F56;">${l.desc}</p>
       </div>
       <span style="font-size:20px;color:${accent()};">→</span>
@@ -448,7 +460,7 @@ function renderStep3() {
   // Chips
   document.getElementById('step3-chips').innerHTML = `
     <button class="chip" style="background:${soft()};color:${accent()};" onclick="goToStep(1)">${t.name} ✕</button>
-    <button class="chip" style="background:#F2EEE4;color:#5A5F56;" onclick="goToStep(2)">${l.name} level ✕</button>
+    <button class="chip" style="background:#F5F5F4;color:#5A5F56;" onclick="goToStep(2)">${l.name} level ✕</button>
   `;
 
   // Filter practices by level (include 'all')
@@ -520,12 +532,12 @@ function renderStep4() {
   document.getElementById('step4-content').innerHTML = `
     <div class="fade-up">
       <button class="btn-back" onclick="goToStep(3)">← Back</button>
-      <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:48px;line-height:1.06;letter-spacing:-0.022em;margin:0 0 24px;">Your 30-day <span style="font-style:italic;">season.</span></h1>
+      <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:48px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 24px;">Your 30-day <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">season.</span></h1>
 
       <div class="review-summary">
         <div class="review-swatch" style="background:${accent()};"></div>
         <div>
-          <div style="font-family:'Newsreader',serif;font-size:26px;font-weight:600;color:${accent()};">${t.name}</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em;color:${accent()};">${t.name}</div>
           <div style="font-size:14px;color:#7A8275;margin-top:3px;font-weight:500;">${l.name} level · ${count} practices · 30 days</div>
         </div>
       </div>
@@ -534,7 +546,7 @@ function renderStep4() {
         <div class="review-group">
           <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;">
             <div style="width:8px;height:8px;border-radius:50%;background:${accent()};flex-shrink:0;"></div>
-            <h2 style="font-family:'Newsreader',serif;font-size:17px;font-weight:600;margin:0;">${g.name}</h2>
+            <h2 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.015em;margin:0;">${g.name}</h2>
           </div>
           ${g.practices.map(p => `
             <div style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#3A3F38;margin-bottom:9px;">
@@ -543,42 +555,127 @@ function renderStep4() {
             </div>`).join('')}
         </div>`).join('')}
 
-      <div style="background:#F2EEE4;border-radius:16px;padding:24px;margin:32px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-        <div class="avatars">
-          ${PEOPLE.map((p, i) => `<div class="avatar" style="background:${p.bg};color:${p.ink};margin-left:${i ? -10 : 0}px;">${p.initial}</div>`).join('')}
+      <div style="background:#F5F5F4;border-radius:16px;padding:24px;margin:32px 0;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+          <div class="avatars">
+            ${PEOPLE.map((p, i) => `<div class="avatar" style="background:${p.bg};color:${p.ink};margin-left:${i ? -10 : 0}px;">${p.initial}</div>`).join('')}
+            <div class="avatar" style="background:linear-gradient(135deg,${accent()},#2C4636);color:#fff;margin-left:-10px;font-size:12px;">+You</div>
+          </div>
+          <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.015em;color:#20251F;">Your Circle is forming</div>
         </div>
-        <div>
-          <div style="font-size:15px;font-weight:600;color:#20251F;">Your Circle is forming</div>
-          <div style="font-size:13.5px;color:#7A8275;">5–7 people walking the same path</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:0 0 16px;color:#5A5F56;max-width:48em;">You'll be placed with 5 to 7 people you haven't met, all walking this same Season. You'll connect on WhatsApp and meet weekly to share insight, challenges, and progress.</p>
+        <div style="background:#fff;border-radius:12px;padding:18px 20px;border:1px solid #E2DBCC;">
+          <div style="font-weight:700;font-size:15px;margin:0 0 5px;color:#20251F;">Day 30 — the closing gathering</div>
+          <p style="font-size:14px;line-height:1.6;margin:0;color:#5A5F56;max-width:48em;">When your thirty days are done, everyone who completes the Season comes together in person. Meet your Circle face to face, connect with people from the other themes, and mark the end of the Season together.</p>
         </div>
       </div>
 
-      <div class="success-box">
-        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:20px;">
-          <span style="width:26px;height:1px;background:rgba(244,242,234,0.4);"></span>
-          <span style="color:#C7D2BD;font-size:12px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Join the waitlist</span>
-          <span style="width:26px;height:1px;background:rgba(244,242,234,0.4);"></span>
-        </div>
-        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:36px;line-height:1.1;letter-spacing:-0.02em;margin:0 0 14px;color:#fff;">Your Circle is <span style="font-style:italic;">waiting.</span></h2>
-        <p style="font-size:16px;line-height:1.65;color:rgba(244,242,234,0.78);margin:0 auto 28px;max-width:28em;">We'll let you know as soon as your ${t.name} Circle is ready to form.</p>
-        <form style="display:flex;gap:12px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;" onsubmit="handleSubmit(event)">
-          <input type="email" placeholder="your@email.com" required id="email-input"
-            style="flex:1;min-width:200px;padding:14px 20px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-size:15px;font-family:'Hanken Grotesk',sans-serif;outline:none;">
-          <button type="submit" class="btn-primary" style="background:${accent()};">Begin This Season →</button>
-        </form>
-        <div id="form-msg" style="margin-top:16px;font-size:13.5px;color:#C7D2BD;display:none;">You're on the list. We'll be in touch.</div>
+      <div style="margin-top:28px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="goToStep(5)" style="background:${accent()};">Choose your plan →</button>
+        <button class="btn-back" onclick="goToStep(3)" style="margin:0;">Adjust my practices</button>
       </div>
     </div>`;
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  // TODO: wire up to Netlify Forms or your email service
-  // For Netlify Forms: add data-netlify="true" name="waitlist" to the <form> tag
-  document.getElementById('form-msg').style.display = 'block';
-  e.target.querySelector('button').textContent = '✓ You\'re on the list';
-  e.target.querySelector('button').disabled = true;
-  e.target.querySelector('input').disabled = true;
+// ─── STEP 5 ──────────────────────────────────────────────────────────────────
+
+const PLANS = [
+  {
+    id: 'single',
+    name: 'Single Season',
+    price: '€29',
+    unit: 'per season',
+    note: null,
+    desc: 'Everything you need for one full Season — your Circle, weekly gatherings, expert facilitation, and the closing gathering on day 30.',
+    features: ['One 30-day Season', 'Circle of 5–7 people', 'Weekly guided gatherings', 'Closing in-person gathering', 'WhatsApp Circle channel'],
+  },
+  {
+    id: 'founding',
+    name: 'Founding Member',
+    price: '€69',
+    unit: 'per year',
+    note: '€23 per Season',
+    badge: 'Best value',
+    desc: 'Three Seasons across the year at a founding price — try a different theme each time, or deepen your practice in one.',
+    features: ['Three Seasons per year', 'Circle of 5–7 people', 'Weekly guided gatherings', 'Closing in-person gathering', 'WhatsApp Circle channel', 'Priority matching'],
+  },
+  {
+    id: 'premium',
+    name: 'Premium Circle',
+    price: '€99',
+    unit: 'per year',
+    note: '€33 per Season',
+    badge: null,
+    desc: 'Three Seasons with a smaller, more curated Circle and priority access to new Seasons as they open.',
+    features: ['Three Seasons per year', 'Smaller curated Circle (4–5)', 'Weekly guided gatherings', 'Closing in-person gathering', 'WhatsApp Circle channel', 'Priority matching & early access'],
+  },
+];
+
+let selectedPlan = null;
+
+function renderStep5() {
+  const t = theme();
+  const l = level();
+  const count = countSelected();
+
+  document.getElementById('step5-content').innerHTML = `
+    <div class="fade-up">
+      <button class="btn-back" onclick="goToStep(4)">← Back</button>
+      <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:48px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 14px;">Choose your <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">plan.</span></h1>
+      <p style="font-size:17px;max-width:34em;color:#5A5F56;margin:0 0 36px;line-height:1.6;">One price, your whole Season — your Circle, weekly gatherings, expert insight, and the closing gathering on day 30.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch;">
+        ${PLANS.map(pl => `
+          <button onclick="selectPlan('${pl.id}')" id="plan-${pl.id}"
+            style="position:relative;background:#fff;border:1.5px solid ${selectedPlan === pl.id ? accent() : '#E8E1D3'};border-radius:18px;padding:28px 24px 28px;text-align:left;cursor:pointer;font-family:inherit;transition:transform .2s ease,box-shadow .2s ease,border-color .2s;display:flex;flex-direction:column;gap:0;"
+            onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 38px rgba(18,28,45,0.12)'"
+            onmouseout="this.style.transform='';this.style.boxShadow=''">
+            ${pl.badge ? `<div style="position:absolute;top:16px;right:16px;background:${accent()};color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;">${pl.badge}</div>` : ''}
+            <div style="font-size:17px;font-weight:700;color:#20251F;margin-bottom:10px;letter-spacing:-0.01em;">${pl.name}</div>
+            <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">
+              <span style="font-family:'Newsreader',serif;font-size:38px;font-weight:500;color:#20251F;letter-spacing:-0.02em;">${pl.price}</span>
+              <span style="font-size:14px;color:#7A8275;font-weight:500;">${pl.unit}</span>
+            </div>
+            ${pl.note ? `<div style="font-size:13px;color:${accent()};font-weight:600;margin-bottom:16px;">${pl.note}</div>` : '<div style="height:16px;"></div>'}
+            <p style="font-size:14px;line-height:1.6;color:#5A5F56;margin:0 0 20px;">${pl.desc}</p>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:auto;">
+              ${pl.features.map(f => `<div style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;line-height:1.45;color:#3A3F38;"><span style="color:${accent()};font-weight:700;flex-shrink:0;">✓</span><span>${f}</span></div>`).join('')}
+            </div>
+          </button>`).join('')}
+      </div>
+
+      <p style="margin:20px 0 0;font-size:12.5px;line-height:1.6;color:#7A8275;max-width:54em;">Concession pricing of €9 for a single Season is available if you're under 30 or over 70. Founding Member and Premium Circle both include three Seasons across the year.</p>
+
+      <div class="footer-bar" id="plan-footer-bar">
+        <div>
+          <div style="font-size:15px;color:#20251F;font-weight:600;" id="plan-summary">${selectedPlan ? PLANS.find(p=>p.id===selectedPlan).name : 'Select a plan to continue'}</div>
+          <div style="font-size:13px;color:#9AA690;" id="plan-subline">${selectedPlan ? '' : ''}</div>
+        </div>
+        <button class="btn-primary" id="confirm-btn" onclick="handleConfirm()" ${!selectedPlan ? 'disabled' : ''} style="background:${selectedPlan ? accent() : ''};">Confirm &amp; begin →</button>
+      </div>
+    </div>`;
+}
+
+function selectPlan(id) {
+  selectedPlan = id;
+  renderStep5();
+}
+
+function handleConfirm() {
+  const t = theme();
+  const pl = PLANS.find(p => p.id === selectedPlan);
+  document.getElementById('step5-content').innerHTML = `
+    <div class="fade-up" style="text-align:center;max-width:540px;margin:60px auto 0;">
+      <div style="width:64px;height:64px;border-radius:50%;background:${accent()};color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin:0 auto 24px;">✓</div>
+      <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:46px;line-height:1.03;letter-spacing:-0.03em;margin:26px 0 14px;">Your season <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">begins today.</span></h1>
+      <p style="font-size:16.5px;line-height:1.6;color:#5A5F56;margin:0 auto 28px;max-width:30em;">Thirty days of ${t.name}. Your Circle is forming now.</p>
+      <div class="avatars" style="justify-content:center;margin:0 auto 32px;">
+        ${PEOPLE.map((p, i) => `<div class="avatar" style="background:${p.bg};color:${p.ink};margin-left:${i ? -10 : 0}px;">${p.initial}</div>`).join('')}
+        <div class="avatar" style="background:linear-gradient(135deg,${accent()},#2C4636);color:#fff;margin-left:-10px;font-size:12px;">+You</div>
+      </div>
+      <a href="index.html" style="text-decoration:none;font-size:14px;color:#5A5F56;font-weight:500;">← Back to GoodSpan</a>
+    </div>`;
+  document.querySelector('.footer-bar')?.remove();
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
