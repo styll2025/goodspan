@@ -700,7 +700,7 @@ function renderStep1() {
   // Theme grid
   const grid = document.getElementById('theme-grid');
   grid.innerHTML = SEASONS.map(s => {
-    const ctaInk = s.light ? 'oklch(0.27 0.04 110)' : s.accent;
+    const ctaInk = s.light ? 'oklch(0.27 0.04 110)' : '#fff';
     return `
     <button class="theme-card" onclick="selectTheme('${s.id}')">
       <div style="height:8px;background:${s.accent};"></div>
