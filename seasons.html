@@ -23,7 +23,7 @@
 
     /* NAV */
     nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #ECECEC; }
-    .nav-logo { text-decoration: none; color: #20251F; font-family: 'Outfit', sans-serif; font-size: 25px; font-weight: 700; letter-spacing: -0.02em; }
+    .nav-logo { text-decoration: none; color: #20251F; }
 
     /* STEPPER */
     .stepper { display: flex; align-items: center; gap: 8px; }
@@ -101,7 +101,10 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">GoodSpan</a>
+  <a href="index.html" class="nav-logo">
+    <div style="font-family:'Newsreader',serif;font-size:34px;font-weight:600;letter-spacing:-0.01em;line-height:1.1;">GoodSpan</div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:0.04em;color:#5A5F56;margin-top:1px;">Community for longer, richer lives.</div>
+  </a>
   <div class="stepper" id="stepper"></div>
 </nav>
 
@@ -710,8 +713,8 @@ function renderStep1() {
         </div>
       </div>
       <div style="padding:18px 20px 22px;">
-        <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 14px;">${s.blurb}</p>
-        <span style="font-size:13px;font-weight:700;color:${ctaInk};">I want to start here →</span>
+        <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 18px;">${s.blurb}</p>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:${s.accent};color:${ctaInk};padding:12px 22px;border-radius:999px;font-size:13.5px;font-weight:600;">I want to start here →</div>
       </div>
     </button>`;
   }).join('');
