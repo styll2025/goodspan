@@ -85,6 +85,11 @@
     .avatars { display: flex; align-items: center; }
     .avatar { width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-shadow: 0 2px 8px rgba(18,28,45,0.12); }
 
+    /* SCIENCE MODAL */
+    #science-modal { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.55); display: none; align-items: center; justify-content: center; padding: 20px; }
+    #science-modal.open { display: flex; }
+    #science-modal-inner { background: #fff; border-radius: 20px; max-width: 620px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 36px 36px 40px; position: relative; }
+
     @media (max-width: 640px) {
       nav { padding: 14px 20px; }
       main { padding: 40px 20px 100px; }
@@ -155,6 +160,18 @@
   </div>
 </main>
 
+<!-- SCIENCE MODAL -->
+<div id="science-modal">
+  <div id="science-modal-inner">
+    <button onclick="closeScienceModal()" style="position:absolute;top:18px;right:18px;background:none;border:none;font-size:20px;color:#7A8275;cursor:pointer;line-height:1;padding:4px;">✕</button>
+    <div id="science-pillar" style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9AA690;margin-bottom:6px;"></div>
+    <h2 id="science-family" style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 20px;color:#20251F;"></h2>
+    <div id="science-why" style="font-size:15.5px;font-weight:600;line-height:1.55;color:#20251F;margin-bottom:12px;"></div>
+    <div id="science-research" style="font-size:14.5px;line-height:1.7;color:#5A5F56;margin-bottom:20px;"></div>
+    <div id="science-sources" style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #E8E1D3;padding-top:16px;"></div>
+  </div>
+</div>
+
 <script>
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -166,189 +183,470 @@ const LEVELS = [
 
 const SEASONS = [
   {
-    id:'sleep', name:'GoodSleep', tagline:'Rest as the foundation of a long life',
-    blurb:'Rebuild the rhythm, calm, and darkness your body needs to recover each night.',
-    accent:'oklch(0.4 0.09 158)', bar:'oklch(0.4 0.09 158)', soft:'oklch(0.95 0.03 155)', img:'uploads/sleep.png',
-    note:'These practices build healthier sleep habits in the general population — they are not a treatment for diagnosed insomnia.',
-    categories:[
-      { name:'Circadian Alignment', evidence:'Morning light, regular timing and dim evenings are the three most evidence-backed ways to align the body clock.', practices:[
-        { level:'gentle',   text:'5 min outdoors within 1 hour of waking',            insight:'Light early in the day is the strongest signal for setting your body clock.' },
-        { level:'moderate', text:'10–15 min outdoors within 1 hour of waking',        insight:'Light early in the day is the strongest signal for setting your body clock.' },
-        { level:'deep',     text:'20–30 min outdoors within 1 hour of waking',        insight:'Light early in the day is the strongest signal for setting your body clock.' },
-        { level:'gentle',   text:'Bedtime within a 60-minute window each night',      insight:'The body sleeps best when bedtime and wake time are predictable.' },
-        { level:'moderate', text:'Bedtime and wake time within 45 min, every day',    insight:'Regularity matters for long-term health independently of how long you sleep.' },
-        { level:'deep',     text:'Bedtime and wake time within 30 min, incl. weekends',insight:'Regularity matters for long-term health independently of how long you sleep.' },
-        { level:'gentle',   text:'Dim lights 1 hour before bed',                      insight:'Bright light in the evening suppresses melatonin and pushes your body clock later.' },
-        { level:'moderate', text:'Avoid bright overhead lights 2 hours before bed',   insight:'Bright light in the evening suppresses melatonin and pushes your body clock later.' },
-        { level:'deep',     text:'Create a low-light evening routine',                insight:'Bright light in the evening suppresses melatonin and pushes your body clock later.' },
-      ]},
-      { name:'Sleep Pressure', evidence:'Movement, caffeine timing and naps each affect the build-up of sleep drive that makes you fall and stay asleep.', practices:[
-        { level:'gentle',   text:'20-min walk during the day',                        insight:'Physical activity builds the sleep pressure that helps you fall and stay asleep.' },
-        { level:'moderate', text:'30 min moderate activity during the day',           insight:'Physical activity builds the sleep pressure that helps you fall and stay asleep.' },
-        { level:'deep',     text:'Meet WHO activity guidelines (150 min/week)',        insight:'Physical activity builds the sleep pressure that helps you fall and stay asleep.' },
-        { level:'gentle',   text:'No caffeine after 2pm',                             insight:'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.' },
-        { level:'moderate', text:'No caffeine after 1pm',                             insight:'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.' },
-        { level:'deep',     text:'No caffeine after 12pm',                            insight:'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.' },
-      ]},
-      { name:'Wind Down', evidence:'Relaxation practices before bed lower arousal and make the transition into sleep smoother.', practices:[
-        { level:'gentle',   text:'2 min slow breathing before bed',                   insight:'Slow, controlled breathing shifts the body toward its calming parasympathetic state.' },
-        { level:'moderate', text:'5 min slow breathing before bed',                   insight:'Slow, controlled breathing shifts the body toward its calming parasympathetic state.' },
-        { level:'deep',     text:'10 min slow breathing before bed',                  insight:'Slow, controlled breathing shifts the body toward its calming parasympathetic state.' },
-        { level:'gentle',   text:'Write one task for tomorrow before bed',            insight:'Writing down tomorrow\'s tasks stops the mind rehearsing them at bedtime.' },
-        { level:'moderate', text:'Write your top 3 priorities for tomorrow',          insight:'Writing down tomorrow\'s tasks stops the mind rehearsing them at bedtime.' },
-        { level:'deep',     text:'5-minute cognitive offload before bed',             insight:'Writing down tomorrow\'s tasks stops the mind rehearsing them at bedtime.' },
-        { level:'gentle',   text:'5 min relaxing music before bed',                   insight:'Calming music lowers arousal and can ease the transition into sleep.' },
-        { level:'moderate', text:'10 min relaxing music before bed',                  insight:'Calming music lowers arousal and can ease the transition into sleep.' },
-        { level:'deep',     text:'Full sleep playlist each night',                    insight:'Calming music lowers arousal and can ease the transition into sleep.' },
-      ]},
-      { name:'Sleep Environment', evidence:'Cool, dark and quiet are the three conditions most strongly linked to restorative sleep.', practices:[
-        { level:'gentle',   text:'Keep bedroom at a comfortable temperature',         insight:'Core body temperature falls as you prepare for sleep — overheating works against that.' },
-        { level:'moderate', text:'Keep bedroom at 18–20°C if possible',              insight:'Core body temperature falls as you prepare for sleep — overheating works against that.' },
-        { level:'deep',     text:'Optimise bedroom temperature consistently',         insight:'Core body temperature falls as you prepare for sleep — overheating works against that.' },
-        { level:'gentle',   text:'Close the curtains before bed',                    insight:'Even low light can interfere with melatonin and disrupt circadian timing.' },
-        { level:'moderate', text:'Remove light sources from the bedroom',             insight:'Even low light can interfere with melatonin and disrupt circadian timing.' },
-        { level:'deep',     text:'Create complete darkness in the bedroom',           insight:'Even low light can interfere with melatonin and disrupt circadian timing.' },
-        { level:'gentle',   text:'No phone in bed',                                   insight:'The brain learns to associate the bed with whatever it is repeatedly used for.' },
-        { level:'moderate', text:'No work in bed',                                    insight:'The brain learns to associate the bed with whatever it is repeatedly used for.' },
-        { level:'deep',     text:'Bed only for sleep',                                insight:'The brain learns to associate the bed with whatever it is repeatedly used for.' },
-      ]},
-      { name:'Social Accountability', evidence:'Sharing intentions and celebrating progress are among the most effective behaviour-change techniques.', practices:[
-        { level:'gentle',   text:'Share one sleep intention with your Circle',        insight:'Deciding in advance and committing to it makes follow-through more likely.' },
-        { level:'moderate', text:'Share your bedtime target with your Circle',        insight:'Deciding in advance and committing to it makes follow-through more likely.' },
-        { level:'deep',     text:'Share your bedtime goal and review together next day',insight:'Deciding in advance and committing to it makes follow-through more likely.' },
-        { level:'gentle',   text:'Congratulate one teammate on a sleep win',         insight:'Feedback on progress reinforces new habits and sustains motivation.' },
-        { level:'moderate', text:'Celebrate weekly sleep wins with your Circle',      insight:'Feedback on progress reinforces new habits and sustains motivation.' },
-        { level:'deep',     text:'Weekly Circle reflection',                           insight:'Reviewing what worked helps people learn from experience and stay engaged.' },
-      ]},
+    id: 'sleep',
+    name: 'GoodSleep',
+    tagline: 'Rest as the foundation of a long life',
+    blurb: 'Rebuild the rhythm, calm, and darkness your body needs to recover each night.',
+    accent: 'oklch(0.4 0.09 158)',
+    accent2: 'oklch(0.48 0.115 150)',
+    soft: 'oklch(0.95 0.05 155)',
+    img: 'uploads/sleep.png',
+    note: 'These practices build healthier sleep habits in the general population — they are not a treatment for diagnosed insomnia. If you live with a sleep disorder, treat this as a complement to professional care, not a replacement.',
+    categories: [
+      {
+        name: 'Circadian Alignment',
+        families: [
+          {
+            name: 'Morning Light',
+            insight: 'Light in the first part of the day is the strongest signal for setting your body clock and shifting sleep earlier.',
+            levels: { gentle: '5 min outdoors within 1 hour of waking', moderate: '10–15 min outdoors', deep: '20–30 min outdoors' },
+            science: {
+              why: 'Light in the first part of the day is the strongest signal for setting the circadian clock and advancing sleep timing earlier.',
+              research: 'Morning and daytime light exposure advances circadian phase and supports earlier, more consolidated sleep, and a systematic review confirms that light in the late biological night and early morning advances the clock. An international expert consensus recommends a daytime minimum of roughly 250 lux melanopic EDI at eye level, a level usually only reached outdoors or near a window rather than under typical indoor lighting.',
+              sources: [
+                { text: 'Tähkämö, L., Partonen, T., & Pesonen, A.-K. (2019). Systematic review of light exposure impact on human circadian rhythm. Chronobiology International, 36(2), 151–170.', url: 'https://doi.org/10.1080/07420528.2018.1527773' },
+                { text: 'Brown, T. M., et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure to best support physiology, sleep, and wakefulness in healthy adults. PLOS Biology, 20(3), e3001571.', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
+              ],
+            },
+          },
+          {
+            name: 'Regular Sleep Schedule',
+            insight: 'The body sleeps best when bedtime and wake time are predictable, and regularity matters for long-term health on its own.',
+            levels: { gentle: 'Bedtime within a 60-minute window', moderate: 'Bedtime and wake time within 45 min', deep: 'Bedtime and wake time within 30 min, including weekends' },
+            science: {
+              why: 'The body sleeps best when bedtime and wake time are predictable, and regularity appears to matter for long-term health independently of how long you sleep.',
+              research: 'A systematic review found that later and more variable sleep timing is generally associated with worse health outcomes. A large prospective cohort study using accelerometer data from roughly 61,000 UK Biobank participants found that sleep regularity was a stronger predictor of all-cause mortality than sleep duration, with the most regular sleepers showing a markedly lower mortality risk than the least regular.',
+              sources: [
+                { text: 'Chaput, J.-P., et al. (2020). Sleep timing, sleep consistency, and health in adults: A systematic review. Applied Physiology, Nutrition, and Metabolism, 45(10, Suppl. 2), S232–S247.', url: 'https://doi.org/10.1139/apnm-2020-0032' },
+                { text: 'Windred, D. P., et al. (2024). Sleep regularity is a stronger predictor of mortality risk than sleep duration: A prospective cohort study. Sleep, 47(1), zsad253.', url: 'https://doi.org/10.1093/sleep/zsad253' },
+              ],
+            },
+          },
+          {
+            name: 'Dim Evening Light',
+            insight: 'Bright light in the evening suppresses melatonin and pushes your body clock later.',
+            levels: { gentle: 'Dim lights 1 hour before bed', moderate: 'Avoid bright overhead lights 2 hours before bed', deep: 'Create a low-light evening routine' },
+            science: {
+              why: 'Bright light in the evening suppresses melatonin and pushes the circadian clock later.',
+              research: 'A systematic review with meta-analysis found that higher evening light levels measurably alter polysomnographically assessed sleep. Experimental work shows the circadian system is highly sensitive to evening light, with roughly half of melatonin suppression occurring below 30 lux — comparable to ordinary indoor and device light — and more than a 50-fold difference in sensitivity between individuals. The expert consensus recommends keeping evening light below roughly 10 lux melanopic EDI in the hours before bed.',
+              sources: [
+                { text: 'Cajochen, C., et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep: A systematic review with meta-analysis. Lighting Research & Technology, 54(6), 609–624.', url: 'https://doi.org/10.1177/14771535221078765' },
+                { text: 'Phillips, A. J. K., et al. (2019). High sensitivity and interindividual variability in the response of the human circadian system to evening light. PNAS, 116(24), 12019–12024.', url: 'https://doi.org/10.1073/pnas.1901824116' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Sleep Pressure',
+        families: [
+          {
+            name: 'Daily Movement',
+            insight: 'Physical activity builds the sleep pressure that helps you fall and stay asleep.',
+            levels: { gentle: '20-min walk', moderate: '30 min moderate activity', deep: 'Meet WHO activity guidelines' },
+            science: {
+              why: 'Physical activity builds homeostatic sleep pressure and improves sleep quality over time.',
+              research: 'A meta-analytic review found that regular exercise has small beneficial effects on total sleep time and sleep efficiency, small-to-medium benefits for sleep onset latency, and moderate benefits for overall sleep quality, with consistency mattering more than intensity. The WHO 2020 guidelines recommend at least 150 to 300 minutes of moderate activity per week for adults.',
+              sources: [
+                { text: 'Kredlow, M. A., et al. (2015). The effects of physical activity on sleep: A meta-analytic review. Journal of Behavioral Medicine, 38(3), 427–449.', url: 'https://doi.org/10.1007/s10865-015-9617-6' },
+                { text: 'Bull, F. C., et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451–1462.', url: 'https://doi.org/10.1136/bjsports-2020-102955' },
+              ],
+            },
+          },
+          {
+            name: 'Caffeine Timing',
+            insight: 'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.',
+            levels: { gentle: 'No caffeine after 4pm', moderate: 'No caffeine after 2pm', deep: 'Adjust intake to your bedtime' },
+            science: {
+              why: 'Caffeine blocks adenosine, the molecule that builds sleep pressure across the day, and it lingers long after its alerting effect fades.',
+              research: 'A systematic review and meta-analysis of 24 studies found that caffeine reduced total sleep time by approximately 45 minutes and sleep efficiency by about 7 percent, increased sleep onset latency by roughly 9 minutes, and reduced deep sleep. To avoid disruption, a standard coffee (around 107 mg) should be consumed at least roughly 9 hours before bed, though the wide variation in caffeine half-life between people (2 to 10 hours) means individuals should adjust to their own response.',
+              sources: [
+                { text: 'Gardiner, C., et al. (2023). The effect of caffeine on subsequent sleep: A systematic review and meta-analysis. Sleep Medicine Reviews, 69, 101764.', url: 'https://doi.org/10.1016/j.smrv.2023.101764' },
+                { text: 'Drake, C., et al. (2013). Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. Journal of Clinical Sleep Medicine, 9(11), 1195–1200.', url: 'https://doi.org/10.5664/jcsm.3170' },
+              ],
+            },
+          },
+          {
+            name: 'Naps',
+            insight: 'Short, early naps restore alertness without eroding the sleep pressure you need at night.',
+            levels: { gentle: 'Nap under 30 min', moderate: 'Nap before 3pm', deep: 'Nap only when needed' },
+            science: {
+              why: 'Short, early naps can restore alertness without eroding nighttime sleep pressure.',
+              research: 'A review of epidemiological and laboratory studies concluded that short daytime naps improve alertness and mood, while longer or late-afternoon naps can reduce the drive for nighttime sleep. Benefits are most reliable when naps are kept brief and taken earlier in the day.',
+              sources: [
+                { text: 'Faraut, B., et al. (2017). Napping: A public health issue. From epidemiological to laboratory studies. Sleep Medicine Reviews, 35, 85–100.', url: 'https://doi.org/10.1016/j.smrv.2016.09.002' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Wind Down',
+        families: [
+          {
+            name: 'Slow Breathing',
+            insight: 'Slow, controlled breathing shifts the body toward its calming parasympathetic state before sleep.',
+            levels: { gentle: '2 min before bed', moderate: '5 min before bed', deep: '10 min before bed' },
+            science: {
+              why: 'Slow, controlled breathing shifts the autonomic balance toward the parasympathetic system, lowering pre-sleep arousal.',
+              research: 'Slow breathing reliably increases heart rate variability and reduces physiological arousal. A systematic review of slow breathing before bed found that self-reported sleep duration and quality tend to improve, while objective sleep findings remain inconclusive — a low-risk practice with promising but not definitive evidence.',
+              sources: [
+                { text: 'Kuula, L., et al. (2020). The effects of presleep slow breathing and music listening on polysomnographic sleep measures: A pilot trial. Scientific Reports, 10, 7427.', url: 'https://doi.org/10.1038/s41598-020-64218-7' },
+                { text: 'Eide, E. M., Hernes, H. M., & Grønli, J. (2026). Slow breathing techniques before bedtime and the effects on sleep: A systematic review. Sleep Medicine Reviews, 87, 102284.', url: 'https://doi.org/10.1016/j.smrv.2026.102284' },
+              ],
+            },
+          },
+          {
+            name: 'Progressive Muscle Relaxation',
+            insight: 'Tensing and releasing muscle groups lowers physical tension and arousal before sleep.',
+            levels: { gentle: '5 min', moderate: '10 min', deep: 'Full nightly routine' },
+            science: {
+              why: 'Systematically tensing and releasing muscle groups lowers physical tension and autonomic arousal before sleep.',
+              research: 'A controlled study found that progressive muscle relaxation increased restorative slow-wave sleep during a daytime nap. A recent systematic review and meta-analysis of 31 randomised controlled trials (roughly 2,277 participants) reported a significant improvement in sleep quality alongside reductions in anxiety, though heterogeneity across trials was high. Relaxation-based techniques are endorsed as a single-component therapy in the AASM clinical practice guideline.',
+              sources: [
+                { text: 'Simon, K. C., et al. (2022). Progressive muscle relaxation increases slow-wave sleep during a daytime nap. Journal of Sleep Research, 31(5), e13574.', url: 'https://doi.org/10.1111/jsr.13574' },
+                { text: 'Donato, K. O., et al. (2026). Progressive muscle relaxation technique improves sleep quality and mental health: A systematic review and meta-analysis of randomized controlled trials. Journal of Psychosomatic Research, 203, 112563.', url: 'https://doi.org/10.1016/j.jpsychores.2026.112563' },
+              ],
+            },
+          },
+          {
+            name: 'Brain Dump / Tomorrow List',
+            insight: 'Writing down tomorrow’s tasks stops the mind rehearsing them at bedtime.',
+            levels: { gentle: 'Write one task', moderate: 'Top 3 priorities', deep: '5-minute cognitive offload' },
+            science: {
+              why: 'Writing down tomorrow’s tasks stops the mind rehearsing them at bedtime.',
+              research: 'In a polysomnography study of 57 adults, participants who spent five minutes writing a specific to-do list before bed fell asleep faster than those who journaled about completed tasks, and the more specific the list, the faster they fell asleep. This is a single well-controlled experiment rather than a meta-analysis, so the effect is promising but not yet replicated at scale.',
+              sources: [
+                { text: 'Scullin, M. K., et al. (2018). The effects of bedtime writing on difficulty falling asleep: A polysomnographic study comparing to-do lists and completed activity lists. Journal of Experimental Psychology: General, 147(1), 139–146.', url: 'https://doi.org/10.1037/xge0000374' },
+              ],
+            },
+          },
+          {
+            name: 'Relaxing Music',
+            insight: 'Calming music lowers arousal and can ease the transition into sleep.',
+            levels: { gentle: '5 min', moderate: '10 min', deep: 'Full sleep playlist' },
+            science: {
+              why: 'Calming music lowers arousal and can ease the transition into sleep.',
+              research: 'A Cochrane systematic review found evidence that listening to music can improve subjective sleep quality in adults with insomnia symptoms, while noting that the effect on objective sleep parameters is less clear and more research is needed. Music works best as part of a consistent wind-down routine.',
+              sources: [
+                { text: 'Jespersen, K. V., et al. (2022). Listening to music for insomnia in adults. Cochrane Database of Systematic Reviews, 2022(8), CD010459.', url: 'https://doi.org/10.1002/14651858.CD010459.pub3' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Sleep Environment',
+        families: [
+          {
+            name: 'Cool Bedroom',
+            insight: 'Core body temperature falls as you prepare for sleep, and an overheated room works against that.',
+            levels: { gentle: 'Comfortable temperature', moderate: '18–20°C if possible', deep: 'Optimise consistently' },
+            science: {
+              why: 'Core body temperature falls as you prepare for sleep, and an overheated room works against that.',
+              research: 'A longitudinal field study in community-dwelling older adults found that sleep was most efficient when nighttime bedroom temperature was roughly 20 to 25°C, with a clinically meaningful 5 to 10 percent drop in sleep efficiency as the room warmed from 25 to 30°C, and substantial variation between individuals. The defensible message is to keep the room cool and comfortable and above all avoid overheating, with the exact set point being individual.',
+              sources: [
+                { text: 'Baniassadi, A., et al. (2023). Nighttime ambient temperature and sleep in community-dwelling older adults. Science of the Total Environment, 899, 165623.', url: 'https://doi.org/10.1016/j.scitotenv.2023.165623' },
+              ],
+            },
+          },
+          {
+            name: 'Dark Bedroom',
+            insight: 'Even low light can interfere with melatonin and disrupt circadian timing.',
+            levels: { gentle: 'Close curtains', moderate: 'Remove light sources', deep: 'Complete darkness' },
+            science: {
+              why: 'Even low light can interfere with melatonin and disrupt circadian timing.',
+              research: 'The expert consensus recommends keeping the sleep environment as dark as possible, below roughly 1 lux melanopic EDI, since evening and night light suppress melatonin and shift the clock. Blackout curtains or an eye mask can make a meaningful difference.',
+              sources: [
+                { text: 'Brown, T. M., et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure in healthy adults. PLOS Biology, 20(3), e3001571.', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
+                { text: 'Cajochen, C., et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep. Lighting Research & Technology, 54(6), 609–624.', url: 'https://doi.org/10.1177/14771535221078765' },
+              ],
+            },
+          },
+          {
+            name: 'Quiet Bedroom',
+            insight: 'The brain keeps processing sound during sleep, so noise fragments it even without fully waking you.',
+            levels: { gentle: 'Reduce one noise source', moderate: 'Earplugs or white noise', deep: 'Consistent quiet environment' },
+            science: {
+              why: 'The brain continues to process sound during sleep, so noise fragments it even when it does not fully wake you.',
+              research: 'A WHO systematic review and meta-analysis of 74 studies found that environmental noise increases awakenings and self-reported sleep disturbance, reducing sleep continuity and time in deep and REM sleep. Earplugs or white noise can help where the noise source itself cannot be removed.',
+              sources: [
+                { text: 'Basner, M., & McGuire, S. (2018). WHO Environmental Noise Guidelines for the European Region: A systematic review on environmental noise and effects on sleep. International Journal of Environmental Research and Public Health, 15(3), 519.', url: 'https://doi.org/10.3390/ijerph15030519' },
+              ],
+            },
+          },
+          {
+            name: 'Bed = Sleep',
+            insight: 'The brain learns to associate the bed with whatever it is repeatedly used for.',
+            levels: { gentle: 'No phone in bed', moderate: 'No work in bed', deep: 'Bed only for sleep' },
+            science: {
+              why: 'The brain learns to associate the bed with whatever it is repeatedly used for.',
+              research: 'Stimulus control — the practice of reserving the bed for sleep — is recommended as a single-component therapy in the AASM clinical practice guideline, which was built on a GRADE-assessed systematic review and meta-analysis. Working, scrolling, or watching television in bed weakens the bed–sleep association over time.',
+              sources: [
+                { text: 'Edinger, J. D., et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: An AASM clinical practice guideline. Journal of Clinical Sleep Medicine, 17(2), 255–262.', url: 'https://doi.org/10.5664/jcsm.8986' },
+              ],
+            },
+          },
+          {
+            name: 'Alcohol Timing',
+            insight: 'Alcohol can speed sleep onset but degrades sleep quality later in the night.',
+            levels: { gentle: 'Alcohol-free 2h before bed', moderate: 'Alcohol-free 3h before bed', deep: 'Skip alcohol on weekdays' },
+            science: {
+              why: 'Alcohol can speed sleep onset but degrades sleep quality later in the night.',
+              research: 'A systematic review and meta-analysis of 27 controlled studies found that alcohol disrupts REM sleep in a dose-dependent way, delaying its onset and reducing its duration even at low doses of around two standard drinks, and worsening with higher doses. Higher doses shorten sleep onset latency, but at the cost of greater REM disruption, so alcohol is not an appropriate sleep aid.',
+              sources: [
+                { text: 'Gardiner, C. L., et al. (2025). The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis. Sleep Medicine Reviews, 80, 102030.', url: 'https://doi.org/10.1016/j.smrv.2024.102030' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        name: 'Social Accountability',
+        families: [
+          {
+            name: 'Share Tomorrow’s Goal',
+            insight: 'Deciding in advance exactly what you will do, and committing to it, makes follow-through more likely.',
+            levels: { gentle: 'Share one sleep intention', moderate: 'Share your bedtime target', deep: 'Review together the next day' },
+            science: {
+              why: 'Deciding in advance exactly what you will do, and committing to it, makes follow-through more likely.',
+              research: 'A meta-analysis of 94 independent tests found that forming implementation intentions — specific if-then plans linking a behaviour to a cue — had a medium-to-large effect on goal attainment. Meta-reviews of health behaviour change similarly identify goal setting, commitment, and monitoring among the more effective techniques.',
+              sources: [
+                { text: 'Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology, 38, 69–119.', url: 'https://doi.org/10.1016/S0065-2601(06)38002-1' },
+                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
+              ],
+            },
+          },
+          {
+            name: 'Celebrate Progress',
+            insight: 'Feedback on progress reinforces new habits and sustains motivation.',
+            levels: { gentle: 'Congratulate one teammate', moderate: 'Celebrate weekly wins', deep: 'Build a shared streak' },
+            science: {
+              why: 'Feedback on progress reinforces new habits and sustains motivation.',
+              research: 'Reviews of behaviour change consistently find that feedback and self-monitoring are among the most frequently used and effective techniques, and that acknowledging progress strengthens motivation. An umbrella review of digital health interventions reached the same conclusion across a large pooled evidence base.',
+              sources: [
+                { text: 'Mair, J. L., et al. (2023). Effective behavior change techniques in digital health interventions for the prevention or management of noncommunicable diseases: An umbrella review. Annals of Behavioral Medicine, 57(10), 817–835.', url: 'https://doi.org/10.1093/abm/kaad041' },
+                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
+              ],
+            },
+          },
+          {
+            name: 'Reflect Together',
+            insight: 'Reviewing what worked helps people learn from experience and stay engaged.',
+            levels: { gentle: 'Share one thing that helped', moderate: 'Share one lesson learned', deep: 'Weekly Circle reflection' },
+            science: {
+              why: 'Reviewing what worked helps people learn from experience and stay engaged.',
+              research: 'Self-monitoring and reflection are core components of effective behaviour change, and a meta-review of self-regulatory techniques across diet, activity, and weight outcomes (drawing on 30 meta-analyses and more than 400,000 participants) found goal setting and self-monitoring to be among the most examined and useful techniques. Sharing reflections adds accountability.',
+              sources: [
+                { text: 'Spring, B., et al. (2020). Self-regulatory behaviour change techniques in interventions to promote healthy eating, physical activity, or weight loss: A meta-review. Health Psychology Review, 15(4), 508–539.', url: 'https://doi.org/10.1080/17437199.2020.1721310' },
+                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
+              ],
+            },
+          },
+        ],
+      },
     ],
   },
   {
-    id:'eat', name:'GoodEat', tagline:'Eat for energy, rhythm, and connection',
-    blurb:'Nourish well, find a steady eating rhythm, and bring presence and people back to the table.',
-    accent:'oklch(0.56 0.2 47)', bar:'oklch(0.62 0.2 47)', soft:'oklch(0.96 0.04 47)', img:'uploads/eat.png',
-    categories:[
-      { name:'Nourish', evidence:'Protein, plants and minimally processed foods do the heaviest lifting for long-term metabolic health.', practices:[
-        { level:'gentle',   text:'Add a source of protein to every main meal',        insight:'Protein at each meal preserves muscle as you age and keeps you fuller for longer.' },
-        { level:'gentle',   text:'Eat two portions of vegetables today',              insight:'Higher vegetable intake is linked to lower risk of heart disease and all-cause mortality.' },
-        { level:'gentle',   text:'Replace one ultra-processed snack with fruit or nuts',insight:'Swapping ultra-processed snacks cuts excess salt, sugar and additives tied to poorer health.' },
-        { level:'gentle',   text:'Drink water before each meal',                      insight:'Water before meals aids satiety and stops thirst being mistaken for hunger.' },
-        { level:'moderate', text:'Build every lunch around protein and vegetables',   insight:'Protein-and-vegetable meals steady blood sugar and curb the afternoon energy crash.' },
-        { level:'moderate', text:'Include legumes or whole grains three times this week',insight:'Legumes and whole grains feed gut bacteria and help lower cholesterol and inflammation.' },
-        { level:'moderate', text:'Reach your personal daily protein target',          insight:'Meeting a protein target protects against age-related muscle loss (sarcopenia).' },
-        { level:'moderate', text:'Eat 20 different plant foods during the week',      insight:'Plant diversity is the strongest dietary predictor of a healthy gut microbiome.' },
-        { level:'deep',     text:'Plan all weekday lunches and dinners in advance',   insight:'Planning meals reduces reliance on convenience food and improves overall diet quality.' },
-        { level:'deep',     text:'Avoid ultra-processed foods for five consecutive days',insight:'Cutting ultra-processed foods quickly lowers calorie intake and improves metabolic markers.' },
-        { level:'deep',     text:'Keep a simple food journal for the entire week',    insight:'Simply recording what you eat raises awareness and supports lasting dietary change.' },
-      ]},
-      { name:'Rhythm', evidence:'A regular eating window aligns your metabolism with your circadian clock.', practices:[
-        { level:'gentle',   text:'Eat breakfast (or your first meal) at a consistent time',insight:'Eating on a regular schedule helps align your metabolism with your body clock.' },
-        { level:'gentle',   text:'Avoid eating after 10pm',                           insight:'Late-night eating works against your circadian rhythm and metabolic health.' },
-        { level:'gentle',   text:'Sit down for every main meal',                      insight:'Sitting to eat slows the meal and supports better digestion and fullness signalling.' },
-        { level:'gentle',   text:'Leave at least 2 hours between dinner and sleep',   insight:'A gap before bed lets digestion settle and protects your sleep quality.' },
-        { level:'moderate', text:'Keep a consistent 12-hour eating window',           insight:'A steady eating window gives the gut a nightly rest and supports metabolic health.' },
-        { level:'moderate', text:'Avoid unnecessary snacking between meals',          insight:'Fewer eating occasions steady insulin and let the body burn fat between meals.' },
-        { level:'moderate', text:'Eat lunch before 2pm',                              insight:'Eating the main meal earlier is associated with better weight and glucose control.' },
-        { level:'deep',     text:'Maintain your chosen eating window for 30 days',    insight:'Sustained time-restricted eating can improve blood sugar, lipids and energy over weeks.' },
-        { level:'deep',     text:'Avoid food within 3 hours of bedtime',              insight:'An early last meal aligns digestion with your body clock and deepens sleep.' },
-        { level:'deep',     text:'Intermittent fasting 5 times per week or more',    insight:'Regular fasting periods may improve insulin sensitivity and cellular repair (autophagy).' },
-      ]},
-      { name:'Presence', evidence:'Eating slowly and without distraction improves digestion and lets fullness signals reach the brain in time.', practices:[
-        { level:'gentle',   text:'Eat one meal each day without your phone',          insight:'Phone-free meals slow eating and reduce the mindless overeating that distraction drives.' },
-        { level:'gentle',   text:'Spend at least 20 minutes on one meal',             insight:'Eating more slowly gives fullness signals time to reach the brain, reducing overeating.' },
-        { level:'gentle',   text:'Notice one flavour you normally overlook',          insight:'Paying attention to taste increases meal satisfaction and curbs the urge for more.' },
-        { level:'moderate', text:'Eat every dinner without screens',                  insight:'Screen-free dinners improve portion awareness and the quality of mealtime connection.' },
-        { level:'moderate', text:'Stop eating when comfortably satisfied rather than full',insight:'Tuning into satiety, not the plate, naturally calibrates your portion size.' },
-        { level:'deep',     text:'Practice mindful eating for one meal every day',    insight:'Mindful eating is shown to reduce binge episodes and emotional eating.' },
-        { level:'deep',     text:'Never multitask while eating',                      insight:'Undistracted eating improves both digestion and how satisfying the meal feels.' },
-      ]},
-      { name:'Share', evidence:'Shared meals are a cornerstone of the world\'s longest-lived communities.', practices:[
-        { level:'gentle',   text:'Share one meal this week with a friend or family member',insight:'Shared meals are a cornerstone of the world\'s longest-lived communities.' },
-        { level:'gentle',   text:'Exchange one healthy recipe with your Circle',      insight:'Swapping recipes spreads healthy habits through your social network.' },
-        { level:'moderate', text:'Organise a healthy lunch or dinner with someone once a week',insight:'Regular shared meals build the routine connection linked to longevity.' },
-        { level:'moderate', text:'Eat one meal this week without anyone using a phone at the table',insight:'Device-free shared meals improve conversation quality and connection.' },
-        { level:'deep',     text:'Host a GoodEat Table with friends or family',       insight:'Hosting around health and conviviality blends two longevity factors: diet and community.' },
-        { level:'deep',     text:'Invite someone who might otherwise eat alone to join you',insight:'Including others combats loneliness, itself a major risk to health and lifespan.' },
-      ]},
+    id: 'eat',
+    name: 'GoodEat',
+    tagline: 'Eat for energy, rhythm, and connection',
+    blurb: 'Nourish well, find a steady eating rhythm, and bring presence and people back to the table.',
+    accent: 'oklch(0.62 0.2 47)',
+    accent2: 'oklch(0.68 0.2 55)',
+    soft: 'oklch(0.955 0.055 60)',
+    img: 'uploads/eat.png',
+    categories: [
+      {
+        name: 'Nourish',
+        evidence: 'What you eat shapes long-term metabolic health; protein, plants and minimally processed foods do the heaviest lifting.',
+        practices: [
+          { level: 'gentle',   text: 'Add a source of protein to every main meal',                     insight: 'Protein at each meal preserves muscle as you age and keeps you fuller for longer.' },
+          { level: 'gentle',   text: 'Eat two portions of vegetables today',                           insight: 'Higher vegetable intake is linked to lower risk of heart disease and all-cause mortality.' },
+          { level: 'gentle',   text: 'Replace one ultra-processed snack with fruit or nuts',           insight: 'Swapping ultra-processed snacks cuts excess salt, sugar and additives tied to poorer health.' },
+          { level: 'gentle',   text: 'Drink water before each meal',                                   insight: 'Water before meals aids satiety and stops thirst being mistaken for hunger.' },
+          { level: 'moderate', text: 'Build every lunch around protein and vegetables',                insight: 'Protein-and-vegetable meals steady blood sugar and curb the afternoon energy crash.' },
+          { level: 'moderate', text: 'Include legumes or whole grains three times this week',          insight: 'Legumes and whole grains feed gut bacteria and help lower cholesterol and inflammation.' },
+          { level: 'moderate', text: 'Reach your personal daily protein target',                       insight: 'Meeting a protein target protects against age-related muscle loss (sarcopenia).' },
+          { level: 'moderate', text: 'Eat 20 different plant foods during the week',                   insight: 'Plant diversity is the strongest dietary predictor of a healthy, varied gut microbiome.' },
+          { level: 'deep',     text: 'Plan all weekday lunches and dinners in advance',                insight: 'Planning meals reduces reliance on convenience food and improves overall diet quality.' },
+          { level: 'deep',     text: 'Avoid ultra-processed foods for five consecutive days',          insight: 'Cutting ultra-processed foods quickly lowers calorie intake and improves metabolic markers.' },
+          { level: 'deep',     text: 'Prioritise seasonal and minimally processed ingredients',        insight: 'Minimally processed, seasonal foods retain more nutrients and carry fewer additives.' },
+          { level: 'deep',     text: 'Keep a simple food journal for the entire week',                 insight: 'Simply recording what you eat raises awareness and supports lasting dietary change.' },
+        ],
+      },
+      {
+        name: 'Rhythm',
+        evidence: 'When you eat matters too: a regular eating window aligns your metabolism with your circadian clock.',
+        practices: [
+          { level: 'gentle',   text: 'Eat breakfast (or your first meal) at a consistent time',        insight: 'Eating on a regular schedule helps align your metabolism with your body clock.' },
+          { level: 'gentle',   text: 'Avoid eating after 10pm',                                        insight: 'Late-night eating works against your circadian rhythm and is linked to poorer metabolic health.' },
+          { level: 'gentle',   text: 'Sit down for every main meal',                                   insight: 'Sitting to eat slows the meal and supports better digestion and fullness signalling.' },
+          { level: 'gentle',   text: 'Leave at least 2 hours between dinner and sleep',                insight: 'A gap before bed lets digestion settle and protects your sleep quality.' },
+          { level: 'moderate', text: 'Keep a consistent 12-hour eating window',                        insight: 'A steady eating window gives the gut a nightly rest and supports metabolic health.' },
+          { level: 'moderate', text: 'Avoid unnecessary snacking between meals',                       insight: 'Fewer eating occasions steady insulin and let the body burn fat between meals.' },
+          { level: 'moderate', text: 'Eat lunch before 2pm',                                           insight: 'Eating the main meal earlier is associated with better weight and glucose control.' },
+          { level: 'moderate', text: 'Finish dinner at roughly the same time every day',               insight: 'A regular dinner time reinforces your circadian rhythm and overnight metabolism.' },
+          { level: 'deep',     text: 'Maintain your chosen eating window for 30 days',                 insight: 'Sustained time-restricted eating can improve blood sugar, lipids and energy over weeks.' },
+          { level: 'deep',     text: 'Avoid food within 3 hours of bedtime',                           insight: 'An early last meal aligns digestion with your body clock and deepens sleep.' },
+          { level: 'deep',     text: "Plan your week’s meal schedule every Sunday",               insight: 'Weekly planning smooths your eating rhythm and removes daily decision fatigue.' },
+          { level: 'deep',     text: 'Reserve one meal each week for slow, uninterrupted eating',      insight: 'Slow, unhurried eating improves digestion and helps you recognise fullness.' },
+          { level: 'deep',     text: 'Intermittent fasting 5 times per week or more',                 insight: 'Regular fasting periods may improve insulin sensitivity and cellular repair (autophagy).' },
+        ],
+      },
+      {
+        name: 'Presence',
+        evidence: 'Eating slowly and without distraction improves digestion and lets fullness signals reach the brain in time.',
+        practices: [
+          { level: 'gentle',   text: 'Eat one meal each day without your phone',                       insight: 'Phone-free meals slow eating and reduce the mindless overeating that distraction drives.' },
+          { level: 'gentle',   text: 'Take one deep breath before eating',                             insight: 'A pause before eating shifts you into “rest-and-digest” mode for better digestion.' },
+          { level: 'gentle',   text: 'Spend at least 20 minutes on one meal',                          insight: 'Eating more slowly gives fullness signals time to reach the brain, reducing overeating.' },
+          { level: 'gentle',   text: 'Notice one flavour you normally overlook',                       insight: 'Paying attention to taste increases meal satisfaction and curbs the urge for more.' },
+          { level: 'moderate', text: 'Eat every dinner without screens',                               insight: 'Screen-free dinners improve portion awareness and the quality of mealtime connection.' },
+          { level: 'moderate', text: 'Stop eating when comfortably satisfied rather than full',        insight: 'Tuning into satiety, not the plate, naturally calibrates your portion size.' },
+          { level: 'moderate', text: 'Chew slowly during the first five minutes of each meal',         insight: 'Thorough chewing aids digestion and slows the meal enough to register fullness.' },
+          { level: 'moderate', text: 'Express gratitude for one aspect of your meal',                  insight: 'Savouring and gratitude at meals heighten enjoyment and reduce stress eating.' },
+          { level: 'deep',     text: 'Practice mindful eating for one meal every day',                 insight: 'Mindful eating is shown to reduce binge episodes and emotional eating.' },
+          { level: 'deep',     text: 'Create a pleasant table setting even when eating alone',         insight: 'A cared-for setting turns eating into a ritual that supports slower, calmer meals.' },
+          { level: 'deep',     text: 'Never multitask while eating',                                   insight: 'Undistracted eating improves both digestion and how satisfying the meal feels.' },
+          { level: 'deep',     text: 'End each meal with one reflection on how it made you feel',      insight: 'Reflecting on meals builds the body awareness that guides healthier future choices.' },
+        ],
+      },
+      {
+        name: 'Share',
+        evidence: '',
+        practices: [
+          { level: 'gentle',   text: 'Share one meal this week with a friend, family member or colleague', insight: 'Shared meals are a cornerstone of the world’s longest-lived communities.' },
+          { level: 'gentle',   text: 'Exchange one healthy recipe with your Circle',                        insight: 'Swapping recipes spreads healthy habits through your social network.' },
+          { level: 'gentle',   text: 'Send a message inviting someone to have coffee or lunch',             insight: 'Reaching out strengthens the social bonds that protect long-term health.' },
+          { level: 'moderate', text: 'Organise a healthy lunch or dinner with another person once a week',  insight: 'Regular shared meals build the routine connection linked to longevity.' },
+          { level: 'moderate', text: "Cook a meal inspired by a Circle member’s recommendation",      insight: 'Trying others’ dishes broadens your diet and deepens community ties.' },
+          { level: 'moderate', text: 'Eat one meal this week without anyone using a phone at the table',   insight: 'Device-free shared meals improve conversation quality and connection.' },
+          { level: 'moderate', text: 'Introduce one meaningful conversation question during a shared meal', insight: 'Meaningful table talk turns eating into a source of belonging, not just fuel.' },
+          { level: 'deep',     text: 'Host a GoodEat Table with friends or family centred on health and conviviality', insight: 'Hosting around health and conviviality blends two longevity factors: diet and community.' },
+          { level: 'deep',     text: 'Invite someone who might otherwise eat alone to join you',            insight: 'Including others combats loneliness, itself a major risk to health and lifespan.' },
+          { level: 'deep',     text: 'Share with your Circle one story or lesson from that meal',           insight: 'Storytelling around food strengthens the social fabric of your Circle.' },
+          { level: 'deep',     text: 'Ask everyone at the table: “What is one thing you hope to give more of to others this year?”', insight: 'Conversations about generosity deepen relationships and a sense of purpose.' },
+        ],
+      },
+      {
+        name: 'Celebrate',
+        evidence: '',
+        practices: [
+          { level: 'gentle',   text: 'Cook a family recipe with a younger generation',          insight: 'Passing recipes across generations preserves identity and strengthens family bonds.' },
+          { level: 'moderate', text: 'Share a meaningful food memory with your Circle',         insight: 'Recalling meaningful meals deepens connection and a shared sense of belonging.' },
+          { level: 'moderate', text: 'Thank the person who prepared your meal',                 insight: 'Expressing thanks strengthens relationships and lifts wellbeing on both sides.' },
+          { level: 'deep',     text: 'Invite someone new to your table',                        insight: 'Widening your table builds the new connections that enrich a long life.' },
+        ],
+      },
     ],
   },
   {
-    id:'move', name:'GoodMove', tagline:'Movement woven through every day',
-    blurb:'Build steady daily movement, strength, and the joy of moving alongside others.',
-    accent:'oklch(0.52 0.14 74)', bar:'oklch(0.62 0.155 76)', soft:'oklch(0.95 0.05 74)', img:'uploads/move.png',
-    categories:[
-      { name:'Daily practices', evidence:'Steps, strength and cardio each lower mortality risk through different, complementary pathways.', practices:[
-        { level:'gentle',   text:'7,000 steps a day',                                 insight:'Around 7,000 steps a day is linked to a sharply lower risk of early death.' },
-        { level:'gentle',   text:'5-minute mobility flow every morning',              insight:'A short morning mobility flow improves joint range and reduces stiffness through the day.' },
-        { level:'gentle',   text:'Take the stairs instead of the elevator',           insight:'Stair climbing is a potent micro-workout that improves cardiovascular fitness.' },
-        { level:'gentle',   text:'Stand up every 60 minutes during work',             insight:'Breaking up sitting improves blood sugar and circulation, independent of exercise.' },
-        { level:'moderate', text:'8–10k steps daily',                                 insight:'Higher daily step counts keep lowering mortality risk up to around 10,000.' },
-        { level:'moderate', text:'2 strength sessions per week',                      insight:'Two weekly strength sessions preserve muscle and bone and lower all-cause mortality.' },
-        { level:'moderate', text:'1 cardio session of 30–45 minutes per week',        insight:'Regular cardio strengthens the heart and raises the VO₂ max tied to longevity.' },
-        { level:'moderate', text:'10 minutes of mobility or stretching, 4x a week',  insight:'Frequent mobility work maintains flexibility and reduces injury risk as you age.' },
-        { level:'deep',     text:'10,000+ steps daily',                               insight:'Higher activity volumes add further gains in fitness, mood and metabolic health.' },
-        { level:'deep',     text:'3 strength sessions per week',                      insight:'Three sessions accelerate strength and muscle gains for power and independence with age.' },
-        { level:'deep',     text:'1 VO₂ max session per week',                        insight:'VO₂ max is one of the strongest single predictors of long-term survival.' },
-        { level:'deep',     text:'Daily mobility, 15 minutes',                        insight:'Daily mobility builds lasting flexibility and resilient, well-moving joints.' },
-      ]},
-      { name:'Social & stretch practices', evidence:'Moving with others improves consistency and makes activity far more likely to stick.', practices:[
-        { level:'gentle',   text:'20-minute walk with a friend or colleague',         insight:'Walking with others combines movement with the social connection that supports health.' },
-        { level:'gentle',   text:'Walk-and-talk call instead of a seated call',       insight:'Turning calls into walks adds easy activity and breaks up prolonged sitting.' },
-        { level:'moderate', text:'One Circle walking challenge',                      insight:'Shared goals boost motivation and make activity far more likely to stick.' },
-        { level:'moderate', text:'One partner workout during the month',              insight:'Exercising with a partner improves consistency and accountability.' },
-        { level:'deep',     text:'Complete one physical challenge: a 10km hike, swim, dance event or cycling challenge',insight:'Training toward a challenge builds fitness and a rewarding sense of achievement.' },
-        { level:'deep',     text:'Lead one movement session for your Circle (even 10 min on Zoom)',insight:'Leading others reinforces your own habit and strengthens your Circle\'s bonds.' },
-      ]},
+    id: 'move',
+    name: 'GoodMove',
+    tagline: 'Movement woven through every day',
+    blurb: 'Build steady daily movement, strength, and the joy of moving alongside others.',
+    accent: 'oklch(0.62 0.155 76)',
+    accent2: 'oklch(0.72 0.175 88)',
+    soft: 'oklch(0.955 0.06 92)',
+    img: 'uploads/move.png',
+    categories: [
+      {
+        name: 'Daily practices',
+        evidence: 'Steps, strength and cardio each lower mortality risk through different, complementary pathways.',
+        practices: [
+          { level: 'gentle',   text: '7,000 steps a day',                                              insight: 'Around 7,000 steps a day is linked to a sharply lower risk of early death.' },
+          { level: 'gentle',   text: '5-minute mobility flow every morning',                           insight: 'A short morning mobility flow improves joint range and reduces stiffness through the day.' },
+          { level: 'gentle',   text: 'Take the stairs instead of the elevator',                        insight: 'Stair climbing is a potent micro-workout that improves cardiovascular fitness.' },
+          { level: 'gentle',   text: 'Stand up every 60 minutes during work',                          insight: 'Breaking up sitting improves blood sugar and circulation, independent of exercise.' },
+          { level: 'moderate', text: '8–10k steps daily',                                         insight: 'Higher daily step counts keep lowering mortality risk up to around 10,000.' },
+          { level: 'moderate', text: '2 strength sessions per week',                                   insight: 'Two weekly strength sessions preserve muscle and bone and lower all-cause mortality.' },
+          { level: 'moderate', text: '1 cardio session of 30–45 minutes per week',                insight: 'Regular cardio strengthens the heart and raises the VO₂ max tied to longevity.' },
+          { level: 'moderate', text: '10 minutes of mobility or stretching, 4x a week',               insight: 'Frequent mobility work maintains flexibility and reduces injury risk as you age.' },
+          { level: 'deep',     text: '10k+ steps daily',                                               insight: 'Higher activity volumes add further gains in fitness, mood and metabolic health.' },
+          { level: 'deep',     text: '3 strength sessions per week',                                   insight: 'Three sessions accelerate strength and muscle gains for power and independence with age.' },
+          { level: 'deep',     text: '1 VO₂ max session per week',                               insight: 'VO₂ max is one of the strongest single predictors of long-term survival.' },
+          { level: 'deep',     text: 'Daily mobility, 15 minutes',                                     insight: 'Daily mobility builds lasting flexibility and resilient, well-moving joints.' },
+        ],
+      },
+      {
+        name: 'Social & stretch practices',
+        evidence: '',
+        practices: [
+          { level: 'gentle',   text: '20-minute walk with a friend or colleague',                      insight: 'Walking with others combines movement with the social connection that supports health.' },
+          { level: 'gentle',   text: 'Walk-and-talk call instead of a seated call',                   insight: 'Turning calls into walks adds easy activity and breaks up prolonged sitting.' },
+          { level: 'moderate', text: 'One Circle walking challenge',                                   insight: 'Shared goals boost motivation and make activity far more likely to stick.' },
+          { level: 'moderate', text: 'One partner workout during the month',                           insight: 'Exercising with a partner improves consistency and accountability.' },
+          { level: 'deep',     text: 'Complete one physical challenge: a 10km hike, swim, dance event, or cycling challenge', insight: 'Training toward a challenge builds fitness and a rewarding sense of achievement.' },
+          { level: 'deep',     text: 'Lead one movement session for your Circle (even 10 minutes on Zoom)', insight: 'Leading others reinforces your own habit and strengthens your Circle’s bonds.' },
+        ],
+      },
     ],
   },
   {
-    id:'mind', name:'GoodMind', tagline:'Attention, calm, and connection',
-    blurb:'Train a steadier mind through breath, reflection, and honest connection with others.',
-    accent:'oklch(0.5 0.13 128)', bar:'#AECE36', soft:'oklch(0.96 0.06 120)', img:'uploads/mind.png',
-    categories:[
-      { name:'Daily practices', evidence:'Brief, regular practices in attention and reflection compound into measurable reductions in stress and anxiety.', practices:[
-        { level:'gentle',   text:'2 minutes of conscious breathing daily',            insight:'Even brief daily breathing practice lowers stress reactivity and calms the nervous system.' },
-        { level:'gentle',   text:'No phone for the first 15 minutes after waking',   insight:'A phone-free start protects your attention and sets a calmer tone for the day.' },
-        { level:'gentle',   text:'Write 3 gratitude lines before sleep',              insight:'Regular gratitude practice is reliably linked to higher wellbeing and lower stress.' },
-        { level:'gentle',   text:'5 minutes of quiet reflection',                    insight:'Short daily stillness builds the attention control that buffers against stress.' },
-        { level:'moderate', text:'10-minute meditation, 4x a week',                  insight:'Regular meditation measurably reduces anxiety and improves emotional regulation.' },
-        { level:'moderate', text:'Daily emotional check-in ("What am I feeling?")',  insight:'Naming feelings reduces their intensity and improves self-regulation.' },
-        { level:'moderate', text:'1 hour of distraction-free deep work a day',       insight:'Protected, distraction-free focus strengthens attention and a sense of accomplishment.' },
-        { level:'moderate', text:'One screen-light evening per week',                insight:'Periodic breaks from screens reduce overstimulation and improve mood and sleep.' },
-        { level:'moderate', text:'Leave your phone at home when going to sports or a restaurant',insight:'Time away from your phone deepens presence and the quality of real-world connection.' },
-        { level:'deep',     text:'15–20 minute meditation daily',                    insight:'Longer daily practice produces larger, lasting gains in attention and calm.' },
-        { level:'deep',     text:'Daily journaling',                                  insight:'Expressive writing reduces rumination and improves both mood and stress resilience.' },
-        { level:'deep',     text:'One half-day digital detox per week',               insight:'Regular digital breaks reset attention and ease the low mood linked to heavy use.' },
-        { level:'deep',     text:'Practice cognitive reframing under stress',         insight:'Reframing stressful thoughts is a core CBT skill shown to lower anxiety.' },
-      ]},
-      { name:'Social & stretch practices', evidence:'Honest connection with others is as protective of mental health as any individual practice.', practices:[
-        { level:'gentle',   text:'Send one thoughtful message to someone you appreciate',insight:'Small acts of reaching out strengthen relationships and lift both people\'s mood.' },
-        { level:'gentle',   text:'Have one meaningful conversation during the month', insight:'Deeper conversations, more than small talk, are associated with greater happiness.' },
-        { level:'moderate', text:'Weekly Circle check-in: "What drained you? What nourished you?"',insight:'Honest sharing builds the trust and belonging that protect mental health.' },
-        { level:'moderate', text:'Share one personal reflection in the group',        insight:'Expressing vulnerability deepens connection and reduces feelings of isolation.' },
-        { level:'deep',     text:'Offer one act of service during the month: mentor, help, listen, or volunteer',insight:'Helping others reliably boosts the helper\'s own wellbeing and sense of purpose.' },
-        { level:'deep',     text:'Host a deep conversation: "What changed you? What do you fear? Who are you becoming?"',insight:'Meaningful dialogue fosters the close relationships central to a long, good life.' },
-      ]},
+    id: 'mind',
+    name: 'GoodMind',
+    tagline: 'Attention, calm, and connection',
+    blurb: 'Train a steadier mind through breath, reflection, and honest connection with others.',
+    accent: '#AECE36',
+    accent2: 'oklch(0.82 0.17 122)',
+    soft: 'oklch(0.95 0.08 120)',
+    light: true,
+    img: 'uploads/mind.png',
+    categories: [
+      {
+        name: 'Daily practices',
+        evidence: 'Brief, regular practices in attention and reflection compound into measurable reductions in stress and anxiety.',
+        practices: [
+          { level: 'gentle',   text: '2 minutes of conscious breathing daily',                        insight: 'Even brief daily breathing practice lowers stress reactivity and calms the nervous system.' },
+          { level: 'gentle',   text: 'No phone for the first 15 minutes after waking',                insight: 'A phone-free start protects your attention and sets a calmer tone for the day.' },
+          { level: 'gentle',   text: 'Write 3 gratitude lines before sleep',                          insight: 'Regular gratitude practice is reliably linked to higher wellbeing and lower stress.' },
+          { level: 'gentle',   text: '5 minutes of quiet reflection',                                 insight: 'Short daily stillness builds the attention control that buffers against stress.' },
+          { level: 'moderate', text: '10-minute meditation, 4x a week',                               insight: 'Regular meditation measurably reduces anxiety and improves emotional regulation.' },
+          { level: 'moderate', text: 'Daily emotional check-in (“What am I feeling?”)',      insight: 'Naming feelings (“affect labelling”) reduces their intensity and improves self-regulation.' },
+          { level: 'moderate', text: '1 hour of distraction-free deep work a day',                    insight: 'Protected, distraction-free focus strengthens attention and a sense of accomplishment.' },
+          { level: 'moderate', text: 'One screen-light evening per week',                             insight: 'Periodic breaks from screens reduce overstimulation and improve mood and sleep.' },
+          { level: 'moderate', text: 'Leave your phone at home when going to sports or a restaurant', insight: 'Time away from your phone deepens presence and the quality of real-world connection.' },
+          { level: 'deep',     text: '15–20 minute meditation daily',                            insight: 'Longer daily practice produces larger, lasting gains in attention and calm.' },
+          { level: 'deep',     text: 'Daily journaling',                                              insight: 'Expressive writing reduces rumination and improves both mood and stress resilience.' },
+          { level: 'deep',     text: 'One half-day digital detox per week',                           insight: 'Regular digital breaks reset attention and ease the low mood linked to heavy use.' },
+          { level: 'deep',     text: 'Practice cognitive reframing under stress',                     insight: 'Reframing stressful thoughts is a core CBT skill shown to lower anxiety.' },
+        ],
+      },
+      {
+        name: 'Social & stretch practices',
+        evidence: '',
+        practices: [
+          { level: 'gentle',   text: 'Send one thoughtful message a week to someone you appreciate',  insight: 'Small acts of reaching out strengthen relationships and lift both people’s mood.' },
+          { level: 'gentle',   text: 'Have one meaningful conversation during the month',             insight: 'Deeper conversations, more than small talk, are associated with greater happiness.' },
+          { level: 'moderate', text: 'One Circle vulnerability check-in weekly: “What drained you? What nourished you?”', insight: 'Honest sharing builds the trust and belonging that protect mental health.' },
+          { level: 'moderate', text: 'Share one personal reflection in the WhatsApp group',           insight: 'Expressing vulnerability deepens connection and reduces feelings of isolation.' },
+          { level: 'deep',     text: 'Offer one act of service during the month: mentor, help, listen, or volunteer', insight: 'Helping others reliably boosts the helper’s own wellbeing and sense of purpose.' },
+          { level: 'deep',     text: 'Host a deep conversation with another participant: “What changed you? What do you fear? Who are you becoming?”', insight: 'Meaningful dialogue fosters the close relationships central to a long, good life.' },
+        ],
+      },
     ],
   },
 ];
 
 const PEOPLE = [
-  { initial:'M', bg:'oklch(0.4 0.09 158)', ink:'#fff' },
-  { initial:'K', bg:'oklch(0.62 0.155 76)', ink:'#fff' },
-  { initial:'A', bg:'oklch(0.5 0.13 128)', ink:'#fff' },
-  { initial:'J', bg:'oklch(0.56 0.2 47)', ink:'#fff' },
-  { initial:'S', bg:'oklch(0.7 0.155 128)', ink:'oklch(0.26 0.05 140)' },
+  { initial:'M', bg:'oklch(0.4 0.09 158)',   ink:'#fff' },
+  { initial:'K', bg:'oklch(0.68 0.19 88)',   ink:'oklch(0.32 0.09 85)' },
+  { initial:'A', bg:'#AECE36',               ink:'oklch(0.32 0.08 128)' },
+  { initial:'J', bg:'oklch(0.62 0.2 47)',    ink:'#fff' },
+  { initial:'S', bg:'oklch(0.48 0.115 150)', ink:'#fff' },
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
 let state = { step: 1, themeId: null, levelId: null, selected: {} };
 
-function theme()  { return SEASONS.find(s => s.id === state.themeId); }
-function level()  { return LEVELS.find(l => l.id === state.levelId); }
-function accent() { return theme()?.accent || '#2C4636'; }
-function bar()    { return theme()?.bar || accent(); }
-function soft()   { return theme()?.soft || '#F5F5F4'; }
+function theme()   { return SEASONS.find(s => s.id === state.themeId); }
+function level()   { return LEVELS.find(l => l.id === state.levelId); }
+function accent()  { return theme()?.accent  || '#2C4636'; }
+function accent2() { return theme()?.accent2 || accent(); }
+function soft()    { return theme()?.soft    || '#F5F5F4'; }
+function aInk()    { return theme()?.light   ? 'oklch(0.27 0.04 110)' : '#fff'; }
 
 // ─── STEPPER ─────────────────────────────────────────────────────────────────
 
@@ -398,9 +696,11 @@ function renderStep1() {
 
   // Theme grid
   const grid = document.getElementById('theme-grid');
-  grid.innerHTML = SEASONS.map(s => `
+  grid.innerHTML = SEASONS.map(s => {
+    const ctaInk = s.light ? 'oklch(0.27 0.04 110)' : s.accent;
+    return `
     <button class="theme-card" onclick="selectTheme('${s.id}')">
-      <div style="height:8px;background:${s.bar || s.accent};"></div>
+      <div style="height:8px;background:${s.accent};"></div>
       <div style="position:relative;height:180px;overflow:hidden;">
         <img src="${s.img}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.background='${s.accent}';this.style.height='180px';">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0) 100%);"></div>
@@ -411,10 +711,10 @@ function renderStep1() {
       </div>
       <div style="padding:18px 20px 22px;">
         <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0 0 14px;">${s.blurb}</p>
-        <span style="font-size:13px;font-weight:700;color:${s.accent};">I want to start here →</span>
+        <span style="font-size:13px;font-weight:700;color:${ctaInk};">I want to start here →</span>
       </div>
-    </button>
-  `).join('');
+    </button>`;
+  }).join('');
 }
 
 function selectTheme(id) {
@@ -432,7 +732,7 @@ function renderStep2() {
 
   document.getElementById('level-list').innerHTML = LEVELS.map((l, i) => `
     <button class="level-card" onclick="selectLevel('${l.id}')" style="--accent:${accent()};">
-      <div class="level-badge" style="background:${accent()};">${i + 1}</div>
+      <div class="level-badge" style="background:${accent()};color:${aInk()};">${i + 1}</div>
       <div style="flex:1;">
         <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-0.02em;color:#20251F;">${l.name} <span style="font-family:'Newsreader',serif;font-style:italic;font-weight:400;color:#6B7462;font-size:18px;letter-spacing:0;">— ${l.summary}</span></h3>
         <p style="font-size:14.5px;line-height:1.5;margin:0;color:#5A5F56;">${l.desc}</p>
@@ -453,7 +753,6 @@ function renderStep3() {
   const t = theme();
   const l = level();
 
-  // Update CSS vars on body
   document.documentElement.style.setProperty('--accent', accent());
   document.documentElement.style.setProperty('--soft', soft());
 
@@ -463,28 +762,54 @@ function renderStep3() {
     <button class="chip" style="background:#F5F5F4;color:#5A5F56;" onclick="goToStep(2)">${l.name} level ✕</button>
   `;
 
-  // Filter practices by level (include 'all')
   const practiceList = document.getElementById('practice-list');
   practiceList.innerHTML = t.categories.map(cat => {
-    const practices = cat.practices.filter(p => p.level === state.levelId || p.level === 'all');
-    if (!practices.length) return '';
-    return `
-      <section style="margin-top:36px;">
-        <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
-        ${cat.evidence ? `<p style="font-size:13.5px;font-style:italic;color:#7A8275;margin:0 0 14px;line-height:1.5;">${cat.evidence}</p>` : '<div style="height:12px;"></div>'}
-        ${practices.map((p, pi) => {
-          const key = cat.name + '|' + pi;
-          const sel = !!state.selected[key];
-          return `
-            <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
-              <div class="check-box">${sel ? '✓' : ''}</div>
-              <div>
-                <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${p.text}</div>
-                <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${p.insight}</p>
-              </div>
-            </div>`;
-        }).join('')}
-      </section>`;
+    if (cat.families) {
+      // Sleep: families structure
+      const families = cat.families.filter(f => f.levels[state.levelId]);
+      if (!families.length) return '';
+      return `
+        <section style="margin-top:36px;">
+          <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
+          <div style="height:12px;"></div>
+          ${families.map((fam, famI) => {
+            const key = cat.name + '|fam|' + famI;
+            const sel = !!state.selected[key];
+            const practiceText = fam.levels[state.levelId];
+            return `
+              <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
+                <div class="check-box">${sel ? '✓' : ''}</div>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${accent()};opacity:0.8;margin-bottom:3px;">${fam.name}</div>
+                  <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${practiceText}</div>
+                  <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${fam.insight}</p>
+                  ${fam.science ? `<button onclick="event.stopPropagation();openScience('${encodeURIComponent(cat.name)}',${famI})" style="background:none;border:none;padding:5px 0 0;font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;">The science →</button>` : ''}
+                </div>
+              </div>`;
+          }).join('')}
+        </section>`;
+    } else {
+      // Eat/Move/Mind: flat practices
+      const practices = cat.practices.filter(p => p.level === state.levelId || p.level === 'all');
+      if (!practices.length) return '';
+      return `
+        <section style="margin-top:36px;">
+          <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
+          ${cat.evidence ? `<p style="font-size:13.5px;font-style:italic;color:#7A8275;margin:0 0 14px;line-height:1.5;">${cat.evidence}</p>` : '<div style="height:12px;"></div>'}
+          ${practices.map((p, pi) => {
+            const key = cat.name + '|' + pi;
+            const sel = !!state.selected[key];
+            return `
+              <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
+                <div class="check-box">${sel ? '✓' : ''}</div>
+                <div>
+                  <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${p.text}</div>
+                  <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${p.insight}</p>
+                </div>
+              </div>`;
+          }).join('')}
+        </section>`;
+    }
   }).join('');
 
   updateProgress();
@@ -495,10 +820,8 @@ function togglePractice(encodedKey) {
   if (state.selected[key]) {
     delete state.selected[key];
   } else {
-    // Find practice text to store
     state.selected[key] = true;
   }
-  // Re-render just the changed row
   renderStep3();
 }
 
@@ -506,8 +829,6 @@ function countSelected() { return Object.keys(state.selected).length; }
 
 function updateProgress() {
   const count = countSelected();
-  const t = theme();
-  const catCount = t.categories.filter(c => c.practices.some(p => p.level === state.levelId)).length;
   const meetsMin = count >= 5;
   document.getElementById('sel-count').textContent = `${count} practice${count !== 1 ? 's' : ''} selected`;
   document.getElementById('req-text').textContent = meetsMin ? '✓ Ready to review' : `Select at least 5 to continue`;
@@ -523,11 +844,23 @@ function renderStep4() {
   const l = level();
   const count = countSelected();
 
-  // Build review groups
+  // Build review groups — handle both families and practices
   const groups = t.categories.map(cat => {
-    const practices = cat.practices.filter((p, pi) => state.selected[cat.name + '|' + pi]);
-    return { name: cat.name, practices };
-  }).filter(g => g.practices.length > 0);
+    let items = [];
+    if (cat.families) {
+      items = cat.families
+        .map((fam, famI) => {
+          const key = cat.name + '|fam|' + famI;
+          return state.selected[key] ? { text: fam.levels[state.levelId], label: fam.name } : null;
+        })
+        .filter(Boolean);
+    } else {
+      items = cat.practices
+        .filter((p, pi) => state.selected[cat.name + '|' + pi])
+        .map(p => ({ text: p.text, label: null }));
+    }
+    return { name: cat.name, items };
+  }).filter(g => g.items.length > 0);
 
   document.getElementById('step4-content').innerHTML = `
     <div class="fade-up">
@@ -548,10 +881,10 @@ function renderStep4() {
             <div style="width:8px;height:8px;border-radius:50%;background:${accent()};flex-shrink:0;"></div>
             <h2 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.015em;margin:0;">${g.name}</h2>
           </div>
-          ${g.practices.map(p => `
+          ${g.items.map(item => `
             <div style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#3A3F38;margin-bottom:9px;">
               <span style="color:${accent()};font-weight:700;flex-shrink:0;">✓</span>
-              <span>${p.text}</span>
+              <span>${item.label ? `<span style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${accent()};opacity:0.75;margin-right:6px;">${item.label}</span>` : ''}${item.text}</span>
             </div>`).join('')}
         </div>`).join('')}
 
@@ -571,7 +904,7 @@ function renderStep4() {
       </div>
 
       <div style="margin-top:28px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-        <button class="btn-primary" onclick="goToStep(5)" style="background:${accent()};">Choose your plan →</button>
+        <button class="btn-primary" onclick="goToStep(5)" style="background:${accent()};color:${aInk()};">Choose your plan →</button>
         <button class="btn-back" onclick="goToStep(3)" style="margin:0;">Adjust my practices</button>
       </div>
     </div>`;
@@ -581,33 +914,31 @@ function renderStep4() {
 
 const PLANS = [
   {
-    id: 'single',
-    name: 'Single Season',
-    price: '€29',
-    unit: 'per season',
-    note: null,
-    desc: 'Everything you need for one full Season — your Circle, weekly gatherings, expert facilitation, and the closing gathering on day 30.',
-    features: ['One 30-day Season', 'Circle of 5–7 people', 'Weekly guided gatherings', 'Closing in-person gathering', 'WhatsApp Circle channel'],
+    id: 'one',
+    name: 'One Season',
+    price: '€99',
+    unit: '/ season',
+    note: '€79 if you\'re under 30 or over 70',
+    desc: 'A single 30-day Season, from first practice to the closing gathering.',
+    features: ['Your Circle of 5–7', 'Weekly gatherings + WhatsApp', 'Day 30 closing gathering'],
   },
   {
     id: 'founding',
     name: 'Founding Member',
-    price: '€69',
-    unit: 'per year',
-    note: '€23 per Season',
+    price: '€179',
+    unit: '/ 3 seasons',
     badge: 'Best value',
-    desc: 'Three Seasons across the year at a founding price — try a different theme each time, or deepen your practice in one.',
-    features: ['Three Seasons per year', 'Circle of 5–7 people', 'Weekly guided gatherings', 'Closing in-person gathering', 'WhatsApp Circle channel', 'Priority matching'],
+    desc: 'Three Seasons across the year — the commitment that builds lasting change.',
+    features: ['Everything in One Season', 'Three Seasons to use across the year', 'Founding-member community'],
   },
   {
     id: 'premium',
     name: 'Premium Circle',
-    price: '€99',
-    unit: 'per year',
-    note: '€33 per Season',
-    badge: null,
-    desc: 'Three Seasons with a smaller, more curated Circle and priority access to new Seasons as they open.',
-    features: ['Three Seasons per year', 'Smaller curated Circle (4–5)', 'Weekly guided gatherings', 'Closing in-person gathering', 'WhatsApp Circle channel', 'Priority matching & early access'],
+    price: '€299',
+    unit: '/ 3 seasons',
+    badge: 'Exclusive',
+    desc: 'Three Seasons plus the exclusive benefits of a premium, hand-facilitated Circle.',
+    features: ['Everything in Founding Member', 'A premium, hand-facilitated Circle', 'Exclusive events and perks'],
   },
 ];
 
@@ -630,7 +961,7 @@ function renderStep5() {
             style="position:relative;background:#fff;border:1.5px solid ${selectedPlan === pl.id ? accent() : '#E8E1D3'};border-radius:18px;padding:28px 24px 28px;text-align:left;cursor:pointer;font-family:inherit;transition:transform .2s ease,box-shadow .2s ease,border-color .2s;display:flex;flex-direction:column;gap:0;"
             onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 38px rgba(18,28,45,0.12)'"
             onmouseout="this.style.transform='';this.style.boxShadow=''">
-            ${pl.badge ? `<div style="position:absolute;top:16px;right:16px;background:${accent()};color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;">${pl.badge}</div>` : ''}
+            ${pl.badge ? `<div style="position:absolute;top:16px;right:16px;background:${accent()};color:${aInk()};font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;">${pl.badge}</div>` : ''}
             <div style="font-size:17px;font-weight:700;color:#20251F;margin-bottom:10px;letter-spacing:-0.01em;">${pl.name}</div>
             <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">
               <span style="font-family:'Newsreader',serif;font-size:38px;font-weight:500;color:#20251F;letter-spacing:-0.02em;">${pl.price}</span>
@@ -644,14 +975,14 @@ function renderStep5() {
           </button>`).join('')}
       </div>
 
-      <p style="margin:20px 0 0;font-size:12.5px;line-height:1.6;color:#7A8275;max-width:54em;">Concession pricing of €9 for a single Season is available if you're under 30 or over 70. Founding Member and Premium Circle both include three Seasons across the year.</p>
+      <p style="margin:20px 0 0;font-size:12.5px;line-height:1.6;color:#7A8275;max-width:54em;">Concession pricing of €79 for a single Season is available if you're under 30 or over 70. Founding Member and Premium Circle both include three Seasons across the year.</p>
 
       <div class="footer-bar" id="plan-footer-bar">
         <div>
           <div style="font-size:15px;color:#20251F;font-weight:600;" id="plan-summary">${selectedPlan ? PLANS.find(p=>p.id===selectedPlan).name : 'Select a plan to continue'}</div>
-          <div style="font-size:13px;color:#9AA690;" id="plan-subline">${selectedPlan ? '' : ''}</div>
+          <div style="font-size:13px;color:#9AA690;" id="plan-subline"></div>
         </div>
-        <button class="btn-primary" id="confirm-btn" onclick="handleConfirm()" ${!selectedPlan ? 'disabled' : ''} style="background:${selectedPlan ? accent() : ''};">Confirm &amp; begin →</button>
+        <button class="btn-primary" id="confirm-btn" onclick="handleConfirm()" ${!selectedPlan ? 'disabled' : ''} style="background:${selectedPlan ? accent() : ''};color:${selectedPlan ? aInk() : ''};">Confirm &amp; begin →</button>
       </div>
     </div>`;
 }
@@ -666,7 +997,7 @@ function handleConfirm() {
   const pl = PLANS.find(p => p.id === selectedPlan);
   document.getElementById('step5-content').innerHTML = `
     <div class="fade-up" style="text-align:center;max-width:540px;margin:60px auto 0;">
-      <div style="width:64px;height:64px;border-radius:50%;background:${accent()};color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin:0 auto 24px;">✓</div>
+      <div style="width:64px;height:64px;border-radius:50%;background:${accent()};color:${aInk()};display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin:0 auto 24px;">✓</div>
       <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:46px;line-height:1.03;letter-spacing:-0.03em;margin:26px 0 14px;">Your season <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">begins today.</span></h1>
       <p style="font-size:16.5px;line-height:1.6;color:#5A5F56;margin:0 auto 28px;max-width:30em;">Thirty days of ${t.name}. Your Circle is forming now.</p>
       <div class="avatars" style="justify-content:center;margin:0 auto 32px;">
@@ -677,6 +1008,40 @@ function handleConfirm() {
     </div>`;
   document.querySelector('.footer-bar')?.remove();
 }
+
+// ─── SCIENCE MODAL ───────────────────────────────────────────────────────────
+
+function openScience(encodedCatName, famI) {
+  const catName = decodeURIComponent(encodedCatName);
+  const t = theme();
+  if (!t) return;
+  const cat = t.categories.find(c => c.name === catName);
+  if (!cat || !cat.families) return;
+  const fam = cat.families[famI];
+  if (!fam || !fam.science) return;
+  const sci = fam.science;
+
+  document.getElementById('science-pillar').textContent = catName;
+  document.getElementById('science-family').textContent = fam.name;
+  document.getElementById('science-why').textContent = sci.why;
+  document.getElementById('science-research').textContent = sci.research;
+  document.getElementById('science-sources').innerHTML = (sci.sources || []).map(s =>
+    `<a href="${s.url}" target="_blank" rel="noopener" style="font-size:12.5px;line-height:1.55;color:${accent()};word-break:break-word;">${s.text}</a>`
+  ).join('');
+
+  document.getElementById('science-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeScienceModal() {
+  document.getElementById('science-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click
+document.getElementById('science-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeScienceModal();
+});
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 renderStepper();
