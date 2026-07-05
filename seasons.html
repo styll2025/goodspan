@@ -681,6 +681,14 @@ function handleConfirm() {
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 renderStepper();
 renderStep1();
+
+// Auto-select theme from URL param (e.g. seasons.html?theme=sleep)
+(function() {
+  const param = new URLSearchParams(window.location.search).get('theme');
+  if (param && SEASONS.find(s => s.id === param)) {
+    selectTheme(param);
+  }
+})();
 </script>
 </body>
 </html>
