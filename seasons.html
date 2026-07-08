@@ -811,7 +811,7 @@ function computeLevel(answers) {
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
-let state = { step: 1, themeId: null, levelId: null, selected: {}, quizAnswers: {}, quizIndex: 0, customList: [], customFormOpen: false, _totalRec: 0 };
+let state = { step: 1, themeId: null, levelId: null, selected: {}, quizAnswers: {}, quizIndex: 0, customList: [], customFormOpen: false, _totalRec: 0, recCats: [], recSlots: [], recOff: new Set() };
 
 function theme()   { return SEASONS.find(s => s.id === state.themeId); }
 function level()   { return LEVELS.find(l => l.id === state.levelId); }
@@ -973,15 +973,23 @@ function selectCurrentQuizOption(key, value) {
   const newIndex = state.quizIndex + 1;
 
   if (newIndex >= steps.length) {
-    // Quiz complete — resolve pillar and compute level
+    // Quiz complete — resolve pillar, compute level, build recommendation slots
     const pillarId = resolvePillar(newAnswers);
-    state.quizAnswers  = newAnswers;
-    state.themeId      = pillarId;
-    state.levelId      = computeLevel(newAnswers);
-    state.selected     = {};
-    state.customList   = [];
+    const levelId  = computeLevel(newAnswers);
+    const thm  = SEASONS.find(s => s.id === pillarId);
+    const lvl  = LEVELS.find(l => l.id === levelId);
+    const recCats  = buildScoredCats(thm, lvl, newAnswers);
+    const recSlots = buildSlots(recCats);
+    state.quizAnswers    = newAnswers;
+    state.themeId        = pillarId;
+    state.levelId        = levelId;
+    state.recCats        = recCats;
+    state.recSlots       = recSlots;
+    state.recOff         = new Set();
+    state.selected       = {};
+    state.customList     = [];
     state.customFormOpen = false;
-    state._totalRec    = 0;
+    state._totalRec      = recSlots.length;
     goToStep(3);
   } else {
     state.quizAnswers = newAnswers;
@@ -991,14 +999,17 @@ function selectCurrentQuizOption(key, value) {
 }
 
 function retakeQuiz() {
-  state.selected     = {};
-  state.levelId      = null;
-  state.themeId      = null;
-  state.quizAnswers  = {};
-  state.quizIndex    = 0;
-  state.customList   = [];
+  state.selected       = {};
+  state.levelId        = null;
+  state.themeId        = null;
+  state.quizAnswers    = {};
+  state.quizIndex      = 0;
+  state.customList     = [];
   state.customFormOpen = false;
-  state._totalRec    = 0;
+  state._totalRec      = 0;
+  state.recCats        = [];
+  state.recSlots       = [];
+  state.recOff         = new Set();
   goToStep(1);
   enterUnsure();
 }
@@ -1028,44 +1039,73 @@ function selectLevel(id) {
   goToStep(3);
 }
 
+// ─── PRACTICE SCORING ────────────────────────────────────────────────────────
+
+function scorePractice(themeId, item, answers) {
+  const hay = ((item.text || '') + ' ' + (item.family || '') + ' ' + (item.insight || '')).toLowerCase();
+  const kws = (KEYWORD_MAP[themeId] && KEYWORD_MAP[themeId][answers.pillarQ1]) || [];
+  let score = 0;
+  kws.forEach(k => { if (hay.includes(k)) score += 5; });
+  return score;
+}
+
+function availForTheme(thm, lvl) {
+  return thm.categories.map((c, ci) => {
+    let avail;
+    if (c.families) {
+      avail = c.families.map((f, fi) => ({
+        id: `${thm.id}.${ci}.${fi}`, text: f.levels[lvl.id], family: f.name,
+        insight: f.insight || '', science: f.science || null,
+      })).filter(p => p.text);
+    } else {
+      avail = c.practices.map((p, pi) => ({ ...p, id: `${thm.id}.${ci}.${pi}` }))
+        .filter(p => p.level === lvl.id || p.level === 'all');
+    }
+    return { name: c.name, practices: avail };
+  }).filter(c => c.practices.length);
+}
+
+function buildScoredCats(thm, lvl, answers) {
+  return availForTheme(thm, lvl).map(c => ({
+    name: c.name,
+    sorted: [...c.practices]
+      .map(p => ({ ...p, score: scorePractice(thm.id, p, answers) }))
+      .sort((a, b) => b.score - a.score),
+  }));
+}
+
+function buildSlots(scoredCats) {
+  let slots = scoredCats.map((c, ci) => ({ catIdx: ci, rank: 0 }));
+  if (slots.length > 5) slots = slots.slice(0, 5);
+  if (slots.length < 5) {
+    const used = new Set(slots.map(s => `${s.catIdx}:${s.rank}`));
+    const candidates = [];
+    scoredCats.forEach((c, ci) => {
+      c.sorted.forEach((item, ri) => {
+        if (!used.has(`${ci}:${ri}`)) candidates.push({ catIdx: ci, rank: ri, score: item.score });
+      });
+    });
+    candidates.sort((a, b) => b.score - a.score);
+    while (slots.length < 5 && candidates.length) slots.push(candidates.shift());
+  }
+  return slots;
+}
+
 // ─── STEP 3 ──────────────────────────────────────────────────────────────────
 
 function renderStep3() {
   const t = theme();
   const l = level();
+  if (!t || !l || !state.recSlots.length) return;
 
   document.documentElement.style.setProperty('--accent', accent());
   document.documentElement.style.setProperty('--soft', soft());
 
-  // Auto-select all applicable practices if nothing is selected yet
-  if (Object.keys(state.selected).length === 0) {
-    t.categories.forEach(cat => {
-      if (cat.families) {
-        cat.families.forEach((fam, famI) => {
-          if (fam.levels[state.levelId]) {
-            state.selected[cat.name + '|fam|' + famI] = true;
-          }
-        });
-      } else {
-        cat.practices.forEach((p, pi) => {
-          if (p.level === state.levelId || p.level === 'all') {
-            state.selected[cat.name + '|' + pi] = true;
-          }
-        });
-      }
-    });
-    state._totalRec = countSelected();
-  }
-
-  // Chips — level chip no longer links to step 2 (determined by quiz)
   document.getElementById('step3-chips').innerHTML = `
     <button class="chip" style="background:${soft()};color:${accent()};" onclick="goToStep(1)">${t.name} ✕</button>
     <span class="chip" style="background:#F5F5F4;color:#5A5F56;">${l.name} level</span>
   `;
 
-  const totalRec = Object.keys(state.selected).length;
-
-  // Show a personalised hint from NOTE_MAP if pillarQ1 was answered
   const hint = NOTE_MAP[state.themeId]?.[state.quizAnswers?.pillarQ1];
   document.getElementById('rule-banner').innerHTML = `
     <span>✨</span>
@@ -1074,127 +1114,69 @@ function renderStep3() {
     </span>`;
 
   const practiceList = document.getElementById('practice-list');
-  practiceList.innerHTML = t.categories.map(cat => {
-    if (cat.families) {
-      // Sleep: families structure
-      const families = cat.families.filter(f => f.levels[state.levelId]);
-      if (!families.length) return '';
-      return `
-        <section style="margin-top:36px;">
-          <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
-          <div style="height:12px;"></div>
-          ${families.map((fam, famI) => {
-            const key = cat.name + '|fam|' + famI;
-            const sel = !!state.selected[key];
-            const practiceText = fam.levels[state.levelId];
-            // Find alternative families in this category
-            const altFamilies = cat.families.filter((f, fi) => fi !== famI && f.levels[state.levelId]);
-            return `
-              <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
-                <div class="check-box">${sel ? '✓' : ''}</div>
-                <div style="flex:1;">
-                  <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${accent()};opacity:0.8;margin-bottom:3px;">${fam.name}</div>
-                  <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${practiceText}</div>
-                  <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${fam.insight}</p>
-                  <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">
-                    ${fam.science ? `<button onclick="event.stopPropagation();openScience('${encodeURIComponent(cat.name)}',${famI})" style="background:none;border:none;padding:0;font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;">The science →</button>` : ''}
-                    ${altFamilies.length ? `<span onclick="event.stopPropagation();swapFamily('${encodeURIComponent(cat.name)}',${famI})" style="font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;">Swap for another ↻</span>` : ''}
-                  </div>
-                </div>
-              </div>`;
-          }).join('')}
-        </section>`;
-    } else {
-      // Eat/Move/Mind: flat practices
-      const allAtLevel = cat.practices
-        .map((p, origI) => ({ p, origI }))
-        .filter(({ p }) => p.level === state.levelId || p.level === 'all');
-      if (!allAtLevel.length) return '';
-
-      return `
-        <section style="margin-top:36px;">
-          <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
-          ${cat.evidence ? `<p style="font-size:13.5px;font-style:italic;color:#7A8275;margin:0 0 14px;line-height:1.5;">${cat.evidence}</p>` : '<div style="height:12px;"></div>'}
-          ${allAtLevel.map(({ p, origI }) => {
-            const key = cat.name + '|' + origI;
-            const sel = !!state.selected[key];
-            const hasAlt = allAtLevel.some(a => a.origI !== origI);
-            return `
-              <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
-                <div class="check-box">${sel ? '✓' : ''}</div>
-                <div style="flex:1;">
-                  <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${p.text}</div>
-                  <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${p.insight}</p>
-                  ${hasAlt ? `<div style="margin-top:8px;"><span onclick="event.stopPropagation();swapPractice('${encodeURIComponent(cat.name)}',${origI})" style="font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;">Swap for another ↻</span></div>` : ''}
-                </div>
-              </div>`;
-          }).join('')}
-        </section>`;
-    }
+  practiceList.innerHTML = state.recSlots.map((slot, i) => {
+    const cat  = state.recCats[slot.catIdx];
+    const item = cat.sorted[slot.rank];
+    const sel  = !state.recOff.has(i);
+    const hasAlts = cat.sorted.length > 1;
+    const sciBtn = item.science
+      ? `<button onclick="event.stopPropagation();openScienceForSlot(${i})" style="background:none;border:none;padding:0;font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;">The science →</button>`
+      : '';
+    const swapBtn = hasAlts
+      ? `<span onclick="event.stopPropagation();swapSlot(${i})" style="font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;">Swap for another ↻</span>`
+      : '';
+    const links = sciBtn || swapBtn
+      ? `<div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">${sciBtn}${swapBtn}</div>`
+      : '';
+    return `
+      <div class="practice-row ${sel ? 'selected' : ''}" onclick="toggleSlot(${i})" style="--accent:${accent()};--soft:${soft()};">
+        <div class="check-box">${sel ? '✓' : ''}</div>
+        <div style="flex:1;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${accent()};opacity:0.8;margin-bottom:3px;">${cat.name}</div>
+          <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${item.text || item.family || ''}</div>
+          ${item.insight ? `<p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${item.insight}</p>` : ''}
+          ${links}
+        </div>
+      </div>`;
   }).join('');
 
   renderCustomPractices();
   updateProgress();
 }
 
-function togglePractice(encodedKey) {
-  const key = decodeURIComponent(encodedKey);
-  if (state.selected[key]) {
-    delete state.selected[key];
-  } else {
-    state.selected[key] = true;
-  }
+function toggleSlot(i) {
+  if (state.recOff.has(i)) { state.recOff.delete(i); } else { state.recOff.add(i); }
   renderStep3();
 }
 
-function countSelected() { return Object.keys(state.selected).filter(k => !k.startsWith('custom|')).length; }
+function countSelected() {
+  return state.recSlots.filter((_, i) => !state.recOff.has(i)).length;
+}
 
 function updateProgress() {
-  const rec = countSelected();
-  const total = state._totalRec || rec;
-  document.getElementById('sel-count').textContent = `${rec} of ${total} selected`;
-  document.getElementById('to-review-btn').disabled = rec === 0;
-  document.getElementById('to-review-btn').style.background = rec > 0 ? accent() : '';
+  const sel   = countSelected();
+  const total = state.recSlots.length;
+  document.getElementById('sel-count').textContent = `${sel} of ${total} selected`;
+  document.getElementById('to-review-btn').disabled = sel === 0;
+  document.getElementById('to-review-btn').style.background = sel > 0 ? accent() : '';
 }
 
 // ─── SWAP ─────────────────────────────────────────────────────────────────────
 
-function swapPractice(encodedCatName, currentOrigI) {
-  const catName = decodeURIComponent(encodedCatName);
-  const cat = theme().categories.find(c => c.name === catName);
-  const allAtLevel = cat.practices
-    .map((p, i) => ({ p, i }))
-    .filter(({ p }) => p.level === state.levelId || p.level === 'all');
-
-  const currentKey = catName + '|' + currentOrigI;
-  // Find next unselected candidate; wrap around if all selected
-  const unselected = allAtLevel.filter(({ i }) => !state.selected[catName + '|' + i] && i !== currentOrigI);
-  const candidates = unselected.length ? unselected : allAtLevel.filter(({ i }) => i !== currentOrigI);
-  if (!candidates.length) return;
-
-  // Find next candidate after currentOrigI (cycle)
-  const after = candidates.filter(({ i }) => i > currentOrigI);
-  const target = (after.length ? after[0] : candidates[0]);
-
-  delete state.selected[currentKey];
-  state.selected[catName + '|' + target.i] = true;
-  renderStep3();
-}
-
-function swapFamily(encodedCatName, currentFamI) {
-  const catName = decodeURIComponent(encodedCatName);
-  const cat = theme().categories.find(c => c.name === catName);
-  const alts = cat.families
-    .map((f, i) => ({ f, i }))
-    .filter(({ f, i }) => i !== currentFamI && f.levels[state.levelId]);
-  if (!alts.length) return;
-
-  const currentKey = catName + '|fam|' + currentFamI;
-  const unselected = alts.filter(({ i }) => !state.selected[catName + '|fam|' + i]);
-  const target = unselected.length ? unselected[0] : alts[0];
-
-  delete state.selected[currentKey];
-  state.selected[catName + '|fam|' + target.i] = true;
+function swapSlot(i) {
+  const { catIdx } = state.recSlots[i];
+  const cat    = state.recCats[catIdx];
+  const catLen = cat.sorted.length;
+  // ranks already used by other slots in the same category
+  const usedRanks = new Set(
+    state.recSlots.filter((s, idx) => idx !== i && s.catIdx === catIdx).map(s => s.rank)
+  );
+  let rank = state.recSlots[i].rank;
+  for (let tries = 0; tries < catLen; tries++) {
+    rank = (rank + 1) % catLen;
+    if (!usedRanks.has(rank)) break;
+  }
+  state.recSlots = state.recSlots.map((s, idx) => idx === i ? { catIdx, rank } : s);
   renderStep3();
 }
 
@@ -1260,23 +1242,19 @@ function renderStep4() {
   const l = level();
   const count = countSelected();
 
-  // Build review groups — handle both families and practices
-  const groups = t.categories.map(cat => {
-    let items = [];
-    if (cat.families) {
-      items = cat.families
-        .map((fam, famI) => {
-          const key = cat.name + '|fam|' + famI;
-          return state.selected[key] ? { text: fam.levels[state.levelId], label: fam.name } : null;
-        })
-        .filter(Boolean);
-    } else {
-      items = cat.practices
-        .filter((p, pi) => state.selected[cat.name + '|' + pi])
-        .map(p => ({ text: p.text, label: null }));
-    }
-    return { name: cat.name, items };
-  }).filter(g => g.items.length > 0);
+  // Build review groups from selected slots
+  const slotsByGroup = {};
+  state.recSlots.forEach((slot, i) => {
+    if (state.recOff.has(i)) return;
+    const cat  = state.recCats[slot.catIdx];
+    const item = cat.sorted[slot.rank];
+    if (!slotsByGroup[cat.name]) slotsByGroup[cat.name] = [];
+    slotsByGroup[cat.name].push({ text: item.text || item.family || '', label: item.family || null });
+  });
+  if (state.customList && state.customList.length) {
+    slotsByGroup['My own practices'] = state.customList.map(txt => ({ text: txt, label: null }));
+  }
+  const groups = Object.entries(slotsByGroup).map(([name, items]) => ({ name, items }));
 
   document.getElementById('step4-content').innerHTML = `
     <div class="fade-up">
@@ -1426,6 +1404,23 @@ function handleConfirm() {
 }
 
 // ─── SCIENCE MODAL ───────────────────────────────────────────────────────────
+
+function openScienceForSlot(i) {
+  const slot = state.recSlots[i];
+  const cat  = state.recCats[slot.catIdx];
+  const item = cat.sorted[slot.rank];
+  if (!item.science) return;
+  const sci = item.science;
+  document.getElementById('science-pillar').textContent = cat.name;
+  document.getElementById('science-family').textContent = item.family || item.text || '';
+  document.getElementById('science-why').textContent = sci.why;
+  document.getElementById('science-research').textContent = sci.research;
+  document.getElementById('science-sources').innerHTML = (sci.sources || []).map(s =>
+    `<a href="${s.url}" target="_blank" rel="noopener" style="font-size:12.5px;line-height:1.55;color:${accent()};word-break:break-word;">${s.text}</a>`
+  ).join('');
+  document.getElementById('science-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
 function openScience(encodedCatName, famI) {
   const catName = decodeURIComponent(encodedCatName);
