@@ -157,11 +157,12 @@
       <span>✨</span><span style="font-size:13.5px;color:#4B5249;line-height:1.45;">All recommended practices are pre-selected. <strong>Uncheck any you'd rather skip.</strong></span>
     </div>
     <div id="practice-list"></div>
+    <div id="custom-wrap" style="margin-top:20px;"></div>
     <div style="height:80px;"></div>
     <div class="footer-bar">
       <div>
-        <div style="font-size:15px;color:#20251F;font-weight:600;" id="sel-count">0 practices selected</div>
-        <button onclick="retakeQuiz()" style="background:none;border:none;padding:0;font-size:13px;color:#9AA690;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;" id="req-text">Retake the quiz</button>
+        <div style="font-size:15px;color:#20251F;font-weight:600;" id="sel-count">0 of 0 selected</div>
+        <button onclick="retakeQuiz()" style="background:none;border:none;padding:0;font-size:13px;color:#9AA690;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;">Retake the quiz</button>
       </div>
       <button class="btn-primary" id="to-review-btn" onclick="goToStep(4)">Review my season →</button>
     </div>
@@ -778,6 +779,9 @@ function quizSelectPillar(id) {
   state.selected = {};
   state.levelId = null;
   state.fromUnsure = false;
+  state.customList = [];
+  state.customFormOpen = false;
+  state._totalRec = 0;
   showQuizPhase('capacity');
 }
 
@@ -840,6 +844,9 @@ function retakeQuiz() {
   state.themeId = null;
   state.quizPhase = null;
   state.fromUnsure = false;
+  state.customList = [];
+  state.customFormOpen = false;
+  state._totalRec = 0;
   goToStep(1);
   enterUnsure();
 }
@@ -895,13 +902,16 @@ function renderStep3() {
         });
       }
     });
+    state._totalRec = countSelected();
   }
 
-  // Chips
+  // Chips — level chip no longer links to step 2 (determined by quiz)
   document.getElementById('step3-chips').innerHTML = `
     <button class="chip" style="background:${soft()};color:${accent()};" onclick="goToStep(1)">${t.name} ✕</button>
-    <button class="chip" style="background:#F5F5F4;color:#5A5F56;" onclick="goToStep(2)">${l.name} level ✕</button>
+    <span class="chip" style="background:#F5F5F4;color:#5A5F56;">${l.name} level</span>
   `;
+
+  const totalRec = Object.keys(state.selected).length;
 
   const practiceList = document.getElementById('practice-list');
   practiceList.innerHTML = t.categories.map(cat => {
@@ -917,6 +927,8 @@ function renderStep3() {
             const key = cat.name + '|fam|' + famI;
             const sel = !!state.selected[key];
             const practiceText = fam.levels[state.levelId];
+            // Find alternative families in this category
+            const altFamilies = cat.families.filter((f, fi) => fi !== famI && f.levels[state.levelId]);
             return `
               <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
                 <div class="check-box">${sel ? '✓' : ''}</div>
@@ -924,28 +936,36 @@ function renderStep3() {
                   <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${accent()};opacity:0.8;margin-bottom:3px;">${fam.name}</div>
                   <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${practiceText}</div>
                   <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${fam.insight}</p>
-                  ${fam.science ? `<button onclick="event.stopPropagation();openScience('${encodeURIComponent(cat.name)}',${famI})" style="background:none;border:none;padding:5px 0 0;font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;">The science →</button>` : ''}
+                  <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">
+                    ${fam.science ? `<button onclick="event.stopPropagation();openScience('${encodeURIComponent(cat.name)}',${famI})" style="background:none;border:none;padding:0;font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;">The science →</button>` : ''}
+                    ${altFamilies.length ? `<span onclick="event.stopPropagation();swapFamily('${encodeURIComponent(cat.name)}',${famI})" style="font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;">Swap for another ↻</span>` : ''}
+                  </div>
                 </div>
               </div>`;
           }).join('')}
         </section>`;
     } else {
       // Eat/Move/Mind: flat practices
-      const practices = cat.practices.filter(p => p.level === state.levelId || p.level === 'all');
-      if (!practices.length) return '';
+      const allAtLevel = cat.practices
+        .map((p, origI) => ({ p, origI }))
+        .filter(({ p }) => p.level === state.levelId || p.level === 'all');
+      if (!allAtLevel.length) return '';
+
       return `
         <section style="margin-top:36px;">
           <h2 style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin:0 0 4px;color:#20251F;">${cat.name}</h2>
           ${cat.evidence ? `<p style="font-size:13.5px;font-style:italic;color:#7A8275;margin:0 0 14px;line-height:1.5;">${cat.evidence}</p>` : '<div style="height:12px;"></div>'}
-          ${practices.map((p, pi) => {
-            const key = cat.name + '|' + pi;
+          ${allAtLevel.map(({ p, origI }) => {
+            const key = cat.name + '|' + origI;
             const sel = !!state.selected[key];
+            const hasAlt = allAtLevel.some(a => a.origI !== origI);
             return `
               <div class="practice-row ${sel ? 'selected' : ''}" onclick="togglePractice('${encodeURIComponent(key)}')" style="--accent:${accent()};--soft:${soft()};">
                 <div class="check-box">${sel ? '✓' : ''}</div>
-                <div>
+                <div style="flex:1;">
                   <div style="font-size:15px;font-weight:500;line-height:1.4;color:#20251F;">${p.text}</div>
                   <p style="font-size:13px;line-height:1.5;color:#7A8275;margin:6px 0 0;">${p.insight}</p>
+                  ${hasAlt ? `<div style="margin-top:8px;"><span onclick="event.stopPropagation();swapPractice('${encodeURIComponent(cat.name)}',${origI})" style="font-size:12.5px;font-weight:600;color:${accent()};cursor:pointer;">Swap for another ↻</span></div>` : ''}
                 </div>
               </div>`;
           }).join('')}
@@ -953,6 +973,7 @@ function renderStep3() {
     }
   }).join('');
 
+  renderCustomPractices();
   updateProgress();
 }
 
@@ -966,13 +987,110 @@ function togglePractice(encodedKey) {
   renderStep3();
 }
 
-function countSelected() { return Object.keys(state.selected).length; }
+function countSelected() { return Object.keys(state.selected).filter(k => !k.startsWith('custom|')).length; }
 
 function updateProgress() {
-  const count = countSelected();
-  document.getElementById('sel-count').textContent = `${count} practice${count !== 1 ? 's' : ''} selected`;
-  document.getElementById('to-review-btn').disabled = count === 0;
-  document.getElementById('to-review-btn').style.background = count > 0 ? accent() : '';
+  const rec = countSelected();
+  const total = state._totalRec || rec;
+  document.getElementById('sel-count').textContent = `${rec} of ${total} selected`;
+  document.getElementById('to-review-btn').disabled = rec === 0;
+  document.getElementById('to-review-btn').style.background = rec > 0 ? accent() : '';
+}
+
+// ─── SWAP ─────────────────────────────────────────────────────────────────────
+
+function swapPractice(encodedCatName, currentOrigI) {
+  const catName = decodeURIComponent(encodedCatName);
+  const cat = theme().categories.find(c => c.name === catName);
+  const allAtLevel = cat.practices
+    .map((p, i) => ({ p, i }))
+    .filter(({ p }) => p.level === state.levelId || p.level === 'all');
+
+  const currentKey = catName + '|' + currentOrigI;
+  // Find next unselected candidate; wrap around if all selected
+  const unselected = allAtLevel.filter(({ i }) => !state.selected[catName + '|' + i] && i !== currentOrigI);
+  const candidates = unselected.length ? unselected : allAtLevel.filter(({ i }) => i !== currentOrigI);
+  if (!candidates.length) return;
+
+  // Find next candidate after currentOrigI (cycle)
+  const after = candidates.filter(({ i }) => i > currentOrigI);
+  const target = (after.length ? after[0] : candidates[0]);
+
+  delete state.selected[currentKey];
+  state.selected[catName + '|' + target.i] = true;
+  renderStep3();
+}
+
+function swapFamily(encodedCatName, currentFamI) {
+  const catName = decodeURIComponent(encodedCatName);
+  const cat = theme().categories.find(c => c.name === catName);
+  const alts = cat.families
+    .map((f, i) => ({ f, i }))
+    .filter(({ f, i }) => i !== currentFamI && f.levels[state.levelId]);
+  if (!alts.length) return;
+
+  const currentKey = catName + '|fam|' + currentFamI;
+  const unselected = alts.filter(({ i }) => !state.selected[catName + '|fam|' + i]);
+  const target = unselected.length ? unselected[0] : alts[0];
+
+  delete state.selected[currentKey];
+  state.selected[catName + '|fam|' + target.i] = true;
+  renderStep3();
+}
+
+// ─── CUSTOM PRACTICES ─────────────────────────────────────────────────────────
+
+if (!state.customList) state.customList = [];
+if (!state.customFormOpen) state.customFormOpen = false;
+
+function renderCustomPractices() {
+  const wrap = document.getElementById('custom-wrap');
+  if (!wrap) return;
+  const a = accent();
+  const s = soft();
+  wrap.innerHTML = `
+    ${state.customList.map((text, i) => `
+      <div style="display:flex;align-items:flex-start;gap:14px;border:1.5px solid ${a};border-radius:12px;padding:14px 16px;margin-bottom:10px;background:${s};--accent:${a};--soft:${s};">
+        <div style="width:22px;height:22px;border-radius:6px;background:${a};display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;flex-shrink:0;margin-top:2px;">✓</div>
+        <div style="flex:1;font-size:15px;font-weight:500;color:#20251F;line-height:1.4;">${text}</div>
+        <button onclick="removeCustom(${i})" style="background:none;border:none;font-size:13px;color:#9AA690;cursor:pointer;font-family:inherit;padding:0;white-space:nowrap;">Remove</button>
+      </div>`).join('')}
+    ${state.customFormOpen ? `
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px;">
+        <input id="custom-input" placeholder="e.g. 15-minute yoga before bed" style="flex:1;min-width:180px;border:1.5px solid #D4CFC6;border-radius:10px;padding:11px 14px;font-size:14.5px;font-family:inherit;outline:none;" oninput="this.style.borderColor='${a}'" onkeydown="if(event.key==='Enter')addCustom()">
+        <button onclick="addCustom()" style="background:${a};color:#fff;border:none;padding:11px 20px;border-radius:10px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;">Add</button>
+        <button onclick="cancelCustom()" style="background:none;border:none;font-size:14px;color:#7A8275;cursor:pointer;font-family:inherit;">Cancel</button>
+      </div>` : `
+      <button onclick="openCustomForm()" style="display:flex;align-items:center;gap:8px;background:none;border:1.5px dashed #C9C2AE;border-radius:12px;padding:14px 20px;font-size:14.5px;font-weight:500;color:#5A5F56;cursor:pointer;font-family:inherit;width:100%;justify-content:flex-start;margin-top:4px;">
+        + Add a practice of your own <span style="font-weight:400;color:#9AA690;">(optional)</span>
+      </button>`}
+  `;
+}
+
+function openCustomForm() {
+  state.customFormOpen = true;
+  renderCustomPractices();
+  setTimeout(() => document.getElementById('custom-input')?.focus(), 50);
+}
+
+function cancelCustom() {
+  state.customFormOpen = false;
+  renderCustomPractices();
+}
+
+function addCustom() {
+  const input = document.getElementById('custom-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  state.customList.push(text);
+  state.customFormOpen = false;
+  renderCustomPractices();
+}
+
+function removeCustom(i) {
+  state.customList.splice(i, 1);
+  renderCustomPractices();
 }
 
 // ─── STEP 4 ──────────────────────────────────────────────────────────────────
