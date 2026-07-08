@@ -130,7 +130,7 @@
 
     <!-- Quiz (unsure path) -->
     <div id="step1-quiz" style="display:none;">
-      <button class="btn-back" onclick="cancelUnsure()">← Back</button>
+      <button class="btn-back" onclick="quizBack()">← Back</button>
       <div id="quiz-qnum" style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9AA690;margin-bottom:14px;"></div>
       <h1 id="quiz-title" style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 30px;max-width:18em;"></h1>
       <div id="quiz-options" style="display:flex;flex-direction:column;gap:12px;"></div>
@@ -656,32 +656,162 @@ const PEOPLE = [
   { initial:'S', bg:'oklch(0.48 0.115 150)', ink:'#fff' },
 ];
 
-// ─── QUIZ QUESTIONS ───────────────────────────────────────────────────────────
+// ─── QUIZ DATA ────────────────────────────────────────────────────────────────
 
-const QUIZ_Q = {
-  challenge: {
-    title: "What's the biggest thing getting in the way of feeling your best?",
-    options: [
-      { label: 'Sleep', sub: "I don't feel rested or fully recovered", value: 'sleep' },
-      { label: 'Movement', sub: 'I feel sluggish and want to be more active', value: 'move' },
-      { label: 'Mind', sub: 'Stress, anxiety or mental fog', value: 'mind' },
-      { label: 'Nourishment', sub: 'I know I could be eating better', value: 'eat' },
-    ],
+const PILLAR_QUIZ = {
+  sleep: {
+    q1: { title: "What's your biggest challenge with sleep right now?", options: [
+      { value: 'fallingAsleep',     label: "Falling asleep",              sub: "my mind won't stop" },
+      { value: 'wakingNight',       label: "Waking up during the night" },
+      { value: 'irregularSchedule', label: "My schedule is irregular",    sub: "different times every day" },
+      { value: 'badBedroom',        label: "My bedroom isn't set up well for sleep" },
+    ]},
+    q2: { title: "What time do you usually go to bed?", options: [
+      { value: 'early', label: "Before 10:30pm" },
+      { value: 'mid',   label: "Between 10:30 and midnight" },
+      { value: 'late',  label: "After midnight", sub: "I'm a natural night owl" },
+    ]},
   },
-  capacity: {
-    title: 'How much time and energy can you realistically give this month?',
-    options: [
-      { label: 'A small but consistent effort', sub: 'Simple habits that fit around your existing life', value: 'gentle' },
-      { label: 'A real commitment', sub: 'Daily practice and a genuine step change', value: 'moderate' },
-      { label: 'All in', sub: 'Full transformation, tracked and shared openly with your Circle', value: 'deep' },
-    ],
+  eat: {
+    q1: { title: "What feels hardest about eating well for you?", options: [
+      { value: 'inconsistent', label: "I'm inconsistent",     sub: "good some days, not others" },
+      { value: 'snackLate',    label: "I snack too much or eat too late" },
+      { value: 'eatAlone',     label: "I eat alone a lot",    sub: "and want it to feel more meaningful" },
+      { value: 'dontKnow',    label: "I don't really know what eating well looks like for me" },
+    ]},
+    q2: { title: "How structured is your eating day-to-day?", options: [
+      { value: 'chaotic',         label: "Pretty chaotic",      sub: "no real rhythm" },
+      { value: 'somewhatRegular', label: "Somewhat regular",    sub: "but room to improve" },
+      { value: 'structured',      label: "Fairly structured",   sub: "I just want to eat better within it" },
+    ]},
+  },
+  move: {
+    q1: { title: "What kind of movement appeals to you most?", options: [
+      { value: 'walking',  label: "Walking and gentle daily movement" },
+      { value: 'strength', label: "Strength, fitness, building something real" },
+      { value: 'social',   label: "Moving with other people",  sub: "I need the social side" },
+      { value: 'mix',      label: "A mix",                     sub: "I just want to feel less sedentary" },
+    ]},
+    q2: { title: "How active are you on a typical day?", options: [
+      { value: 'sedentary', label: "Mostly sitting",        sub: "I barely move" },
+      { value: 'some',      label: "Some movement, but not enough" },
+      { value: 'active',    label: "Reasonably active",     sub: "I just want more structure" },
+    ]},
+  },
+  mind: {
+    q1: { title: "What feels hardest for you right now?", options: [
+      { value: 'cantQuiet',    label: "I can't quiet my thoughts or switch off" },
+      { value: 'distracted',   label: "I feel distracted and can't concentrate" },
+      { value: 'disconnected', label: "I feel disconnected", sub: "from myself or from others" },
+      { value: 'flat',         label: "I feel flat, low-energy, or without much purpose" },
+    ]},
+    q2: { title: "Do you have any existing practice — meditation, journaling, anything like that?", options: [
+      { value: 'none',   label: "Nothing at all",  sub: "I'm starting from scratch" },
+      { value: 'tried',  label: "I've tried things", sub: "but nothing has stuck" },
+      { value: 'deeper', label: "I have something", sub: "but I want to go deeper" },
+    ]},
   },
 };
 
+const KEYWORD_MAP = {
+  sleep: {
+    fallingAsleep:      ['breathing','muscle relax','brain dump','music'],
+    wakingNight:        ['dark bedroom','quiet bedroom','alcohol','cool bedroom'],
+    irregularSchedule:  ['morning light','regular sleep schedule','dim evening light'],
+    badBedroom:         ['cool bedroom','dark bedroom','quiet bedroom','bed = sleep'],
+  },
+  eat: {
+    inconsistent: ['consistent','regular','schedule','plan'],
+    snackLate:    ['snack','10pm','late','window'],
+    eatAlone:     ['share','friend','circle','table','invite','alone'],
+    dontKnow:     ['protein','vegetable','plant','whole grain','processed'],
+  },
+  move: {
+    walking:  ['steps','walk','mobility','stairs'],
+    strength: ['strength','cardio','vo2','vo₂'],
+    social:   ['friend','circle','partner','challenge','lead'],
+    mix:      [],
+  },
+  mind: {
+    cantQuiet:    ['breathing','meditation','reflection'],
+    distracted:   ['phone','deep work','screen'],
+    disconnected: ['message','conversation','circle','vulnerability','connection','offer'],
+    flat:         ['gratitude','service','purpose','offer'],
+  },
+};
+
+const NOTE_MAP = {
+  sleep: {
+    fallingAsleep:     "wind-down practices to help quiet your mind before bed",
+    wakingNight:       "sleep-environment practices to help you stay asleep",
+    irregularSchedule: "circadian practices to steady your schedule",
+    badBedroom:        "sleep-environment practices to reset your bedroom",
+  },
+  eat: {
+    inconsistent: "rhythm practices to build a steadier eating pattern",
+    snackLate:    "rhythm practices to rein in snacking and late eating",
+    eatAlone:     "presence and sharing practices to bring people back to your table",
+    dontKnow:     "nourish practices to build the fundamentals",
+  },
+  move: {
+    walking:  "daily-movement practices built around walking",
+    strength: "daily-movement practices built around strength and fitness",
+    social:   "social practices to help you move alongside others",
+    mix:      "a mix of daily movement to get you off the couch",
+  },
+  mind: {
+    cantQuiet:    "daily practices to help quiet your mind",
+    distracted:   "daily practices to sharpen your focus",
+    disconnected: "social practices to rebuild connection",
+    flat:         "practices to reconnect you with energy and purpose",
+  },
+};
+
+function resolvePillar(answers) {
+  return answers.pillar === 'unsure' ? answers.pillarSub : answers.pillar;
+}
+
+function buildQuizSteps(answers) {
+  const steps = [{ key: 'pillar' }];
+  if (answers.pillar === 'unsure') {
+    steps.push({ key: 'pillarSub', title: "Which of these feels most like you right now?", options: [
+      { value: 'sleep', label: "I never feel properly rested, no matter how much I sleep" },
+      { value: 'eat',   label: "I want to eat better but I'm not sure where to begin" },
+      { value: 'move',  label: "I'm moving less than I'd like, and I can feel it" },
+      { value: 'mind',  label: "My mind is scattered or hard to switch off" },
+    ]});
+  }
+  steps.push({ key: 'capacity', title: "How much can you realistically give to this over the next 30 days?", options: [
+    { value: 'little', label: "A little",      sub: "I want to start small and see how it feels" },
+    { value: 'fair',   label: "A fair amount", sub: "I can make room for a real commitment" },
+    { value: 'lot',    label: "A lot",         sub: "I'm ready to go all in" },
+  ]});
+  steps.push({ key: 'habitStyle', title: "When life gets busy, how do you usually handle new habits?", options: [
+    { value: 'drop', label: "I tend to drop them", sub: "so I need something easy to stick to" },
+    { value: 'hold', label: "I hold on",            sub: "if the commitment feels meaningful" },
+    { value: 'push', label: "I push through",       sub: "I'm good at following through on goals" },
+  ]});
+  const pillarId = resolvePillar(answers);
+  const pq = pillarId && PILLAR_QUIZ[pillarId];
+  if (pq) {
+    steps.push({ key: 'pillarQ1', title: pq.q1.title, options: pq.q1.options });
+    steps.push({ key: 'pillarQ2', title: pq.q2.title, options: pq.q2.options });
+  }
+  return steps;
+}
+
+function computeLevel(answers) {
+  const capMap   = { little: 0, fair: 1, lot: 2 };
+  const styleMap = { drop: 0,   hold: 1, push: 2 };
+  const score = (capMap[answers.capacity] ?? 1) + (styleMap[answers.habitStyle] ?? 1);
+  if (score <= 1) return 'gentle';
+  if (score === 2) return 'moderate';
+  return 'deep';
+}
+
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
-// quizPhase: null | 'challenge' | 'capacity'
-let state = { step: 1, themeId: null, levelId: null, selected: {}, quizPhase: null, fromUnsure: false };
+let state = { step: 1, themeId: null, levelId: null, selected: {}, quizAnswers: {}, quizIndex: 0, customList: [], customFormOpen: false, _totalRec: 0 };
 
 function theme()   { return SEASONS.find(s => s.id === state.themeId); }
 function level()   { return LEVELS.find(l => l.id === state.levelId); }
@@ -730,8 +860,8 @@ function goToStep(n) {
     // Reset quiz UI to picker view
     document.getElementById('step1-picker').style.display = 'block';
     document.getElementById('step1-quiz').style.display = 'none';
-    state.quizPhase = null;
-    state.fromUnsure = false;
+    state.quizAnswers = {};
+    state.quizIndex = 0;
   }
   if (n === 2) renderStep2();
   if (n === 3) renderStep3();
@@ -775,78 +905,100 @@ function renderStep1() {
 
 // Called when user clicks a pillar card directly
 function quizSelectPillar(id) {
+  state.quizAnswers = { pillar: id };
+  state.quizIndex = 1;
   state.themeId = id;
   state.selected = {};
   state.levelId = null;
-  state.fromUnsure = false;
   state.customList = [];
   state.customFormOpen = false;
   state._totalRec = 0;
-  showQuizPhase('capacity');
+  showQuiz();
 }
 
 // Called when user clicks "I'm not sure yet"
 function enterUnsure() {
-  state.fromUnsure = true;
-  showQuizPhase('challenge');
+  state.quizAnswers = { pillar: 'unsure' };
+  state.quizIndex = 1;
+  showQuiz();
 }
 
 function cancelUnsure() {
   document.getElementById('step1-quiz').style.display = 'none';
   document.getElementById('step1-picker').style.display = 'block';
-  state.quizPhase = null;
-  state.fromUnsure = false;
+  state.quizAnswers = {};
+  state.quizIndex = 0;
 }
 
-function showQuizPhase(phase) {
-  state.quizPhase = phase;
+// Back button inside quiz: go one step back, or return to picker
+function quizBack() {
+  if (state.quizIndex > 1) {
+    state.quizIndex--;
+    renderCurrentQuizStep();
+  } else {
+    cancelUnsure();
+  }
+}
+
+function showQuiz() {
   document.getElementById('step1-picker').style.display = 'none';
   document.getElementById('step1-quiz').style.display = 'block';
-  renderQuizQuestion(phase);
+  renderCurrentQuizStep();
 }
 
-function renderQuizQuestion(phase) {
-  const q = QUIZ_Q[phase];
-  const total = state.fromUnsure ? 2 : 1;
-  const num   = (phase === 'challenge') ? 1 : (state.fromUnsure ? 2 : 1);
+function renderCurrentQuizStep() {
+  const steps = buildQuizSteps(state.quizAnswers);
+  const step  = steps[state.quizIndex];
+  if (!step) return;
 
-  document.getElementById('quiz-qnum').textContent = `Question ${num} of ${total}`;
-  document.getElementById('quiz-title').textContent = q.title;
-  document.getElementById('quiz-options').innerHTML = q.options.map(o => `
-    <button onclick="selectQuizOption('${phase}','${o.value}')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:1.5px solid #E8E1D3;border-radius:16px;padding:20px 22px;cursor:pointer;text-align:left;width:100%;font-family:inherit;transition:border-color .15s,transform .15s,box-shadow .15s;" onmouseover="this.style.borderColor='#9AA690';this.style.transform='translateY(-2px)';this.style.boxShadow='0 14px 30px rgba(18,28,45,0.08)';" onmouseout="this.style.borderColor='#E8E1D3';this.style.transform='';this.style.boxShadow='';">
+  const totalQ   = steps.length - 1; // visible questions (excluding step 0 = pillar picker)
+  const currentQ = state.quizIndex;
+
+  document.getElementById('quiz-qnum').textContent = `Question ${currentQ} of ${totalQ}`;
+  document.getElementById('quiz-title').textContent = step.title;
+  document.getElementById('quiz-options').innerHTML = step.options.map(o => `
+    <button onclick="selectCurrentQuizOption('${step.key}','${o.value}')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:1.5px solid #E8E1D3;border-radius:16px;padding:20px 22px;cursor:pointer;text-align:left;width:100%;font-family:inherit;transition:border-color .15s,transform .15s,box-shadow .15s;" onmouseover="this.style.borderColor='#9AA690';this.style.transform='translateY(-2px)';this.style.boxShadow='0 14px 30px rgba(18,28,45,0.08)';" onmouseout="this.style.borderColor='#E8E1D3';this.style.transform='';this.style.boxShadow='';">
       <div style="flex:1;">
         <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.01em;color:#20251F;">${o.label}</div>
-        <div style="font-size:14px;font-style:italic;font-family:'Newsreader',serif;color:#7A8275;margin-top:3px;">${o.sub}</div>
+        ${o.sub ? `<div style="font-size:14px;font-style:italic;font-family:'Newsreader',serif;color:#7A8275;margin-top:3px;">${o.sub}</div>` : ''}
       </div>
       <div style="font-size:18px;color:#9AA690;align-self:center;">→</div>
     </button>
   `).join('');
 }
 
-function selectQuizOption(phase, value) {
-  if (phase === 'challenge') {
-    // User answered "what's your biggest challenge" → sets pillar, now ask capacity
-    state.themeId = value;
-    state.selected = {};
-    state.levelId = null;
-    showQuizPhase('capacity');
-  } else {
-    // User answered capacity → sets level, go straight to practices
-    state.levelId = value;
-    state.selected = {};
+function selectCurrentQuizOption(key, value) {
+  const newAnswers = { ...state.quizAnswers, [key]: value };
+  const steps    = buildQuizSteps(newAnswers);
+  const newIndex = state.quizIndex + 1;
+
+  if (newIndex >= steps.length) {
+    // Quiz complete — resolve pillar and compute level
+    const pillarId = resolvePillar(newAnswers);
+    state.quizAnswers  = newAnswers;
+    state.themeId      = pillarId;
+    state.levelId      = computeLevel(newAnswers);
+    state.selected     = {};
+    state.customList   = [];
+    state.customFormOpen = false;
+    state._totalRec    = 0;
     goToStep(3);
+  } else {
+    state.quizAnswers = newAnswers;
+    state.quizIndex   = newIndex;
+    renderCurrentQuizStep();
   }
 }
 
 function retakeQuiz() {
-  state.selected = {};
-  state.levelId = null;
-  state.themeId = null;
-  state.quizPhase = null;
-  state.fromUnsure = false;
-  state.customList = [];
+  state.selected     = {};
+  state.levelId      = null;
+  state.themeId      = null;
+  state.quizAnswers  = {};
+  state.quizIndex    = 0;
+  state.customList   = [];
   state.customFormOpen = false;
-  state._totalRec = 0;
+  state._totalRec    = 0;
   goToStep(1);
   enterUnsure();
 }
@@ -912,6 +1064,14 @@ function renderStep3() {
   `;
 
   const totalRec = Object.keys(state.selected).length;
+
+  // Show a personalised hint from NOTE_MAP if pillarQ1 was answered
+  const hint = NOTE_MAP[state.themeId]?.[state.quizAnswers?.pillarQ1];
+  document.getElementById('rule-banner').innerHTML = `
+    <span>✨</span>
+    <span style="font-size:13.5px;color:#4B5249;line-height:1.45;">
+      ${hint ? `Focused on <em>${hint}</em>. ` : ''}All recommended practices are pre-selected. <strong>Uncheck any you'd rather skip.</strong>
+    </span>`;
 
   const practiceList = document.getElementById('practice-list');
   practiceList.innerHTML = t.categories.map(cat => {
