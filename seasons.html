@@ -109,18 +109,33 @@
 </nav>
 
 <main>
-  <!-- STEP 1: THEME -->
+  <!-- STEP 1: THEME / QUIZ -->
   <div class="step-panel active fade-up" id="step1">
-    <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:55px;line-height:1.0;letter-spacing:-0.035em;margin:0 0 16px;max-width:14em;">Your season, <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;letter-spacing:-0.01em;">together.</span></h1>
-    <p style="font-size:21px;font-weight:600;max-width:24em;color:#2C3A2A;margin:0 0 16px;line-height:1.3;letter-spacing:-0.01em;">Meet new people while building a longer, fuller life.</p>
-    <p style="font-size:18px;max-width:33em;color:#5A5F56;margin:0 0 18px;line-height:1.55;">A Season is 30 days of small, science-backed habits, shared with a Circle of people. Pick one of the four pillars to begin.</p>
 
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:44px;flex-wrap:wrap;">
-      <div class="avatars" id="hero-avatars"></div>
-      <span style="font-size:14px;color:#5A5F56;font-weight:500;">You'll join a Circle of 5–7 sharing the journey</span>
+    <!-- Pillar picker (default view) -->
+    <div id="step1-picker">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap;">
+        <div class="avatars" id="hero-avatars"></div>
+        <span style="font-size:14px;color:#5A5F56;font-weight:500;">You'll join a Circle of 5–7 sharing the journey</span>
+      </div>
+      <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 16px;max-width:18em;">Which part of your health would you most like to focus on <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;letter-spacing:-0.01em;">this month?</span></h1>
+      <p style="font-size:16px;max-width:36em;color:#5A5F56;margin:0 0 36px;line-height:1.6;">Pick the pillar that feels most relevant, or take our short quiz if you're not sure where to start.</p>
+
+      <div class="theme-grid" id="theme-grid"></div>
+
+      <div style="text-align:center;margin-top:28px;">
+        <button onclick="enterUnsure()" style="background:none;border:1.5px solid #C9C2AE;color:#4B5249;padding:14px 28px;border-radius:999px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.01em;">I'm not sure yet →</button>
+      </div>
     </div>
 
-    <div class="theme-grid" id="theme-grid"></div>
+    <!-- Quiz (unsure path) -->
+    <div id="step1-quiz" style="display:none;">
+      <button class="btn-back" onclick="cancelUnsure()">← Back</button>
+      <div id="quiz-qnum" style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9AA690;margin-bottom:14px;"></div>
+      <h1 id="quiz-title" style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 30px;max-width:18em;"></h1>
+      <div id="quiz-options" style="display:flex;flex-direction:column;gap:12px;"></div>
+    </div>
+
   </div>
 
   <!-- STEP 2: LEVEL -->
@@ -136,19 +151,19 @@
   <div class="step-panel" id="step3">
     <button class="btn-back" onclick="goToStep(2)">← Back</button>
     <div id="step3-chips" style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;"></div>
-    <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px;">Build your <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">practice.</span></h1>
-    <p style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;">Small commitments you'll carry every day and share with your Circle. Consistency beats ambition.</p>
+    <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px;">Your recommended <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">practices.</span></h1>
+    <p style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;">We've pre-selected what works best for your level. Uncheck any you'd rather skip, or add your own.</p>
     <div id="rule-banner" style="display:flex;align-items:center;gap:10px;background:#F5F5F4;border-radius:12px;padding:12px 16px;margin-bottom:8px;">
-      <span>🌱</span><span style="font-size:13.5px;color:#4B5249;line-height:1.45;">Choose at least <strong>5 practices</strong>, with at least one from every section.</span>
+      <span>✨</span><span style="font-size:13.5px;color:#4B5249;line-height:1.45;">All recommended practices are pre-selected. <strong>Uncheck any you'd rather skip.</strong></span>
     </div>
     <div id="practice-list"></div>
     <div style="height:80px;"></div>
     <div class="footer-bar">
       <div>
         <div style="font-size:15px;color:#20251F;font-weight:600;" id="sel-count">0 practices selected</div>
-        <div style="font-size:13px;color:#9AA690;" id="req-text">Select at least 5 to continue</div>
+        <button onclick="retakeQuiz()" style="background:none;border:none;padding:0;font-size:13px;color:#9AA690;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px;" id="req-text">Retake the quiz</button>
       </div>
-      <button class="btn-primary" id="to-review-btn" onclick="goToStep(4)" disabled>Review my season →</button>
+      <button class="btn-primary" id="to-review-btn" onclick="goToStep(4)">Review my season →</button>
     </div>
   </div>
 
@@ -640,9 +655,23 @@ const PEOPLE = [
   { initial:'S', bg:'oklch(0.48 0.115 150)', ink:'#fff' },
 ];
 
+// ─── QUIZ QUESTIONS ───────────────────────────────────────────────────────────
+
+const QUIZ_QUESTIONS = [
+  {
+    title: "What's the biggest thing getting in the way of feeling your best?",
+    options: [
+      { label: 'Sleep', sub: "I don't feel rested or fully recovered", pillar: 'sleep' },
+      { label: 'Movement', sub: 'I feel sluggish and want to be more active', pillar: 'move' },
+      { label: 'Mind', sub: 'Stress, anxiety or mental fog', pillar: 'mind' },
+      { label: 'Nourishment', sub: 'I know I could be eating better', pillar: 'eat' },
+    ],
+  },
+];
+
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
-let state = { step: 1, themeId: null, levelId: null, selected: {} };
+let state = { step: 1, themeId: null, levelId: null, selected: {}, quizStep: 0 };
 
 function theme()   { return SEASONS.find(s => s.id === state.themeId); }
 function level()   { return LEVELS.find(l => l.id === state.levelId); }
@@ -723,7 +752,60 @@ function renderStep1() {
 function selectTheme(id) {
   state.themeId = id;
   state.selected = {};
+  state.levelId = null; // reset level so auto-select triggers fresh on step 3
   goToStep(2);
+}
+
+// ─── UNSURE / QUIZ PATH ──────────────────────────────────────────────────────
+
+function enterUnsure() {
+  state.quizStep = 0;
+  document.getElementById('step1-picker').style.display = 'none';
+  document.getElementById('step1-quiz').style.display = 'block';
+  renderQuizQuestion();
+}
+
+function cancelUnsure() {
+  document.getElementById('step1-quiz').style.display = 'none';
+  document.getElementById('step1-picker').style.display = 'block';
+}
+
+function renderQuizQuestion() {
+  const q = QUIZ_QUESTIONS[state.quizStep];
+  const total = QUIZ_QUESTIONS.length;
+  document.getElementById('quiz-qnum').textContent = `Question ${state.quizStep + 1} of ${total}`;
+  document.getElementById('quiz-title').textContent = q.title;
+  document.getElementById('quiz-options').innerHTML = q.options.map(o => `
+    <button onclick="selectQuizOption('${o.pillar}')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:1.5px solid #E8E1D3;border-radius:16px;padding:20px 22px;cursor:pointer;text-align:left;width:100%;font-family:inherit;transition:border-color .15s,transform .15s,box-shadow .15s;" onmouseover="this.style.borderColor='#9AA690';this.style.transform='translateY(-2px)';this.style.boxShadow='0 14px 30px rgba(18,28,45,0.08)';" onmouseout="this.style.borderColor='#E8E1D3';this.style.transform='';this.style.boxShadow='';">
+      <div style="flex:1;">
+        <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.01em;color:#20251F;">${o.label}</div>
+        <div style="font-size:14px;font-style:italic;font-family:'Newsreader',serif;color:#7A8275;margin-top:3px;">${o.sub}</div>
+      </div>
+      <div style="font-size:18px;color:#9AA690;align-self:center;">→</div>
+    </button>
+  `).join('');
+}
+
+function selectQuizOption(pillar) {
+  // If there are more questions, advance; otherwise recommend the pillar
+  state.quizStep++;
+  if (state.quizStep < QUIZ_QUESTIONS.length) {
+    renderQuizQuestion();
+  } else {
+    // Recommendation: jump straight to the pillar
+    document.getElementById('step1-quiz').style.display = 'none';
+    document.getElementById('step1-picker').style.display = 'block';
+    selectTheme(pillar);
+  }
+}
+
+function retakeQuiz() {
+  state.selected = {};
+  state.levelId = null;
+  state.themeId = null;
+  state.quizStep = 0;
+  goToStep(1);
+  enterUnsure();
 }
 
 // ─── STEP 2 ──────────────────────────────────────────────────────────────────
@@ -747,6 +829,7 @@ function renderStep2() {
 
 function selectLevel(id) {
   state.levelId = id;
+  state.selected = {}; // reset so auto-select triggers fresh for new level
   goToStep(3);
 }
 
@@ -758,6 +841,25 @@ function renderStep3() {
 
   document.documentElement.style.setProperty('--accent', accent());
   document.documentElement.style.setProperty('--soft', soft());
+
+  // Auto-select all applicable practices if nothing is selected yet
+  if (Object.keys(state.selected).length === 0) {
+    t.categories.forEach(cat => {
+      if (cat.families) {
+        cat.families.forEach((fam, famI) => {
+          if (fam.levels[state.levelId]) {
+            state.selected[cat.name + '|fam|' + famI] = true;
+          }
+        });
+      } else {
+        cat.practices.forEach((p, pi) => {
+          if (p.level === state.levelId || p.level === 'all') {
+            state.selected[cat.name + '|' + pi] = true;
+          }
+        });
+      }
+    });
+  }
 
   // Chips
   document.getElementById('step3-chips').innerHTML = `
@@ -832,12 +934,9 @@ function countSelected() { return Object.keys(state.selected).length; }
 
 function updateProgress() {
   const count = countSelected();
-  const meetsMin = count >= 5;
   document.getElementById('sel-count').textContent = `${count} practice${count !== 1 ? 's' : ''} selected`;
-  document.getElementById('req-text').textContent = meetsMin ? '✓ Ready to review' : `Select at least 5 to continue`;
-  document.getElementById('req-text').style.color = meetsMin ? accent() : '#9AA690';
-  document.getElementById('to-review-btn').disabled = !meetsMin;
-  document.getElementById('to-review-btn').style.background = meetsMin ? accent() : '';
+  document.getElementById('to-review-btn').disabled = count === 0;
+  document.getElementById('to-review-btn').style.background = count > 0 ? accent() : '';
 }
 
 // ─── STEP 4 ──────────────────────────────────────────────────────────────────
@@ -1051,10 +1150,15 @@ renderStepper();
 renderStep1();
 
 // Auto-select theme from URL param (e.g. seasons.html?theme=sleep)
+// Or launch quiz for ?unsure=1
 (function() {
-  const param = new URLSearchParams(window.location.search).get('theme');
-  if (param && SEASONS.find(s => s.id === param)) {
-    selectTheme(param);
+  const params = new URLSearchParams(window.location.search);
+  const themeParam = params.get('theme');
+  const unsureParam = params.get('unsure');
+  if (themeParam && SEASONS.find(s => s.id === themeParam)) {
+    selectTheme(themeParam);
+  } else if (unsureParam === '1') {
+    enterUnsure();
   }
 })();
 </script>
