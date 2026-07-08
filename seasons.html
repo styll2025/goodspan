@@ -149,7 +149,7 @@
 
   <!-- STEP 3: PRACTICES -->
   <div class="step-panel" id="step3">
-    <button class="btn-back" onclick="goToStep(2)">← Back</button>
+    <button class="btn-back" onclick="goToStep(1)">← Back</button>
     <div id="step3-chips" style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px;">Your recommended <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">practices.</span></h1>
     <p style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;">We've pre-selected what works best for your level. Uncheck any you'd rather skip, or add your own.</p>
@@ -657,21 +657,30 @@ const PEOPLE = [
 
 // ─── QUIZ QUESTIONS ───────────────────────────────────────────────────────────
 
-const QUIZ_QUESTIONS = [
-  {
+const QUIZ_Q = {
+  challenge: {
     title: "What's the biggest thing getting in the way of feeling your best?",
     options: [
-      { label: 'Sleep', sub: "I don't feel rested or fully recovered", pillar: 'sleep' },
-      { label: 'Movement', sub: 'I feel sluggish and want to be more active', pillar: 'move' },
-      { label: 'Mind', sub: 'Stress, anxiety or mental fog', pillar: 'mind' },
-      { label: 'Nourishment', sub: 'I know I could be eating better', pillar: 'eat' },
+      { label: 'Sleep', sub: "I don't feel rested or fully recovered", value: 'sleep' },
+      { label: 'Movement', sub: 'I feel sluggish and want to be more active', value: 'move' },
+      { label: 'Mind', sub: 'Stress, anxiety or mental fog', value: 'mind' },
+      { label: 'Nourishment', sub: 'I know I could be eating better', value: 'eat' },
     ],
   },
-];
+  capacity: {
+    title: 'How much time and energy can you realistically give this month?',
+    options: [
+      { label: 'A small but consistent effort', sub: 'Simple habits that fit around your existing life', value: 'gentle' },
+      { label: 'A real commitment', sub: 'Daily practice and a genuine step change', value: 'moderate' },
+      { label: 'All in', sub: 'Full transformation, tracked and shared openly with your Circle', value: 'deep' },
+    ],
+  },
+};
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
-let state = { step: 1, themeId: null, levelId: null, selected: {}, quizStep: 0 };
+// quizPhase: null | 'challenge' | 'capacity'
+let state = { step: 1, themeId: null, levelId: null, selected: {}, quizPhase: null, fromUnsure: false };
 
 function theme()   { return SEASONS.find(s => s.id === state.themeId); }
 function level()   { return LEVELS.find(l => l.id === state.levelId); }
@@ -683,18 +692,23 @@ function aInk()    { return theme()?.light   ? 'oklch(0.27 0.04 110)' : '#fff'; 
 // ─── STEPPER ─────────────────────────────────────────────────────────────────
 
 function renderStepper() {
-  const labels = ['Season', 'Level', 'Practices', 'Review', 'Plan'];
+  // Map logical steps (skipping step 2 which is level picker, now quiz-determined)
+  const steps = [
+    { label: 'Quiz',      n: 1 },
+    { label: 'Practices', n: 3 },
+    { label: 'Review',    n: 4 },
+    { label: 'Plan',      n: 5 },
+  ];
   const el = document.getElementById('stepper');
-  el.innerHTML = labels.map((lbl, i) => {
-    const n = i + 1;
-    const done   = state.step > n;
-    const active = state.step === n;
+  el.innerHTML = steps.map((s, i) => {
+    const done   = state.step > s.n;
+    const active = state.step === s.n || (s.n === 1 && state.step === 2);
     const cls = done ? 'done' : active ? 'active' : 'pending';
-    const sep = i < labels.length - 1 ? '<div class="step-sep"></div>' : '';
+    const sep = i < steps.length - 1 ? '<div class="step-sep"></div>' : '';
     return `
       <div style="display:flex;align-items:center;gap:8px;">
-        <div class="step-dot ${cls}">${done ? '✓' : n}</div>
-        <span class="step-label ${active ? 'active' : ''}">${lbl}</span>
+        <div class="step-dot ${cls}">${done ? '✓' : i + 1}</div>
+        <span class="step-label ${active ? 'active' : ''}">${s.label}</span>
       </div>${sep}`;
   }).join('');
 }
@@ -711,6 +725,13 @@ function goToStep(n) {
   panel.classList.add('fade-up');
   renderStepper();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (n === 1) {
+    // Reset quiz UI to picker view
+    document.getElementById('step1-picker').style.display = 'block';
+    document.getElementById('step1-quiz').style.display = 'none';
+    state.quizPhase = null;
+    state.fromUnsure = false;
+  }
   if (n === 2) renderStep2();
   if (n === 3) renderStep3();
   if (n === 4) renderStep4();
@@ -731,7 +752,7 @@ function renderStep1() {
   grid.innerHTML = SEASONS.map(s => {
     const ctaInk = s.light ? 'oklch(0.27 0.04 110)' : '#fff';
     return `
-    <button class="theme-card" onclick="selectTheme('${s.id}')">
+    <button class="theme-card" onclick="quizSelectPillar('${s.id}')">
       <div style="height:8px;background:${s.accent};"></div>
       <div style="position:relative;height:180px;overflow:hidden;">
         <img src="${s.img}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.background='${s.accent}';this.style.height='180px';">
@@ -749,34 +770,46 @@ function renderStep1() {
   }).join('');
 }
 
-function selectTheme(id) {
+// ─── QUIZ PATH ───────────────────────────────────────────────────────────────
+
+// Called when user clicks a pillar card directly
+function quizSelectPillar(id) {
   state.themeId = id;
   state.selected = {};
-  state.levelId = null; // reset level so auto-select triggers fresh on step 3
-  goToStep(2);
+  state.levelId = null;
+  state.fromUnsure = false;
+  showQuizPhase('capacity');
 }
 
-// ─── UNSURE / QUIZ PATH ──────────────────────────────────────────────────────
-
+// Called when user clicks "I'm not sure yet"
 function enterUnsure() {
-  state.quizStep = 0;
-  document.getElementById('step1-picker').style.display = 'none';
-  document.getElementById('step1-quiz').style.display = 'block';
-  renderQuizQuestion();
+  state.fromUnsure = true;
+  showQuizPhase('challenge');
 }
 
 function cancelUnsure() {
   document.getElementById('step1-quiz').style.display = 'none';
   document.getElementById('step1-picker').style.display = 'block';
+  state.quizPhase = null;
+  state.fromUnsure = false;
 }
 
-function renderQuizQuestion() {
-  const q = QUIZ_QUESTIONS[state.quizStep];
-  const total = QUIZ_QUESTIONS.length;
-  document.getElementById('quiz-qnum').textContent = `Question ${state.quizStep + 1} of ${total}`;
+function showQuizPhase(phase) {
+  state.quizPhase = phase;
+  document.getElementById('step1-picker').style.display = 'none';
+  document.getElementById('step1-quiz').style.display = 'block';
+  renderQuizQuestion(phase);
+}
+
+function renderQuizQuestion(phase) {
+  const q = QUIZ_Q[phase];
+  const total = state.fromUnsure ? 2 : 1;
+  const num   = (phase === 'challenge') ? 1 : (state.fromUnsure ? 2 : 1);
+
+  document.getElementById('quiz-qnum').textContent = `Question ${num} of ${total}`;
   document.getElementById('quiz-title').textContent = q.title;
   document.getElementById('quiz-options').innerHTML = q.options.map(o => `
-    <button onclick="selectQuizOption('${o.pillar}')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:1.5px solid #E8E1D3;border-radius:16px;padding:20px 22px;cursor:pointer;text-align:left;width:100%;font-family:inherit;transition:border-color .15s,transform .15s,box-shadow .15s;" onmouseover="this.style.borderColor='#9AA690';this.style.transform='translateY(-2px)';this.style.boxShadow='0 14px 30px rgba(18,28,45,0.08)';" onmouseout="this.style.borderColor='#E8E1D3';this.style.transform='';this.style.boxShadow='';">
+    <button onclick="selectQuizOption('${phase}','${o.value}')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:1.5px solid #E8E1D3;border-radius:16px;padding:20px 22px;cursor:pointer;text-align:left;width:100%;font-family:inherit;transition:border-color .15s,transform .15s,box-shadow .15s;" onmouseover="this.style.borderColor='#9AA690';this.style.transform='translateY(-2px)';this.style.boxShadow='0 14px 30px rgba(18,28,45,0.08)';" onmouseout="this.style.borderColor='#E8E1D3';this.style.transform='';this.style.boxShadow='';">
       <div style="flex:1;">
         <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.01em;color:#20251F;">${o.label}</div>
         <div style="font-size:14px;font-style:italic;font-family:'Newsreader',serif;color:#7A8275;margin-top:3px;">${o.sub}</div>
@@ -786,16 +819,18 @@ function renderQuizQuestion() {
   `).join('');
 }
 
-function selectQuizOption(pillar) {
-  // If there are more questions, advance; otherwise recommend the pillar
-  state.quizStep++;
-  if (state.quizStep < QUIZ_QUESTIONS.length) {
-    renderQuizQuestion();
+function selectQuizOption(phase, value) {
+  if (phase === 'challenge') {
+    // User answered "what's your biggest challenge" → sets pillar, now ask capacity
+    state.themeId = value;
+    state.selected = {};
+    state.levelId = null;
+    showQuizPhase('capacity');
   } else {
-    // Recommendation: jump straight to the pillar
-    document.getElementById('step1-quiz').style.display = 'none';
-    document.getElementById('step1-picker').style.display = 'block';
-    selectTheme(pillar);
+    // User answered capacity → sets level, go straight to practices
+    state.levelId = value;
+    state.selected = {};
+    goToStep(3);
   }
 }
 
@@ -803,7 +838,8 @@ function retakeQuiz() {
   state.selected = {};
   state.levelId = null;
   state.themeId = null;
-  state.quizStep = 0;
+  state.quizPhase = null;
+  state.fromUnsure = false;
   goToStep(1);
   enterUnsure();
 }
@@ -1149,14 +1185,14 @@ document.getElementById('science-modal').addEventListener('click', function(e) {
 renderStepper();
 renderStep1();
 
-// Auto-select theme from URL param (e.g. seasons.html?theme=sleep)
-// Or launch quiz for ?unsure=1
+// Handle URL params: ?theme=sleep → pillar pre-selected, ask capacity
+//                    ?unsure=1   → show challenge question first
 (function() {
   const params = new URLSearchParams(window.location.search);
   const themeParam = params.get('theme');
   const unsureParam = params.get('unsure');
   if (themeParam && SEASONS.find(s => s.id === themeParam)) {
-    selectTheme(themeParam);
+    quizSelectPillar(themeParam);
   } else if (unsureParam === '1') {
     enterUnsure();
   }
