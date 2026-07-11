@@ -35,15 +35,11 @@
     .nav-links{display:none !important;}
     .nav-burger{display:flex !important;}
     nav{padding:16px 20px !important;}
-    header{height:auto !important;min-height:640px !important;}
     .hero-h1{font-size:clamp(36px,9vw,64px) !important;}
     .hero-p{font-size:16px !important;}
     .hero-inner{padding:0 24px !important;}
-    .hero-copy{padding:0 !important;}
-    .section-pad{padding:0 !important;}
-    .section-pad > div{padding:88px 24px !important;}
+    .section-pad{padding:80px 24px !important;}
     .two-col{grid-template-columns:1fr !important;}
-    .two-col,.circle-grid,.gathering-grid{gap:42px !important;}
     .three-col{grid-template-columns:1fr !important;}
     .four-col{grid-template-columns:1fr 1fr !important;gap:14px !important;}
     .rhythm-grid{grid-template-columns:1fr 1fr !important;gap:20px !important;}
@@ -52,25 +48,13 @@
     .gathering-grid{grid-template-columns:1fr !important;}
     .gathering-img{order:0 !important;}
     .seasons-header{flex-direction:column !important;align-items:flex-start !important;}
-    section[id="circle"]{padding:88px 0 !important;}
-    section[id="circle"] > div,section[id="seasons"] > div{padding:0 24px !important;}
-    section[id="rhythm"],section[id="gathering"]{padding:88px 24px !important;}
-    .belonging-band{height:auto !important;min-height:360px !important;padding:90px 0 !important;}
-    .belonging-band > div:last-child{padding:0 24px !important;}
-    .belonging-band p{font-size:clamp(28px,7vw,40px) !important;}
-    footer{padding:44px 24px !important;}
     .footer-inner{flex-direction:column !important;gap:20px !important;}
-    .footer-links{gap:16px !important;}
     h2{font-size:clamp(30px,7vw,50px) !important;}
     .cta-h2{font-size:clamp(36px,8vw,54px) !important;}
   }
   @media (max-width:520px){
     .four-col{grid-template-columns:1fr !important;}
     .rhythm-grid{grid-template-columns:1fr !important;}
-    .hero-actions{align-items:stretch !important;}
-    .hero-actions a{width:100% !important;justify-content:center !important;text-align:center !important;}
-    .three-col{margin-top:48px !important;}
-    .gs-season-card{padding:22px !important;}
   }
 </style>
 </head>
@@ -108,11 +92,11 @@
   <header style="position:relative;width:100%;height:min(86vh,800px);min-height:580px;overflow:hidden;">
     <img src="uploads/hero_new.png" alt="A group walking together through a sunlit meadow" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.12);object-position:center 38%;">
     <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,21,16,0.66) 0%, rgba(18,21,16,0.38) 42%, rgba(18,21,16,0.12) 72%, rgba(18,21,16,0.04) 100%);"></div>
-    <div class="hero-inner" style="position:relative;height:100%;max-width:1280px;margin:0 auto;display:flex;flex-direction:column;justify-content:center;padding:0 40px;">
-      <div class="hero-copy" style="max-width:660px;">
+    <div style="position:relative;height:100%;max-width:1280px;margin:0 auto;display:flex;flex-direction:column;justify-content:center;" class="hero-inner" style="padding:0 40px;">
+      <div style="padding:0 40px;max-width:660px;">
         <h1 class="hero-h1" style="font-family:'Newsreader',serif;font-weight:500;color:#fff;font-size:64px;line-height:1.04;letter-spacing:-0.022em;margin:0 0 24px;">The years ahead are <span style="font-style:italic;">better when shared.</span></h1>
         <p class="hero-p" style="color:rgba(255,255,255,0.92);font-size:19px;line-height:1.6;margin:0 0 36px;max-width:34em;font-weight:400;">A thirty-day Season of small, science-backed practices, lived alongside a Circle of people walking the same path. Because the longest, fullest lives are never lived alone.</p>
-        <div class="hero-actions" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
           <a href="seasons.html" class="gs-btn-white" style="text-decoration:none;background:#fff;color:#1E2A20;padding:16px 32px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;box-shadow:0 12px 30px rgba(0,0,0,0.18);">Find your Circle</a>
           <a href="#rhythm" class="gs-btn-outline" style="text-decoration:none;color:#fff;padding:16px 26px;border-radius:999px;font-size:15.5px;font-weight:600;border:1.5px solid rgba(255,255,255,0.5);">How a Season works</a>
         </div>
@@ -121,7 +105,7 @@
   </header>
 
   <!-- WHY / EMOTIONAL HOOK -->
-  <section class="section-pad" style="max-width:1180px;margin:0 auto;">
+  <section style="max-width:1180px;margin:0 auto;" class="section-pad" style="padding:130px 40px 110px;">
     <div style="padding:130px 40px 110px;">
       <div class="two-col" style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:80px;align-items:center;">
         <div>
@@ -273,7 +257,7 @@
   </section>
 
   <!-- BELONGING BAND -->
-  <section class="belonging-band" style="position:relative;height:min(64vh,560px);min-height:420px;overflow:hidden;display:flex;align-items:center;">
+  <section style="position:relative;height:min(64vh,560px);min-height:420px;overflow:hidden;display:flex;align-items:center;">
     <img src="uploads/belonging_new.png" alt="Friends watching the sunset, arms around one another" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.1);object-position:50% 42%;">
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(30,28,20,0.34), rgba(30,28,20,0.5));"></div>
     <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 40px;width:100%;text-align:center;">
@@ -322,7 +306,7 @@
         <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:-0.01em;">GoodSpan</div>
         <div style="font-size:13.5px;margin-top:6px;color:rgba(244,242,234,0.55);">More good years, shared.</div>
       </div>
-      <div class="footer-links" style="display:flex;gap:30px;flex-wrap:wrap;font-size:14px;">
+      <div style="display:flex;gap:30px;flex-wrap:wrap;font-size:14px;">
         <a href="#circle" style="text-decoration:none;color:rgba(244,242,234,0.7);">The Circle</a>
         <a href="#rhythm" style="text-decoration:none;color:rgba(244,242,234,0.7);">How it works</a>
         <a href="#seasons" style="text-decoration:none;color:rgba(244,242,234,0.7);">The Seasons</a>
