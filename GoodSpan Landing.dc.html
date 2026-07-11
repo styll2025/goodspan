@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  img{display:block;max-width:100%;}
+  ::selection{background:#cdd9c8;}
+  .gs-photo{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:center;}
+  @keyframes gsFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+</style>
+</helmet>
+<div style="background:#ffffff;color:#20251F;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;">
+
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:clamp(12px,2.5vw,18px) clamp(16px,4vw,40px);background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid #ECECEC;">
+    <a href="#top" style="text-decoration:none;color:#20251F;">
+      <div style="font-family: 'Newsreader',serif; font-size: clamp(24px,4vw,34px); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1">The Good Span</div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:0.04em;color:#5A5F56;margin-top:1px;">For more years that matter</div>
+    </a>
+    <sc-if value="{{ showInlineLinks }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:clamp(14px,2.5vw,34px);flex-wrap:wrap;justify-content:flex-end;">
+        <a href="#circle" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">The Circle</a>
+        <a href="#rhythm" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">How The Season works</a>
+        <a href="#seasons" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">The Pillars</a>
+        <a href="#gathering" style="text-decoration:none;color:#4B5249;font-size:14px;font-weight:500;letter-spacing:0.01em;">The Gatherings</a>
+        <a href="GoodSpan Seasons.dc.html" style="text-decoration:none;background:#2C4636;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:0.01em;" style-hover="background:#1E3327;">Take the quiz</a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ showHamburger }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Open menu" style="{{ hamburgerBtnStyle }}">
+        <span style="{{ barStyle }}"></span>
+        <span style="{{ barStyle }}"></span>
+        <span style="{{ barStyle }}"></span>
+      </button>
+    </sc-if>
+  </nav>
+
+  <sc-if value="{{ menuOpen }}">
+    <div onClick="{{ closeMenu }}" style="{{ mobileMenuOverlayStyle }}">
+      <div onClick="{{ stopClick }}" style="{{ mobileMenuPanelStyle }}">
+        <div style="display:flex;justify-content:flex-end;">
+          <button onClick="{{ closeMenu }}" aria-label="Close menu" style="{{ closeBtnStyle }}">✕</button>
+        </div>
+        <a href="#circle" onClick="{{ closeMenu }}" style="{{ mobileLinkStyle }}">The Circle</a>
+        <a href="#rhythm" onClick="{{ closeMenu }}" style="{{ mobileLinkStyle }}">How The Season works</a>
+        <a href="#seasons" onClick="{{ closeMenu }}" style="{{ mobileLinkStyle }}">The Pillars</a>
+        <a href="#gathering" onClick="{{ closeMenu }}" style="{{ mobileLinkStyle }}">The Gatherings</a>
+        <a href="GoodSpan Seasons.dc.html" style="{{ mobileCtaStyle }}">Take the quiz</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <span id="top"></span>
+
+  <!-- HERO -->
+  <header data-screen-label="Hero" style="position:relative;width:100%;height:min(86vh,800px);min-height:580px;overflow:hidden;">
+    <img src="uploads/hero_image.jpg" alt="A close, joyful group of friends of different ages together at golden hour" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.06);object-position:center 32%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(16,20,15,0.82) 0%, rgba(16,20,15,0.6) 34%, rgba(16,20,15,0.24) 64%, rgba(16,20,15,0.06) 100%);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(16,20,15,0.28) 0%, rgba(16,20,15,0) 30%);"></div>
+    <div style="position:relative;height:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:flex;flex-direction:column;justify-content:center;">
+      <div style="max-width:660px;">
+        <h1 style="font-family:'Newsreader',serif;font-weight:500;color:#fff;font-size:clamp(34px,6vw,64px);line-height:1.08;letter-spacing:-0.022em;margin:0 0 24px;">More years that matter. <span style="font-style: italic;">Together.</span></h1>
+        <p style="color:rgba(255,255,255,0.92);font-size:19px;line-height:1.6;margin:0 0 36px;max-width:34em;font-weight:400;">A 30-day social longevity journey built around small Circles, shared practices and meaningful connections.</p>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <a href="#rhythm" style="text-decoration:none;color:#fff;padding:16px 26px;border-radius:999px;font-size:15.5px;font-weight:600;border:1.5px solid rgba(255,255,255,0.5);" style-hover="border-color:#fff;background:rgba(255,255,255,0.08);">How The Season Works</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- THE PHILOSOPHY -->
+  <section data-screen-label="The Philosophy" style="background:#F6F6F4;padding:clamp(60px,10vw,120px) 0;border-bottom:1px solid #ECECEC;">
+    <div style="max-width:940px;margin:0 auto;padding:0 clamp(20px,5vw,40px);text-align:center;">
+      <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(28px,5vw,44px);line-height:1.14;letter-spacing:-0.02em;margin:0 0 30px;color:#20251F;">Longevity isn't built through optimisation alone.</h2>
+      <p style="font-family:'Newsreader',serif;font-size:22px;line-height:1.55;color:#2E362C;margin:0 auto 22px;max-width:34em;">It grows through small daily practices, meaningful relationships and a sense of <span style="font-style:italic;">belonging.</span></p>
+      <p style="font-size:16.5px;line-height:1.7;color:#5A5F56;margin:0 auto 46px;max-width:38em;">That's why we created The Good Span. Not simply to help people live longer, but to help make the span of life healthier, richer and more meaningful — bridging together health and purpose, individual wellbeing and collective support, science and everyday life.</p>
+
+      <div style="font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#7C8172;margin-bottom:28px;">Everything we do is built around four simple ideas</div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;text-align:left;">
+        <div style="background:#fff;border:1px solid #E8E1D3;border-top:4px solid #2C4636;border-radius:16px;padding:26px 22px;box-shadow:0 10px 26px rgba(40,44,30,0.06);">
+          <div style="width:34px;height:34px;border-radius:10px;background:#2C4636;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:17px;margin-bottom:14px;">1</div>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;color:#20251F;margin-bottom:8px;">Belong</div>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0;">Through <strong style="font-weight:700;color:#2C4636;">The Circle.</strong></p>
+        </div>
+        <div style="background:#fff;border:1px solid #E8E1D3;border-top:4px solid #AECE36;border-radius:16px;padding:26px 22px;box-shadow:0 10px 26px rgba(40,44,30,0.06);">
+          <div style="width:34px;height:34px;border-radius:10px;background:#AECE36;color:oklch(0.32 0.08 128);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:17px;margin-bottom:14px;">2</div>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;color:#20251F;margin-bottom:8px;">Grow</div>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0;">Through <strong style="font-weight:700;color:oklch(0.5 0.13 128);">The Seasons.</strong></p>
+        </div>
+        <div style="background:#fff;border:1px solid #E8E1D3;border-top:4px solid #2C4636;border-radius:16px;padding:26px 22px;box-shadow:0 10px 26px rgba(40,44,30,0.06);">
+          <div style="width:34px;height:34px;border-radius:10px;background:#2C4636;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:17px;margin-bottom:14px;">3</div>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;color:#20251F;margin-bottom:8px;">Celebrate</div>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0;">Through <strong style="font-weight:700;color:#2C4636;">The Gatherings.</strong></p>
+        </div>
+        <div style="background:#fff;border:1px solid #E8E1D3;border-top:4px solid #AECE36;border-radius:16px;padding:26px 22px;box-shadow:0 10px 26px rgba(40,44,30,0.06);">
+          <div style="width:34px;height:34px;border-radius:10px;background:#AECE36;color:oklch(0.32 0.08 128);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:17px;margin-bottom:14px;">4</div>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;color:#20251F;margin-bottom:8px;">Learn</div>
+          <p style="font-size:14px;line-height:1.55;color:#5A5F56;margin:0;">Through <strong style="font-weight:700;color:oklch(0.5 0.13 128);">The Evidence.</strong></p>
+        </div>
+      </div>
+
+      <p style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;color:#2C4636;margin:46px 0 0;">Together, they create more years that matter.</p>
+    </div>
+  </section>
+
+  <!-- WHY / EMOTIONAL HOOK -->
+  <section data-screen-label="Why it matters" style="max-width:1180px;margin:0 auto;padding:clamp(60px,10vw,130px) clamp(20px,5vw,40px) clamp(50px,8vw,110px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,6vw,80px);align-items:start;">
+      <div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(28px,5vw,46px);line-height:1.12;letter-spacing:-0.02em;margin:0 0 30px;color:#20251F;">A different way to think about&nbsp;<span data-cc-id="cc-1" style="font-style: italic;">longevity&nbsp;</span></h2>
+        <div>
+          <div style="display:flex;gap:18px;align-items:baseline;padding:18px 0;border-top:1px solid #E2DBCC;">
+            <span style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.155 128);margin-top:8px;"></span>
+            <p style="font-family:'Newsreader',serif;font-size:21px;line-height:1.38;color:#2E362C;margin:0;letter-spacing:-0.01em;">Living well isn't about perfection. It's about showing up, <span style="font-style: italic;">consistently.&nbsp;</span></p>
+          </div>
+          <div style="display:flex;gap:18px;align-items:baseline;padding:18px 0;border-top:1px solid #E2DBCC;">
+            <span style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.155 128);margin-top:8px;"></span>
+            <p style="font-family:'Newsreader',serif;font-size:21px;line-height:1.38;color:#2E362C;margin:0;letter-spacing:-0.01em;">Discipline isn't restrictive. It's the small choices that <span style="font-style: italic;">compound over time.</span></p>
+          </div>
+          <div style="display:flex;gap:18px;align-items:baseline;padding:18px 0;border-top:1px solid #E2DBCC;">
+            <span style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.155 128);margin-top:8px;"></span>
+            <p style="font-family:'Newsreader',serif;font-size:21px;line-height:1.38;color:#2E362C;margin:0;letter-spacing:-0.01em;">Relationships are one of the greatest predictors of a <span style="font-style: italic;">long and fulfilling life.</span></p>
+          </div>
+          <div style="display:flex;gap:18px;align-items:baseline;padding:18px 0;border-top:1px solid #E2DBCC;">
+            <span style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.155 128);margin-top:8px;"></span>
+            <p style="font-family:'Newsreader',serif;font-size:21px;line-height:1.38;color:#2E362C;margin:0;letter-spacing:-0.01em;">Ageing isn't something to fight, but something we can approach with <span style="font-style: italic;">intention.</span></p>
+          </div>
+          <div style="display:flex;gap:18px;align-items:baseline;padding:18px 0;border-top:1px solid #E2DBCC;border-bottom:1px solid #E2DBCC;">
+            <span style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.155 128);margin-top:8px;"></span>
+            <p style="font-family:'Newsreader',serif;font-size:21px;line-height:1.38;color:#2E362C;margin:0;letter-spacing:-0.01em;">Lasting change rarely happens <span style="font-style: italic;">alone.</span></p>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(40,44,30,0.16);position:sticky;top:100px;">
+        <img src="uploads/together.png" alt="A joyful, multigenerational group laughing together around a table" class="gs-photo" style="transform:scale(1.32);object-position:56% 50%;">
+      </div>
+    </div>
+
+    <p style="font-size:19px;line-height:1.6;color:#2C4636;font-weight:600;margin:44px 0 0;max-width:38em;">The Good Span exists to help people live longer, and make those years healthier, richer and more meaningful, together.</p>
+  </section>
+
+  <!-- THE CIRCLE — CORE -->
+  <section id="circle" data-screen-label="The Circle" style="background:#27352A;color:#F4F2EA;padding:clamp(60px,10vw,120px) 0;position:relative;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,40px);">
+      <div style="max-width:720px;margin-bottom:64px;">
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(30px,5.5vw,50px);line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px;color:#fff;">Everything happens in a <span style="font-style:italic;">Circle.</span></h2>
+        <p style="font-size:18px;line-height:1.7;color:rgba(244,242,234,0.82);margin:0;max-width:38em;">When you join a Season, you're placed in a small Circle of five to seven people you haven't met. The practices are how we begin. The Circle is why we keep going.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:stretch;">
+        <div style="position:relative;border-radius:20px;overflow:hidden;min-height:440px;box-shadow:0 30px 60px rgba(0,0,0,0.3);">
+          <img src="uploads/circle.png" alt="A Circle gathered together over tea and conversation" class="gs-photo" style="transform:scale(1.14);object-position:50% 42%;">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">Five to seven companions</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">A group small enough to be known, drawn together for one Season.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">A facilitator who holds the space</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">Trained to guide, share expert insight, and keep the Circle warm.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">Weekly gatherings</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">You meet each week to share practices, progress and challenges, and stay close between.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 24px;">
+            <div style="font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-bottom:6px;">Accountability, gently held</div>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(244,242,234,0.72);margin:0;">No streaks or scores, just people who notice, and keep you going.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <section data-screen-label="Divider" style="background:#2C4636;padding:clamp(50px,8vw,90px) 0;text-align:center;">
+    <div style="max-width:820px;margin:0 auto;padding:0 40px;">
+      <h2 style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;font-size:clamp(24px,4.5vw,34px);line-height:1.3;letter-spacing:-0.01em;margin:0 0 20px;color:#fff;">Longer Lives. Richer Lives. Shared Lives.</h2>
+      <p style="font-size:16.5px;line-height:1.65;color:rgba(244,242,234,0.82);margin:0;max-width:38em;margin-left:auto;margin-right:auto;">Because longevity isn't built through one habit. It grows through sleep, movement, nourishment and mind, and the people who help us sustain them.</p>
+    </div>
+  </section>
+
+  <!-- THE FOUR SEASONS -->
+  <section id="seasons" data-screen-label="The Seasons" style="background:#F6F6F4;padding:clamp(60px,10vw,120px) 0;border-top:1px solid #ECECEC;border-bottom:1px solid #ECECEC;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,40px);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;margin-bottom:56px;">
+        <div style="max-width:620px;">
+          <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(28px,5vw,44px);line-height:1.1;letter-spacing:-0.02em;margin:0 0 14px;color:#20251F;">Complete one Season, <span style="font-style: italic;">then move on to the next.</span></h2>
+          <p style="font-size:15.5px;line-height:1.65;color:#5A5F56;max-width:36em;margin:0;">Every Season focuses on one pillar of longevity. Together, they create the foundations of a longer, healthier and richer life.</p>
+        </div>
+        <p style="font-size:15.5px;line-height:1.65;color:#5A5F56;max-width:25em;margin:0;">Over time, your journey becomes a lasting reflection of the habits you've built and the commitment you've made to living well.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;">
+        <a href="GoodSpan Seasons.dc.html?theme=sleep" style="text-decoration:none;display:flex;flex-direction:column;background:#fff;border:1px solid #E8E1D3;border-radius:18px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px rgba(40,44,30,0.1);">
+          <div style="height:180px;background-image:url(uploads/7.png);background-size:cover;background-position:center 44%;"></div>
+          <div style="height:10px;background:oklch(0.4 0.09 158);"></div>
+          <div style="padding:28px 32px 32px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.4 0.09 158);margin-bottom:12px;">GoodSleep</div>
+            <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:26px;line-height:1.16;margin:0 0 14px;color:#20251F;letter-spacing:-0.015em;">Recovery is where <span style="font-style:italic;">tomorrow begins.</span></h3>
+            <p style="font-size:15px;line-height:1.62;color:#5A5F56;margin:0 0 22px;">Better sleep isn't just about more hours in bed. It's how your body repairs, your mind resets and your energy returns. Small improvements at night shape how you show up every day.</p>
+            <span style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#fff;background:oklch(0.4 0.09 158);padding:11px 22px;border-radius:999px;">I want to start here →</span>
+          </div>
+        </a>
+        <a href="GoodSpan Seasons.dc.html?theme=move" style="text-decoration:none;display:flex;flex-direction:column;background:#fff;border:1px solid #E8E1D3;border-radius:18px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px rgba(40,44,30,0.1);">
+          <div style="height:180px;background-image:url(uploads/14.png);background-size:cover;background-position:center 62%;"></div>
+          <div style="height:10px;background:oklch(0.62 0.155 76);"></div>
+          <div style="padding:28px 32px 32px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.52 0.14 74);margin-bottom:12px;">GoodMove</div>
+            <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:26px;line-height:1.16;margin:0 0 14px;color:#20251F;letter-spacing:-0.015em;">Move in ways your body can <span style="font-style:italic;">keep saying yes to.</span></h3>
+            <p style="font-size:15px;line-height:1.62;color:#5A5F56;margin:0 0 22px;">Movement doesn't have to be extreme to change your life. Walking, strength, stretching or simply moving more often, all help you build vitality that lasts.</p>
+            <span style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#fff;background:oklch(0.62 0.155 76);padding:11px 22px;border-radius:999px;">I want to start here →</span>
+          </div>
+        </a>
+        <a href="GoodSpan Seasons.dc.html?theme=mind" style="text-decoration:none;display:flex;flex-direction:column;background:#fff;border:1px solid #E8E1D3;border-radius:18px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px rgba(40,44,30,0.1);">
+          <div style="height:180px;background-image:url(uploads/6.png);background-size:155%;background-position:center 42%;"></div>
+          <div style="height:10px;background:#AECE36;"></div>
+          <div style="padding:28px 32px 32px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.5 0.13 128);margin-bottom:12px;">GoodMind</div>
+            <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:26px;line-height:1.16;margin:0 0 14px;color:#20251F;letter-spacing:-0.015em;">A calmer mind <span style="font-style:italic;">changes everything else.</span></h3>
+            <p style="font-size:15px;line-height:1.62;color:#5A5F56;margin:0 0 22px;">When we create space to breathe, reflect and slow down, we respond with greater clarity, resilience and presence in our work, our relationships and ourselves.</p>
+            <span style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:oklch(0.32 0.08 128);background:#AECE36;padding:11px 22px;border-radius:999px;">I want to start here →</span>
+          </div>
+        </a>
+        <a href="GoodSpan Seasons.dc.html?theme=eat" style="text-decoration:none;display:flex;flex-direction:column;background:#fff;border:1px solid #E8E1D3;border-radius:18px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px rgba(40,44,30,0.1);">
+          <div style="height:180px;background-image:url(uploads/5.png);background-size:150%;background-position:center 40%;"></div>
+          <div style="height:10px;background:oklch(0.62 0.2 47);"></div>
+          <div style="padding:28px 32px 32px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.56 0.2 47);margin-bottom:12px;">GoodEat</div>
+            <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:26px;line-height:1.16;margin:0 0 14px;color:#20251F;letter-spacing:-0.015em;">Food is nourishment, <span style="font-style:italic;">and a way to connect.</span></h3>
+            <p style="font-size:15px;line-height:1.62;color:#5A5F56;margin:0 0 22px;">Eating well is about more than nutrients. It's about creating energy, finding balance and sharing meals that bring people together.</p>
+            <span style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#fff;background:oklch(0.62 0.2 47);padding:11px 22px;border-radius:999px;">I want to start here →</span>
+          </div>
+        </a>
+      </div>
+
+      <div style="text-align:center;margin-top:40px;">
+        <p style="font-size:14.5px;color:#5A5F56;margin:0 0 16px;">Not sure which one is right for you?</p>
+        <a href="GoodSpan Seasons.dc.html?unsure=1" style="text-decoration:none;display:inline-flex;align-items:center;gap:9px;color:#20251F;padding:15px 30px;border-radius:999px;border:1.5px solid #C9C2AE;font-size:14.5px;font-weight:600;letter-spacing:0.01em;" style-hover="border-color:#2C4636;background:#F6F6F4;">Take the quiz to find your focus <span style="font-size:16px;">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKERS -->
+  <section data-screen-label="Markers" style="max-width:1180px;margin:0 auto;padding:clamp(60px,10vw,120px) clamp(20px,5vw,40px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,6vw,80px);align-items:center;">
+      <div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(28px,5vw,46px);line-height:1.1;letter-spacing:-0.02em;margin:0 0 26px;color:#20251F;">Progress you can <span style="font-style:italic;">hold.</span></h2>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:34em;">At the end of every Season, you receive a Marker, a small physical symbol of the journey you've completed together.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:34em;">As your Seasons add up, so does your collection of Markers, a lasting reminder of the habits you've built and the people you've shared them with.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:34em;">Longevity isn't built from one habit alone. Sleep, movement, food and mind all shape each other, so completing Seasons across the four pillars is what compounds into a longer, fuller life.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0;max-width:34em;">Because some progress deserves more than a number on a screen.</p>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:5/4;border-radius:20px;background:#F6F6F4;display:flex;align-items:center;justify-content:center;">
+        <div style="width:200px;height:200px;border-radius:50%;background:linear-gradient(160deg, #2C4636, #1E3327);display:flex;align-items:center;justify-content:center;box-shadow:0 24px 48px rgba(30,51,39,0.28), inset 0 2px 3px rgba(255,255,255,0.12);">
+          <div style="width:158px;height:158px;border-radius:50%;border:1.5px solid rgba(174,206,54,0.55);display:flex;align-items:center;justify-content:center;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#AECE36;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW A SEASON WORKS -->
+  <section id="rhythm" data-screen-label="How a Season works" style="max-width:1180px;margin:0 auto;padding:clamp(60px,10vw,120px) clamp(20px,5vw,40px);">
+    <div style="text-align:center;max-width:640px;margin:0 auto 70px;">
+      <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(28px,5vw,44px);line-height:1.1;letter-spacing:-0.02em;margin:0;color:#20251F;">A simple way to build <span style="font-style:italic;">lasting habits.</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;">
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">01</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Find your focus</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">Take a short quiz to discover what matters most to you right now.</p>
+      </div>
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">02</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Join your Circle</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">We'll match you with a small Circle of people with similar goals and recommend science-backed practices for the month.</p>
+      </div>
+      <div style="padding:0 4px;">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:#9AA690;border-bottom:1px solid #E2DBCC;padding-bottom:18px;margin-bottom:20px;">03</div>
+        <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#20251F;letter-spacing:-0.01em;">Grow together</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:#5A5F56;margin:0;">Support each other for 30 days as you build healthier habits, one day at a time.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:60px;">
+      <a href="GoodSpan Seasons.dc.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:9px;background:#2C4636;color:#fff;padding:16px 34px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:0.01em;" style-hover="background:#1E3327;">Take the quiz <span style="font-size:17px;">→</span></a>
+    </div>
+  </section>
+
+  <!-- BELONGING BAND -->
+  <section data-screen-label="Belonging" style="position:relative;height:min(64vh,560px);min-height:420px;overflow:hidden;display:flex;align-items:center;">
+    <img src="uploads/12.png" alt="Friends watching the sunset, arms around one another" class="gs-photo" style="position:absolute;inset:0;transform:scale(1.1);object-position:50% 42%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(30,28,20,0.34), rgba(30,28,20,0.5));"></div>
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,40px);width:100%;text-align:center;">
+      <p style="font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(24px,4.5vw,40px);line-height:1.22;letter-spacing:-0.015em;color:#fff;margin:0 auto;max-width:18em;text-shadow:0 2px 20px rgba(0,0,0,0.25);">“Accountability got us started. Friendship kept us coming back.”</p>
+      <div style="margin-top:26px;color:rgba(255,255,255,0.85);font-size:13.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;">— A Good Span Circle, Season One</div>
+    </div>
+  </section>
+
+  <!-- THE GATHERING -->
+  <section id="gathering" data-screen-label="The gathering" style="max-width:1180px;margin:0 auto;padding:clamp(60px,10vw,120px) clamp(20px,5vw,40px);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,6vw,80px);align-items:center;">
+      <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:5/4;box-shadow:0 30px 60px rgba(40,44,30,0.16);order:1;">
+        <img src="uploads/6.png" alt="A Circle watching the sunset together" class="gs-photo" style="transform:scale(1.12);object-position:50% 45%;">
+      </div>
+      <div style="order:2;">
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(28px,5vw,46px);line-height:1.1;letter-spacing:-0.02em;margin:0 0 26px;color:#20251F;">Every Season ends <span style="font-style:italic;">in person.</span></h2>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0 0 20px;max-width:33em;">When your thirty days are done, everyone who completes the Season comes together for a closing gathering. You connect with everyone in your Seasons, and mark the journey you've made together.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:#4B5249;margin:0;max-width:33em;">It's where a month of practice becomes faces, names and shared stories — the people you keep, long after the Season ends.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section data-screen-label="Final CTA" style="background:#2C4636;color:#F4F2EA;padding:clamp(70px,11vw,130px) 0;">
+    <div style="max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px);text-align:center;">
+      <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(32px,6vw,54px);line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px;color:#fff;">Your Circle is <span style="font-style:italic;">waiting.</span></h2>
+      <p style="font-size:18px;line-height:1.7;color:rgba(244,242,234,0.82);margin:0 auto 38px;max-width:30em;">Join your first Season, meet your Circle, and begin thirty days you won't walk alone.</p>
+      <a href="GoodSpan Seasons.dc.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:9px;background:#fff;color:#1E2A20;padding:17px 38px;border-radius:999px;font-size:16px;font-weight:600;letter-spacing:0.01em;box-shadow:0 16px 36px rgba(0,0,0,0.25);" style-hover="background:#F0EFE9;">Take the quiz <span style="font-size: 17px;">→</span></a>
+      
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#1F2A23;color:rgba(244,242,234,0.7);padding:clamp(36px,7vw,56px) clamp(20px,5vw,40px);">
+    <div style="max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:-0.01em;">The Good Span</div>
+        <div style="font-size:13.5px;margin-top:6px;color:rgba(244,242,234,0.55);">Community for longer, richer lives.</div>
+      </div>
+      <div style="display:flex;gap:30px;flex-wrap:wrap;font-size:14px;">
+        <a href="#circle" style="text-decoration:none;color:rgba(244,242,234,0.7);">The Circle</a>
+        <a href="#rhythm" style="text-decoration:none;color:rgba(244,242,234,0.7);">How it works</a>
+        <a href="#seasons" style="text-decoration:none;color:rgba(244,242,234,0.7);">The Seasons</a>
+        <a href="#gathering" style="text-decoration:none;color:rgba(244,242,234,0.7);">Gatherings</a>
+      </div>
+    </div>
+    <div style="max-width:1180px;margin:36px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);font-size:12.5px;color:rgba(244,242,234,0.45);">© 2026 The Good Span Seasons. A community-led programme for a longer, fuller life. Practices support general wellbeing and are not a substitute for medical care.</div>
+  </footer>
+
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#27352A">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#27352A"></rect>
+    <circle cx="600" cy="360" r="148" fill="none" stroke="#C7D2BD" stroke-width="14"></circle>
+    <text x="600" y="402" font-family="Georgia, serif" font-style="italic" font-size="120" fill="#ffffff" text-anchor="middle">G</text>
+    <text x="600" y="610" font-family="Georgia, serif" font-size="44" fill="#F4F2EA" text-anchor="middle">The Good Span</text>
+  </svg>
+</template>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { isMobile: false, menuOpen: false };
+
+  componentDidMount(){
+    this._updateIsMobile = () => this.setState(s => {
+      const isMobile = window.innerWidth < 860;
+      return isMobile === s.isMobile ? null : { isMobile };
+    });
+    this._updateIsMobile();
+    window.addEventListener('resize', this._updateIsMobile);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('resize', this._updateIsMobile);
+  }
+
+  renderVals(){
+    const s = this.state;
+    return {
+      showInlineLinks: !s.isMobile,
+      showHamburger: s.isMobile,
+      menuOpen: s.isMobile && s.menuOpen,
+      toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      stopClick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      hamburgerBtnStyle: `display:flex;flex-direction:column;gap:5px;justify-content:center;align-items:center;width:40px;height:40px;background:none;border:none;cursor:pointer;padding:0;`,
+      barStyle: `width:22px;height:2px;background:#20251F;border-radius:2px;`,
+      closeBtnStyle: `background:none;border:none;font-size:20px;color:#20251F;cursor:pointer;padding:6px;line-height:1;`,
+      mobileMenuOverlayStyle: `position:fixed;inset:0;background:rgba(20,24,18,0.35);z-index:60;display:flex;justify-content:flex-end;`,
+      mobileMenuPanelStyle: `width:min(78vw,320px);height:100%;background:#fff;padding:18px 26px 32px;display:flex;flex-direction:column;gap:20px;box-shadow:-12px 0 40px rgba(20,24,18,0.18);`,
+      mobileLinkStyle: `text-decoration:none;color:#20251F;font-size:17px;font-weight:600;letter-spacing:0.01em;`,
+      mobileCtaStyle: `text-decoration:none;background:#2C4636;color:#fff;padding:14px 22px;border-radius:999px;font-size:15px;font-weight:600;text-align:center;letter-spacing:0.01em;margin-top:8px;`,
+    };
+  }
+}
+</script>
+</body>
+</html>
