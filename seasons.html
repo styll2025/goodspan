@@ -103,7 +103,7 @@
 <nav>
   <a href="index.html" class="nav-logo">
     <div style="font-family:'Newsreader',serif;font-size:34px;font-weight:600;letter-spacing:-0.01em;line-height:1.1;">The Good Span</div>
-    <div style="font-size:11px;font-weight:500;letter-spacing:0.04em;color:#5A5F56;margin-top:1px;">Community for longer, richer lives.</div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:0.04em;color:#5A5F56;margin-top:1px;">For more years that matter.</div>
   </a>
   <div class="stepper" id="stepper"></div>
 </nav>
@@ -152,7 +152,7 @@
     <button class="btn-back" onclick="goToStep(1)">← Back</button>
     <div id="step3-chips" style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <h1 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px;">Your recommended <span style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;">practices.</span></h1>
-    <p style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;">We've pre-selected what works best for your level. Uncheck any you'd rather skip, or add your own.</p>
+    <p id="step3-subtitle" style="font-size:15px;max-width:38em;color:#5A5F56;margin:0 0 16px;line-height:1.6;"></p>
     <div id="rule-banner" style="display:flex;align-items:center;gap:10px;background:#F5F5F4;border-radius:12px;padding:12px 16px;margin-bottom:8px;">
       <span>✨</span><span style="font-size:13.5px;color:#4B5249;line-height:1.45;">All recommended practices are pre-selected. <strong>Uncheck any you'd rather skip.</strong></span>
     </div>
@@ -1107,11 +1107,12 @@ function renderStep3() {
   `;
 
   const hint = NOTE_MAP[state.themeId]?.[state.quizAnswers?.pillarQ1];
+  const subtitle = `Based on your answers, here are ${state.recSlots.length} ${l.name.toLowerCase()} practices to start your ${t.name} Season${hint ? ` — ${hint}` : ''}.`;
+  document.getElementById('step3-subtitle').textContent = subtitle;
+
   document.getElementById('rule-banner').innerHTML = `
     <span>✨</span>
-    <span style="font-size:13.5px;color:#4B5249;line-height:1.45;">
-      ${hint ? `Focused on <em>${hint}</em>. ` : ''}All recommended practices are pre-selected. <strong>Uncheck any you'd rather skip.</strong>
-    </span>`;
+    <span style="font-size:13.5px;color:#4B5249;line-height:1.45;">Uncheck any you'd rather skip, or swap one for another idea.</span>`;
 
   const practiceList = document.getElementById('practice-list');
   practiceList.innerHTML = state.recSlots.map((slot, i) => {
@@ -1290,10 +1291,10 @@ function renderStep4() {
           </div>
           <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.015em;color:#20251F;">Your Circle is forming</div>
         </div>
-        <p style="font-size:14.5px;line-height:1.6;margin:0 0 16px;color:#5A5F56;max-width:48em;">You'll be placed with 5 to 7 people you haven't met, all walking this same Season. You'll connect on WhatsApp and meet weekly to share insight, challenges, and progress.</p>
+        <p style="font-size:14.5px;line-height:1.6;margin:0 0 16px;color:#5A5F56;max-width:48em;">You'll be placed with 5 to 7 people, all walking this same Season. You'll connect on WhatsApp and meet weekly to share insight, challenges, and progress.</p>
         <div style="background:#fff;border-radius:12px;padding:18px 20px;border:1px solid #E2DBCC;">
           <div style="font-weight:700;font-size:15px;margin:0 0 5px;color:#20251F;">Day 30 — the closing gathering</div>
-          <p style="font-size:14px;line-height:1.6;margin:0;color:#5A5F56;max-width:48em;">When your thirty days are done, everyone who completes the Season comes together in person. Meet your Circle face to face, connect with people from the other themes, and mark the end of the Season together.</p>
+          <p style="font-size:14px;line-height:1.6;margin:0;color:#5A5F56;max-width:48em;">When the thirty days come to an end, members from every Circle gather in person to celebrate completing the Season together.</p>
         </div>
       </div>
 
