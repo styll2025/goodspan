@@ -1,5 +1,5 @@
 // GoodSpan Seasons, practice catalogue
-// Each practice: { level: 'gentle'|'moderate'|'deep'|'all', text, insight }
+// Each practice: { level: 'gentle'|'moderate'|'deep', text, source }
 
 export const LEVELS = [
   {
@@ -33,258 +33,96 @@ export const SEASONS = [
     soft: 'oklch(0.95 0.05 155)',
     note: 'These practices build healthier sleep habits in the general population — they are not a treatment for diagnosed insomnia. If you live with a sleep disorder, treat this as a complement to professional care, not a replacement.',
     categories: [
-      {
-        name: 'Circadian Alignment',
-        families: [
-          {
-            name: 'Morning Light',
-            insight: 'Light in the first part of the day is the strongest signal for setting your body clock and shifting sleep earlier.',
-            levels: { gentle: '5 min outdoors within 1 hour of waking', moderate: '10–15 min outdoors', deep: '20–30 min outdoors' },
-            science: {
-              why: 'Light in the first part of the day is the strongest signal for setting the circadian clock and advancing sleep timing earlier.',
-              research: 'Morning and daytime light exposure advances circadian phase and supports earlier, more consolidated sleep, and a systematic review confirms that light in the late biological night and early morning advances the clock. An international expert consensus recommends a daytime minimum of roughly 250 lux melanopic EDI at eye level, a level usually only reached outdoors or near a window rather than under typical indoor lighting.',
-              sources: [
-                { text: 'Tähkämö, L., Partonen, T., & Pesonen, A.-K. (2019). Systematic review of light exposure impact on human circadian rhythm. Chronobiology International, 36(2), 151–170.', url: 'https://doi.org/10.1080/07420528.2018.1527773' },
-                { text: 'Brown, T. M., et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure to best support physiology, sleep, and wakefulness in healthy adults. PLOS Biology, 20(3), e3001571.', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
-              ],
-            },
-          },
-          {
-            name: 'Regular Sleep Schedule',
-            insight: 'The body sleeps best when bedtime and wake time are predictable, and regularity matters for long-term health on its own.',
-            levels: { gentle: 'Bedtime within a 60-minute window', moderate: 'Bedtime and wake time within 45 min', deep: 'Bedtime and wake time within 30 min, including weekends' },
-            science: {
-              why: 'The body sleeps best when bedtime and wake time are predictable, and regularity appears to matter for long-term health independently of how long you sleep.',
-              research: 'A systematic review found that later and more variable sleep timing is generally associated with worse health outcomes. A large prospective cohort study using accelerometer data from roughly 61,000 UK Biobank participants found that sleep regularity was a stronger predictor of all-cause mortality than sleep duration, with the most regular sleepers showing a markedly lower mortality risk than the least regular.',
-              sources: [
-                { text: 'Chaput, J.-P., et al. (2020). Sleep timing, sleep consistency, and health in adults: A systematic review. Applied Physiology, Nutrition, and Metabolism, 45(10, Suppl. 2), S232–S247.', url: 'https://doi.org/10.1139/apnm-2020-0032' },
-                { text: 'Windred, D. P., et al. (2024). Sleep regularity is a stronger predictor of mortality risk than sleep duration: A prospective cohort study. Sleep, 47(1), zsad253.', url: 'https://doi.org/10.1093/sleep/zsad253' },
-              ],
-            },
-          },
-          {
-            name: 'Dim Evening Light',
-            insight: 'Bright light in the evening suppresses melatonin and pushes your body clock later.',
-            levels: { gentle: 'Dim lights 1 hour before bed', moderate: 'Avoid bright overhead lights 2 hours before bed', deep: 'Create a low-light evening routine' },
-            science: {
-              why: 'Bright light in the evening suppresses melatonin and pushes the circadian clock later.',
-              research: 'A systematic review with meta-analysis found that higher evening light levels measurably alter polysomnographically assessed sleep. Experimental work shows the circadian system is highly sensitive to evening light, with roughly half of melatonin suppression occurring below 30 lux — comparable to ordinary indoor and device light — and more than a 50-fold difference in sensitivity between individuals. The expert consensus recommends keeping evening light below roughly 10 lux melanopic EDI in the hours before bed.',
-              sources: [
-                { text: 'Cajochen, C., et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep: A systematic review with meta-analysis. Lighting Research & Technology, 54(6), 609–624.', url: 'https://doi.org/10.1177/14771535221078765' },
-                { text: 'Phillips, A. J. K., et al. (2019). High sensitivity and interindividual variability in the response of the human circadian system to evening light. PNAS, 116(24), 12019–12024.', url: 'https://doi.org/10.1073/pnas.1901824116' },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: 'Sleep Pressure',
-        families: [
-          {
-            name: 'Daily Movement',
-            insight: 'Physical activity builds the sleep pressure that helps you fall and stay asleep.',
-            levels: { gentle: '20-min walk', moderate: '30 min moderate activity', deep: 'Meet WHO activity guidelines' },
-            science: {
-              why: 'Physical activity builds homeostatic sleep pressure and improves sleep quality over time.',
-              research: 'A meta-analytic review found that regular exercise has small beneficial effects on total sleep time and sleep efficiency, small-to-medium benefits for sleep onset latency, and moderate benefits for overall sleep quality, with consistency mattering more than intensity. The WHO 2020 guidelines recommend at least 150 to 300 minutes of moderate activity per week for adults.',
-              sources: [
-                { text: 'Kredlow, M. A., et al. (2015). The effects of physical activity on sleep: A meta-analytic review. Journal of Behavioral Medicine, 38(3), 427–449.', url: 'https://doi.org/10.1007/s10865-015-9617-6' },
-                { text: 'Bull, F. C., et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451–1462.', url: 'https://doi.org/10.1136/bjsports-2020-102955' },
-              ],
-            },
-          },
-          {
-            name: 'Caffeine Timing',
-            insight: 'Caffeine blocks adenosine, the molecule that builds sleep pressure, and lingers long after its lift fades.',
-            levels: { gentle: 'No caffeine after 4pm', moderate: 'No caffeine after 2pm', deep: 'Adjust intake to your bedtime' },
-            science: {
-              why: 'Caffeine blocks adenosine, the molecule that builds sleep pressure across the day, and it lingers long after its alerting effect fades.',
-              research: 'A systematic review and meta-analysis of 24 studies found that caffeine reduced total sleep time by approximately 45 minutes and sleep efficiency by about 7 percent, increased sleep onset latency by roughly 9 minutes, and reduced deep sleep. To avoid disruption, a standard coffee (around 107 mg) should be consumed at least roughly 9 hours before bed, though the wide variation in caffeine half-life between people (2 to 10 hours) means individuals should adjust to their own response.',
-              sources: [
-                { text: 'Gardiner, C., et al. (2023). The effect of caffeine on subsequent sleep: A systematic review and meta-analysis. Sleep Medicine Reviews, 69, 101764.', url: 'https://doi.org/10.1016/j.smrv.2023.101764' },
-                { text: 'Drake, C., et al. (2013). Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. Journal of Clinical Sleep Medicine, 9(11), 1195–1200.', url: 'https://doi.org/10.5664/jcsm.3170' },
-              ],
-            },
-          },
-          {
-            name: 'Naps',
-            insight: 'Short, early naps restore alertness without eroding the sleep pressure you need at night.',
-            levels: { gentle: 'Nap under 30 min', moderate: 'Nap before 3pm', deep: 'Nap only when needed' },
-            science: {
-              why: 'Short, early naps can restore alertness without eroding nighttime sleep pressure.',
-              research: 'A review of epidemiological and laboratory studies concluded that short daytime naps improve alertness and mood, while longer or late-afternoon naps can reduce the drive for nighttime sleep. Benefits are most reliable when naps are kept brief and taken earlier in the day.',
-              sources: [
-                { text: 'Faraut, B., et al. (2017). Napping: A public health issue. From epidemiological to laboratory studies. Sleep Medicine Reviews, 35, 85–100.', url: 'https://doi.org/10.1016/j.smrv.2016.09.002' },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: 'Wind Down',
-        families: [
-          {
-            name: 'Slow Breathing',
-            insight: 'Slow, controlled breathing shifts the body toward its calming parasympathetic state before sleep.',
-            levels: { gentle: '2 min before bed', moderate: '5 min before bed', deep: '10 min before bed' },
-            science: {
-              why: 'Slow, controlled breathing shifts the autonomic balance toward the parasympathetic system, lowering pre-sleep arousal.',
-              research: 'Slow breathing reliably increases heart rate variability and reduces physiological arousal. A systematic review of slow breathing before bed found that self-reported sleep duration and quality tend to improve, while objective sleep findings remain inconclusive — a low-risk practice with promising but not definitive evidence.',
-              sources: [
-                { text: 'Kuula, L., et al. (2020). The effects of presleep slow breathing and music listening on polysomnographic sleep measures: A pilot trial. Scientific Reports, 10, 7427.', url: 'https://doi.org/10.1038/s41598-020-64218-7' },
-                { text: 'Eide, E. M., Hernes, H. M., & Grønli, J. (2026). Slow breathing techniques before bedtime and the effects on sleep: A systematic review. Sleep Medicine Reviews, 87, 102284.', url: 'https://doi.org/10.1016/j.smrv.2026.102284' },
-              ],
-            },
-          },
-          {
-            name: 'Progressive Muscle Relaxation',
-            insight: 'Tensing and releasing muscle groups lowers physical tension and arousal before sleep.',
-            levels: { gentle: '5 min', moderate: '10 min', deep: 'Full nightly routine' },
-            science: {
-              why: 'Systematically tensing and releasing muscle groups lowers physical tension and autonomic arousal before sleep.',
-              research: 'A controlled study found that progressive muscle relaxation increased restorative slow-wave sleep during a daytime nap. A recent systematic review and meta-analysis of 31 randomised controlled trials (roughly 2,277 participants) reported a significant improvement in sleep quality alongside reductions in anxiety, though heterogeneity across trials was high. Relaxation-based techniques are endorsed as a single-component therapy in the AASM clinical practice guideline.',
-              sources: [
-                { text: 'Simon, K. C., et al. (2022). Progressive muscle relaxation increases slow-wave sleep during a daytime nap. Journal of Sleep Research, 31(5), e13574.', url: 'https://doi.org/10.1111/jsr.13574' },
-                { text: 'Donato, K. O., et al. (2026). Progressive muscle relaxation technique improves sleep quality and mental health: A systematic review and meta-analysis of randomized controlled trials. Journal of Psychosomatic Research, 203, 112563.', url: 'https://doi.org/10.1016/j.jpsychores.2026.112563' },
-              ],
-            },
-          },
-          {
-            name: 'Brain Dump / Tomorrow List',
-            insight: 'Writing down tomorrow’s tasks stops the mind rehearsing them at bedtime.',
-            levels: { gentle: 'Write one task', moderate: 'Top 3 priorities', deep: '5-minute cognitive offload' },
-            science: {
-              why: 'Writing down tomorrow’s tasks stops the mind rehearsing them at bedtime.',
-              research: 'In a polysomnography study of 57 adults, participants who spent five minutes writing a specific to-do list before bed fell asleep faster than those who journaled about completed tasks, and the more specific the list, the faster they fell asleep. This is a single well-controlled experiment rather than a meta-analysis, so the effect is promising but not yet replicated at scale.',
-              sources: [
-                { text: 'Scullin, M. K., et al. (2018). The effects of bedtime writing on difficulty falling asleep: A polysomnographic study comparing to-do lists and completed activity lists. Journal of Experimental Psychology: General, 147(1), 139–146.', url: 'https://doi.org/10.1037/xge0000374' },
-              ],
-            },
-          },
-          {
-            name: 'Relaxing Music',
-            insight: 'Calming music lowers arousal and can ease the transition into sleep.',
-            levels: { gentle: '5 min', moderate: '10 min', deep: 'Full sleep playlist' },
-            science: {
-              why: 'Calming music lowers arousal and can ease the transition into sleep.',
-              research: 'A Cochrane systematic review found evidence that listening to music can improve subjective sleep quality in adults with insomnia symptoms, while noting that the effect on objective sleep parameters is less clear and more research is needed. Music works best as part of a consistent wind-down routine.',
-              sources: [
-                { text: 'Jespersen, K. V., et al. (2022). Listening to music for insomnia in adults. Cochrane Database of Systematic Reviews, 2022(8), CD010459.', url: 'https://doi.org/10.1002/14651858.CD010459.pub3' },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: 'Sleep Environment',
-        families: [
-          {
-            name: 'Cool Bedroom',
-            insight: 'Core body temperature falls as you prepare for sleep, and an overheated room works against that.',
-            levels: { gentle: 'Comfortable temperature', moderate: '18–20°C if possible', deep: 'Optimise consistently' },
-            science: {
-              why: 'Core body temperature falls as you prepare for sleep, and an overheated room works against that.',
-              research: 'A longitudinal field study in community-dwelling older adults found that sleep was most efficient when nighttime bedroom temperature was roughly 20 to 25°C, with a clinically meaningful 5 to 10 percent drop in sleep efficiency as the room warmed from 25 to 30°C, and substantial variation between individuals. The defensible message is to keep the room cool and comfortable and above all avoid overheating, with the exact set point being individual.',
-              sources: [
-                { text: 'Baniassadi, A., et al. (2023). Nighttime ambient temperature and sleep in community-dwelling older adults. Science of the Total Environment, 899, 165623.', url: 'https://doi.org/10.1016/j.scitotenv.2023.165623' },
-              ],
-            },
-          },
-          {
-            name: 'Dark Bedroom',
-            insight: 'Even low light can interfere with melatonin and disrupt circadian timing.',
-            levels: { gentle: 'Close curtains', moderate: 'Remove light sources', deep: 'Complete darkness' },
-            science: {
-              why: 'Even low light can interfere with melatonin and disrupt circadian timing.',
-              research: 'The expert consensus recommends keeping the sleep environment as dark as possible, below roughly 1 lux melanopic EDI, since evening and night light suppress melatonin and shift the clock. Blackout curtains or an eye mask can make a meaningful difference.',
-              sources: [
-                { text: 'Brown, T. M., et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure in healthy adults. PLOS Biology, 20(3), e3001571.', url: 'https://doi.org/10.1371/journal.pbio.3001571' },
-                { text: 'Cajochen, C., et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep. Lighting Research & Technology, 54(6), 609–624.', url: 'https://doi.org/10.1177/14771535221078765' },
-              ],
-            },
-          },
-          {
-            name: 'Quiet Bedroom',
-            insight: 'The brain keeps processing sound during sleep, so noise fragments it even without fully waking you.',
-            levels: { gentle: 'Reduce one noise source', moderate: 'Earplugs or white noise', deep: 'Consistent quiet environment' },
-            science: {
-              why: 'The brain continues to process sound during sleep, so noise fragments it even when it does not fully wake you.',
-              research: 'A WHO systematic review and meta-analysis of 74 studies found that environmental noise increases awakenings and self-reported sleep disturbance, reducing sleep continuity and time in deep and REM sleep. Earplugs or white noise can help where the noise source itself cannot be removed.',
-              sources: [
-                { text: 'Basner, M., & McGuire, S. (2018). WHO Environmental Noise Guidelines for the European Region: A systematic review on environmental noise and effects on sleep. International Journal of Environmental Research and Public Health, 15(3), 519.', url: 'https://doi.org/10.3390/ijerph15030519' },
-              ],
-            },
-          },
-          {
-            name: 'Bed = Sleep',
-            insight: 'The brain learns to associate the bed with whatever it is repeatedly used for.',
-            levels: { gentle: 'No phone in bed', moderate: 'No work in bed', deep: 'Bed only for sleep' },
-            science: {
-              why: 'The brain learns to associate the bed with whatever it is repeatedly used for.',
-              research: 'Stimulus control — the practice of reserving the bed for sleep — is recommended as a single-component therapy in the AASM clinical practice guideline, which was built on a GRADE-assessed systematic review and meta-analysis. Working, scrolling, or watching television in bed weakens the bed–sleep association over time.',
-              sources: [
-                { text: 'Edinger, J. D., et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: An AASM clinical practice guideline. Journal of Clinical Sleep Medicine, 17(2), 255–262.', url: 'https://doi.org/10.5664/jcsm.8986' },
-              ],
-            },
-          },
-          {
-            name: 'Alcohol Timing',
-            insight: 'Alcohol can speed sleep onset but degrades sleep quality later in the night.',
-            levels: { gentle: 'Alcohol-free 2h before bed', moderate: 'Alcohol-free 3h before bed', deep: 'Skip alcohol on weekdays' },
-            science: {
-              why: 'Alcohol can speed sleep onset but degrades sleep quality later in the night.',
-              research: 'A systematic review and meta-analysis of 27 controlled studies found that alcohol disrupts REM sleep in a dose-dependent way, delaying its onset and reducing its duration even at low doses of around two standard drinks, and worsening with higher doses. Higher doses shorten sleep onset latency, but at the cost of greater REM disruption, so alcohol is not an appropriate sleep aid.',
-              sources: [
-                { text: 'Gardiner, C. L., et al. (2025). The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis. Sleep Medicine Reviews, 80, 102030.', url: 'https://doi.org/10.1016/j.smrv.2024.102030' },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        name: 'Social Accountability',
-        families: [
-          {
-            name: 'Share Tomorrow’s Goal',
-            insight: 'Deciding in advance exactly what you will do, and committing to it, makes follow-through more likely.',
-            levels: { gentle: 'Share one sleep intention', moderate: 'Share your bedtime target', deep: 'Review together the next day' },
-            science: {
-              why: 'Deciding in advance exactly what you will do, and committing to it, makes follow-through more likely.',
-              research: 'A meta-analysis of 94 independent tests found that forming implementation intentions — specific if-then plans linking a behaviour to a cue — had a medium-to-large effect on goal attainment. Meta-reviews of health behaviour change similarly identify goal setting, commitment, and monitoring among the more effective techniques.',
-              sources: [
-                { text: 'Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology, 38, 69–119.', url: 'https://doi.org/10.1016/S0065-2601(06)38002-1' },
-                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
-              ],
-            },
-          },
-          {
-            name: 'Celebrate Progress',
-            insight: 'Feedback on progress reinforces new habits and sustains motivation.',
-            levels: { gentle: 'Congratulate one teammate', moderate: 'Celebrate weekly wins', deep: 'Build a shared streak' },
-            science: {
-              why: 'Feedback on progress reinforces new habits and sustains motivation.',
-              research: 'Reviews of behaviour change consistently find that feedback and self-monitoring are among the most frequently used and effective techniques, and that acknowledging progress strengthens motivation. An umbrella review of digital health interventions reached the same conclusion across a large pooled evidence base.',
-              sources: [
-                { text: 'Mair, J. L., et al. (2023). Effective behavior change techniques in digital health interventions for the prevention or management of noncommunicable diseases: An umbrella review. Annals of Behavioral Medicine, 57(10), 817–835.', url: 'https://doi.org/10.1093/abm/kaad041' },
-                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
-              ],
-            },
-          },
-          {
-            name: 'Reflect Together',
-            insight: 'Reviewing what worked helps people learn from experience and stay engaged.',
-            levels: { gentle: 'Share one thing that helped', moderate: 'Share one lesson learned', deep: 'Weekly Circle reflection' },
-            science: {
-              why: 'Reviewing what worked helps people learn from experience and stay engaged.',
-              research: 'Self-monitoring and reflection are core components of effective behaviour change, and a meta-review of self-regulatory techniques across diet, activity, and weight outcomes (drawing on 30 meta-analyses and more than 400,000 participants) found goal setting and self-monitoring to be among the most examined and useful techniques. Sharing reflections adds accountability.',
-              sources: [
-                { text: 'Spring, B., et al. (2020). Self-regulatory behaviour change techniques in interventions to promote healthy eating, physical activity, or weight loss: A meta-review. Health Psychology Review, 15(4), 508–539.', url: 'https://doi.org/10.1080/17437199.2020.1721310' },
-                { text: 'Hennessy, E. A., et al. (2020). Self-regulation mechanisms in health behavior change: A systematic meta-review of meta-analyses, 2006–2017. Health Psychology Review, 14(1), 6–42.', url: 'https://doi.org/10.1080/17437199.2019.1679654' },
-              ],
-            },
-          },
-        ],
-      },
+      { name: `Circadian Alignment`, practices: [
+        { level: 'gentle', text: `5 min outdoors within 1 hour of waking`, source: `Tähkämö, L., Partonen, T., & Pesonen, A.-K. (2019). Systematic review of light exposure impact on human circadian rhythm. Chronobiology International, 36(2), 151-170. https://doi.org/10.1080/07420528.2018.1527773
+Brown, T. M. et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure to best support physiology, sleep, and wakefulness in healthy adults. PLOS Biology, 20(3), e3001571. https://doi.org/10.1371/journal.pbio.3001571` },
+        { level: 'moderate', text: `10–15 min outdoors every day`, source: `Tähkämö, L., Partonen, T., & Pesonen, A.-K. (2019). Systematic review of light exposure impact on human circadian rhythm. Chronobiology International, 36(2), 151-170. https://doi.org/10.1080/07420528.2018.1527773
+Brown, T. M. et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure to best support physiology, sleep, and wakefulness in healthy adults. PLOS Biology, 20(3), e3001571. https://doi.org/10.1371/journal.pbio.3001571` },
+        { level: 'deep', text: `20–30 min outdoors`, source: `Tähkämö, L., Partonen, T., & Pesonen, A.-K. (2019). Systematic review of light exposure impact on human circadian rhythm. Chronobiology International, 36(2), 151-170. https://doi.org/10.1080/07420528.2018.1527773
+Brown, T. M. et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure to best support physiology, sleep, and wakefulness in healthy adults. PLOS Biology, 20(3), e3001571. https://doi.org/10.1371/journal.pbio.3001571` },
+        { level: 'gentle', text: `Bedtime within 60 min`, source: `Chaput, J.-P. et al. (2020). Sleep timing, sleep consistency, and health in adults: A systematic review. Applied Physiology, Nutrition, and Metabolism, 45(10, Suppl. 2), S232-S247. https://doi.org/10.1139/apnm-2020-0032
+Windred, D. P. et al. (2024). Sleep regularity is a stronger predictor of mortality risk than sleep duration: A prospective cohort study. Sleep, 47(1), zsad253. https://doi.org/10.1093/sleep/zsad253` },
+        { level: 'moderate', text: `Bedtime + wake time within 45 min`, source: `Chaput, J.-P. et al. (2020). Sleep timing, sleep consistency, and health in adults: A systematic review. Applied Physiology, Nutrition, and Metabolism, 45(10, Suppl. 2), S232-S247. https://doi.org/10.1139/apnm-2020-0032
+Windred, D. P. et al. (2024). Sleep regularity is a stronger predictor of mortality risk than sleep duration: A prospective cohort study. Sleep, 47(1), zsad253. https://doi.org/10.1093/sleep/zsad253` },
+        { level: 'deep', text: `Bedtime + wake time within 30 min`, source: `Chaput, J.-P. et al. (2020). Sleep timing, sleep consistency, and health in adults: A systematic review. Applied Physiology, Nutrition, and Metabolism, 45(10, Suppl. 2), S232-S247. https://doi.org/10.1139/apnm-2020-0032
+Windred, D. P. et al. (2024). Sleep regularity is a stronger predictor of mortality risk than sleep duration: A prospective cohort study. Sleep, 47(1), zsad253. https://doi.org/10.1093/sleep/zsad253` },
+        { level: 'gentle', text: `Dim lights 1 hour before bed`, source: `Cajochen, C. et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep: A systematic review with meta-analysis. Lighting Research & Technology, 54(6), 609-624. https://doi.org/10.1177/14771535221078765
+Phillips, A. J. K. et al. (2019). High sensitivity and interindividual variability in the response of the human circadian system to evening light. PNAS, 116(24), 12019-12024. https://doi.org/10.1073/pnas.1901824116` },
+        { level: 'moderate', text: `Avoid bright overhead lights 2 hours before bed`, source: `Cajochen, C. et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep: A systematic review with meta-analysis. Lighting Research & Technology, 54(6), 609-624. https://doi.org/10.1177/14771535221078765
+Phillips, A. J. K. et al. (2019). High sensitivity and interindividual variability in the response of the human circadian system to evening light. PNAS, 116(24), 12019-12024. https://doi.org/10.1073/pnas.1901824116` },
+        { level: 'deep', text: `Create a low-light evening routine`, source: `Cajochen, C. et al. (2022). Influence of evening light exposure on polysomnographically assessed night-time sleep: A systematic review with meta-analysis. Lighting Research & Technology, 54(6), 609-624. https://doi.org/10.1177/14771535221078765
+Phillips, A. J. K. et al. (2019). High sensitivity and interindividual variability in the response of the human circadian system to evening light. PNAS, 116(24), 12019-12024. https://doi.org/10.1073/pnas.1901824116` },
+      ] },
+      { name: `Sleep Pressure`, practices: [
+        { level: 'gentle', text: `20-min walk`, source: `Kredlow, M. A. et al. (2015). The effects of physical activity on sleep: A meta-analytic review. Journal of Behavioral Medicine, 38(3), 427-449. https://doi.org/10.1007/s10865-015-9617-6
+Bull, F. C. et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451-1462. https://doi.org/10.1136/bjsports-2020-102955` },
+        { level: 'moderate', text: `30 min moderate activity`, source: `Kredlow, M. A. et al. (2015). The effects of physical activity on sleep: A meta-analytic review. Journal of Behavioral Medicine, 38(3), 427-449. https://doi.org/10.1007/s10865-015-9617-6
+Bull, F. C. et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451-1462. https://doi.org/10.1136/bjsports-2020-102955` },
+        { level: 'deep', text: `Meet WHO activity guidelines`, source: `Kredlow, M. A. et al. (2015). The effects of physical activity on sleep: A meta-analytic review. Journal of Behavioral Medicine, 38(3), 427-449. https://doi.org/10.1007/s10865-015-9617-6
+Bull, F. C. et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451-1462. https://doi.org/10.1136/bjsports-2020-102955` },
+        { level: 'gentle', text: `No caffeine after 4 pm`, source: `Gardiner, C. et al. (2023). The effect of caffeine on subsequent sleep: A systematic review and meta-analysis. Sleep Medicine Reviews, 69, 101764. https://doi.org/10.1016/j.smrv.2023.101764
+Drake, C. et al. (2013). Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. Journal of Clinical Sleep Medicine, 9(11), 1195-1200. https://doi.org/10.5664/jcsm.3170` },
+        { level: 'moderate', text: `No caffeine after 2 pm`, source: `Gardiner, C. et al. (2023). The effect of caffeine on subsequent sleep: A systematic review and meta-analysis. Sleep Medicine Reviews, 69, 101764. https://doi.org/10.1016/j.smrv.2023.101764
+Drake, C. et al. (2013). Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. Journal of Clinical Sleep Medicine, 9(11), 1195-1200. https://doi.org/10.5664/jcsm.3170` },
+        { level: 'deep', text: `Adjust intake to your bedtime`, source: `Gardiner, C. et al. (2023). The effect of caffeine on subsequent sleep: A systematic review and meta-analysis. Sleep Medicine Reviews, 69, 101764. https://doi.org/10.1016/j.smrv.2023.101764
+Drake, C. et al. (2013). Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. Journal of Clinical Sleep Medicine, 9(11), 1195-1200. https://doi.org/10.5664/jcsm.3170` },
+        { level: 'gentle', text: `Nap <30 min`, source: `Faraut, B. et al. (2017). Napping: A public health issue. From epidemiological to laboratory studies. Sleep Medicine Reviews, 35, 85-100. https://doi.org/10.1016/j.smrv.2016.09.002` },
+        { level: 'moderate', text: `Nap before 3 pm`, source: `Faraut, B. et al. (2017). Napping: A public health issue. From epidemiological to laboratory studies. Sleep Medicine Reviews, 35, 85-100. https://doi.org/10.1016/j.smrv.2016.09.002` },
+        { level: 'deep', text: `Nap only when needed`, source: `Faraut, B. et al. (2017). Napping: A public health issue. From epidemiological to laboratory studies. Sleep Medicine Reviews, 35, 85-100. https://doi.org/10.1016/j.smrv.2016.09.002` },
+      ] },
+      { name: `Wind Down`, practices: [
+        { level: 'gentle', text: `Slow breathing: 2 min before bed`, source: `Edinger, J. D. et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: An AASM clinical practice guideline. Journal of Clinical Sleep Medicine, 17(2), 255-262. https://doi.org/10.5664/jcsm.8986
+Kuula, L. et al. (2020). The effects of presleep slow breathing and music listening on polysomnographic sleep measures: A pilot trial. Scientific Reports, 10, 7427. https://doi.org/10.1038/s41598-020-64218-7` },
+        { level: 'moderate', text: `Slow breathing: 5 min before bed`, source: `Edinger, J. D. et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: An AASM clinical practice guideline. Journal of Clinical Sleep Medicine, 17(2), 255-262. https://doi.org/10.5664/jcsm.8986
+Kuula, L. et al. (2020). The effects of presleep slow breathing and music listening on polysomnographic sleep measures: A pilot trial. Scientific Reports, 10, 7427. https://doi.org/10.1038/s41598-020-64218-7` },
+        { level: 'deep', text: `Slow breathing: 10 min before bed`, source: `Edinger, J. D. et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: An AASM clinical practice guideline. Journal of Clinical Sleep Medicine, 17(2), 255-262. https://doi.org/10.5664/jcsm.8986
+Kuula, L. et al. (2020). The effects of presleep slow breathing and music listening on polysomnographic sleep measures: A pilot trial. Scientific Reports, 10, 7427. https://doi.org/10.1038/s41598-020-64218-7` },
+        { level: 'gentle', text: `Progressive muscle relaxation: 5 min`, source: `Simon, K. C. et al. (2022). Progressive muscle relaxation increases slow-wave sleep during a daytime nap. Journal of Sleep Research, 31(5), e13574. https://doi.org/10.1111/jsr.13574
+Donato, K. O. et al. Progressive muscle relaxation technique improves sleep quality and mental health: A systematic review and meta-analysis of RCTs. Journal of Psychosomatic Research, 203, 112563. https://doi.org/10.1016/j.jpsychores.2026.112563` },
+        { level: 'moderate', text: `Progressive muscle relaxation: 10 min`, source: `Simon, K. C. et al. (2022). Progressive muscle relaxation increases slow-wave sleep during a daytime nap. Journal of Sleep Research, 31(5), e13574. https://doi.org/10.1111/jsr.13574
+Donato, K. O. et al. Progressive muscle relaxation technique improves sleep quality and mental health: A systematic review and meta-analysis of RCTs. Journal of Psychosomatic Research, 203, 112563. https://doi.org/10.1016/j.jpsychores.2026.112563` },
+        { level: 'deep', text: `Progressive muscle relaxation: a full nightly routine`, source: `Simon, K. C. et al. (2022). Progressive muscle relaxation increases slow-wave sleep during a daytime nap. Journal of Sleep Research, 31(5), e13574. https://doi.org/10.1111/jsr.13574
+Donato, K. O. et al. Progressive muscle relaxation technique improves sleep quality and mental health: A systematic review and meta-analysis of RCTs. Journal of Psychosomatic Research, 203, 112563. https://doi.org/10.1016/j.jpsychores.2026.112563` },
+        { level: 'gentle', text: `Brain dump: write down one task for tomorrow`, source: `Scullin, M. K. et al. (2018). The effects of bedtime writing on difficulty falling asleep. Journal of Experimental Psychology: General, 147(1), 139-146. https://doi.org/10.1037/xge0000374` },
+        { level: 'moderate', text: `Brain dump: write down your top 3 priorities for tomorrow`, source: `Scullin, M. K. et al. (2018). The effects of bedtime writing on difficulty falling asleep. Journal of Experimental Psychology: General, 147(1), 139-146. https://doi.org/10.1037/xge0000374` },
+        { level: 'deep', text: `Brain dump: a 5-minute written cognitive offload before bed`, source: `Scullin, M. K. et al. (2018). The effects of bedtime writing on difficulty falling asleep. Journal of Experimental Psychology: General, 147(1), 139-146. https://doi.org/10.1037/xge0000374` },
+        { level: 'gentle', text: `Relaxing music: 5 min before bed`, source: `Jespersen, K. V. et al. (2022). Listening to music for insomnia in adults. Cochrane Database of Systematic Reviews, 2022(8), CD010459. https://doi.org/10.1002/14651858.CD010459.pub3` },
+        { level: 'moderate', text: `Relaxing music: 10 min before bed`, source: `Jespersen, K. V. et al. (2022). Listening to music for insomnia in adults. Cochrane Database of Systematic Reviews, 2022(8), CD010459. https://doi.org/10.1002/14651858.CD010459.pub3` },
+        { level: 'deep', text: `Relaxing music: a full sleep playlist as you wind down`, source: `Jespersen, K. V. et al. (2022). Listening to music for insomnia in adults. Cochrane Database of Systematic Reviews, 2022(8), CD010459. https://doi.org/10.1002/14651858.CD010459.pub3` },
+      ] },
+      { name: `Sleep Environment`, practices: [
+        { level: 'gentle', text: `Keep the bedroom at a comfortable temperature`, source: `Baniassadi, A. et al. (2023). Nighttime ambient temperature and sleep in community-dwelling older adults. Science of the Total Environment, 899, 165623. https://doi.org/10.1016/j.scitotenv.2023.165623` },
+        { level: 'moderate', text: `18–20°C if possible`, source: `Baniassadi, A. et al. (2023). Nighttime ambient temperature and sleep in community-dwelling older adults. Science of the Total Environment, 899, 165623. https://doi.org/10.1016/j.scitotenv.2023.165623` },
+        { level: 'deep', text: `Keep bedroom temperature consistently optimised, night after night`, source: `Baniassadi, A. et al. (2023). Nighttime ambient temperature and sleep in community-dwelling older adults. Science of the Total Environment, 899, 165623. https://doi.org/10.1016/j.scitotenv.2023.165623` },
+        { level: 'gentle', text: `Close curtains`, source: `Brown, T. M. et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure. PLOS Biology, 20(3), e3001571. https://doi.org/10.1371/journal.pbio.3001571` },
+        { level: 'moderate', text: `Remove light sources`, source: `Brown, T. M. et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure. PLOS Biology, 20(3), e3001571. https://doi.org/10.1371/journal.pbio.3001571` },
+        { level: 'deep', text: `Complete darkness`, source: `Brown, T. M. et al. (2022). Recommendations for daytime, evening, and nighttime indoor light exposure. PLOS Biology, 20(3), e3001571. https://doi.org/10.1371/journal.pbio.3001571` },
+        { level: 'gentle', text: `Reduce one noise source`, source: `Basner, M., & McGuire, S. (2018). WHO Environmental Noise Guidelines for the European Region: A systematic review on environmental noise and effects on sleep. IJERPH, 15(3), 519. https://doi.org/10.3390/ijerph15030519` },
+        { level: 'moderate', text: `Earplugs/white noise`, source: `Basner, M., & McGuire, S. (2018). WHO Environmental Noise Guidelines for the European Region: A systematic review on environmental noise and effects on sleep. IJERPH, 15(3), 519. https://doi.org/10.3390/ijerph15030519` },
+        { level: 'deep', text: `Consistent quiet environment`, source: `Basner, M., & McGuire, S. (2018). WHO Environmental Noise Guidelines for the European Region: A systematic review on environmental noise and effects on sleep. IJERPH, 15(3), 519. https://doi.org/10.3390/ijerph15030519` },
+        { level: 'gentle', text: `No phone in bed`, source: `Edinger, J. D. et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: AASM systematic review, meta-analysis and GRADE assessment. Journal of Clinical Sleep Medicine, 17(2), 263-298. https://doi.org/10.5664/jcsm.8988` },
+        { level: 'moderate', text: `No work in bed`, source: `Edinger, J. D. et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: AASM systematic review, meta-analysis and GRADE assessment. Journal of Clinical Sleep Medicine, 17(2), 263-298. https://doi.org/10.5664/jcsm.8988` },
+        { level: 'deep', text: `Bed only for sleep`, source: `Edinger, J. D. et al. (2021). Behavioral and psychological treatments for chronic insomnia disorder in adults: AASM systematic review, meta-analysis and GRADE assessment. Journal of Clinical Sleep Medicine, 17(2), 263-298. https://doi.org/10.5664/jcsm.8988` },
+        { level: 'gentle', text: `Alcohol-free 2 h before bed`, source: `Gardiner, C. L. et al. The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis. Sleep Medicine Reviews, 80, 102030. https://doi.org/10.1016/j.smrv.2024.102030` },
+        { level: 'moderate', text: `Alcohol-free 3 h before bed`, source: `Gardiner, C. L. et al. The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis. Sleep Medicine Reviews, 80, 102030. https://doi.org/10.1016/j.smrv.2024.102030` },
+        { level: 'deep', text: `Skip alcohol on weekdays`, source: `Gardiner, C. L. et al. The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis. Sleep Medicine Reviews, 80, 102030. https://doi.org/10.1016/j.smrv.2024.102030` },
+      ] },
+      { name: `Share`, practices: [
+        { level: 'gentle', text: `Share one sleep intention`, source: `Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis. Advances in Experimental Social Psychology, 38, 69-119.
+Hennessy, E. A. et al. (2020). Self-regulation mechanisms in health behavior change. Health Psychology Review, 14(1), 6-42. https://doi.org/10.1080/17437199.2019.1679654` },
+        { level: 'moderate', text: `Share your bedtime target`, source: `Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis. Advances in Experimental Social Psychology, 38, 69-119.
+Hennessy, E. A. et al. (2020). Self-regulation mechanisms in health behavior change. Health Psychology Review, 14(1), 6-42. https://doi.org/10.1080/17437199.2019.1679654` },
+        { level: 'deep', text: `Review together the next day`, source: `Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis. Advances in Experimental Social Psychology, 38, 69-119.
+Hennessy, E. A. et al. (2020). Self-regulation mechanisms in health behavior change. Health Psychology Review, 14(1), 6-42. https://doi.org/10.1080/17437199.2019.1679654` },
+        { level: 'gentle', text: `Share one thing that helped`, source: `Spring, B. et al. (2020). Self-regulatory behaviour change techniques in interventions to promote healthy eating, physical activity, or weight loss: a meta-review. Health Psychology Review, 15(4), 508-539.` },
+        { level: 'moderate', text: `Share one lesson learned`, source: `Spring, B. et al. (2020). Self-regulatory behaviour change techniques in interventions to promote healthy eating, physical activity, or weight loss: a meta-review. Health Psychology Review, 15(4), 508-539.` },
+        { level: 'deep', text: `Weekly Circle reflection`, source: `Spring, B. et al. (2020). Self-regulatory behaviour change techniques in interventions to promote healthy eating, physical activity, or weight loss: a meta-review. Health Psychology Review, 15(4), 508-539.` },
+      ] },
+      { name: `Celebrate`, practices: [
+        { level: 'gentle', text: `Congratulate one teammate`, source: `Mair, J. L. et al. (2023). Effective behavior change techniques in digital health interventions: An umbrella review. Annals of Behavioral Medicine, 57(10), 817-835. https://doi.org/10.1093/abm/kaad041` },
+        { level: 'moderate', text: `Celebrate weekly wins`, source: `Mair, J. L. et al. (2023). Effective behavior change techniques in digital health interventions: An umbrella review. Annals of Behavioral Medicine, 57(10), 817-835. https://doi.org/10.1093/abm/kaad041` },
+        { level: 'deep', text: `Build a shared streak`, source: `Mair, J. L. et al. (2023). Effective behavior change techniques in digital health interventions: An umbrella review. Annals of Behavioral Medicine, 57(10), 817-835. https://doi.org/10.1093/abm/kaad041` },
+      ] },
     ],
   },
   {
@@ -296,88 +134,132 @@ export const SEASONS = [
     accent2: 'oklch(0.68 0.2 55)',
     soft: 'oklch(0.955 0.055 60)',
     categories: [
-      {
-        name: 'Nourish',
-        evidence: 'What you eat shapes long-term metabolic health; protein, plants and minimally processed foods do the heaviest lifting.',
-        practices: [
-          { level: 'gentle', text: 'Add a source of protein to every main meal', insight: 'Protein at each meal preserves muscle as you age and keeps you fuller for longer.' },
-          { level: 'gentle', text: 'Eat two portions of vegetables today', insight: 'Higher vegetable intake is linked to lower risk of heart disease and all-cause mortality.' },
-          { level: 'gentle', text: 'Replace one ultra-processed snack with fruit or nuts', insight: 'Swapping ultra-processed snacks cuts excess salt, sugar and additives tied to poorer health.' },
-          { level: 'gentle', text: 'Drink water before each meal', insight: 'Water before meals aids satiety and stops thirst being mistaken for hunger.' },
-          { level: 'moderate', text: 'Build every lunch around protein and vegetables', insight: 'Protein-and-vegetable meals steady blood sugar and curb the afternoon energy crash.' },
-          { level: 'moderate', text: 'Include legumes or whole grains three times this week', insight: 'Legumes and whole grains feed gut bacteria and help lower cholesterol and inflammation.' },
-          { level: 'moderate', text: 'Reach your personal daily protein target', insight: 'Meeting a protein target protects against age-related muscle loss (sarcopenia).' },
-          { level: 'moderate', text: 'Eat 20 different plant foods during the week', insight: 'Plant diversity is the strongest dietary predictor of a healthy, varied gut microbiome.' },
-          { level: 'deep', text: 'Plan all weekday lunches and dinners in advance', insight: 'Planning meals reduces reliance on convenience food and improves overall diet quality.' },
-          { level: 'deep', text: 'Avoid ultra-processed foods for five consecutive days', insight: 'Cutting ultra-processed foods quickly lowers calorie intake and improves metabolic markers.' },
-          { level: 'deep', text: 'Prioritise seasonal and minimally processed ingredients', insight: 'Minimally processed, seasonal foods retain more nutrients and carry fewer additives.' },
-          { level: 'deep', text: 'Keep a simple food journal for the entire week', insight: 'Simply recording what you eat raises awareness and supports lasting dietary change.' },
-        ],
-      },
-      {
-        name: 'Rhythm',
-        evidence: 'When you eat matters too: a regular eating window aligns your metabolism with your circadian clock.',
-        practices: [
-          { level: 'gentle', text: 'Eat breakfast (or your first meal) at a consistent time', insight: 'Eating on a regular schedule helps align your metabolism with your body clock.' },
-          { level: 'gentle', text: 'Avoid eating after 10pm', insight: 'Late-night eating works against your circadian rhythm and is linked to poorer metabolic health.' },
-          { level: 'gentle', text: 'Sit down for every main meal', insight: 'Sitting to eat slows the meal and supports better digestion and fullness signalling.' },
-          { level: 'gentle', text: 'Leave at least 2 hours between dinner and sleep', insight: 'A gap before bed lets digestion settle and protects your sleep quality.' },
-          { level: 'moderate', text: 'Keep a consistent 12-hour eating window', insight: 'A steady eating window gives the gut a nightly rest and supports metabolic health.' },
-          { level: 'moderate', text: 'Avoid unnecessary snacking between meals', insight: 'Fewer eating occasions steady insulin and let the body burn fat between meals.' },
-          { level: 'moderate', text: 'Eat lunch before 2pm', insight: 'Eating the main meal earlier is associated with better weight and glucose control.' },
-          { level: 'moderate', text: 'Finish dinner at roughly the same time every day', insight: 'A regular dinner time reinforces your circadian rhythm and overnight metabolism.' },
-          { level: 'deep', text: 'Maintain your chosen eating window for 30 days', insight: 'Sustained time-restricted eating can improve blood sugar, lipids and energy over weeks.' },
-          { level: 'deep', text: 'Avoid food within 3 hours of bedtime', insight: 'An early last meal aligns digestion with your body clock and deepens sleep.' },
-          { level: 'deep', text: "Plan your week's meal schedule every Sunday", insight: 'Weekly planning smooths your eating rhythm and removes daily decision fatigue.' },
-          { level: 'deep', text: 'Reserve one meal each week for slow, uninterrupted eating', insight: 'Slow, unhurried eating improves digestion and helps you recognise fullness.' },
-          { level: 'deep', text: 'Intermittent fasting 5 times per week or more', insight: 'Regular fasting periods may improve insulin sensitivity and cellular repair (autophagy).' },
-        ],
-      },
-      {
-        name: 'Presence',
-        evidence: 'Eating slowly and without distraction improves digestion and lets fullness signals reach the brain in time.',
-        practices: [
-          { level: 'gentle', text: 'Eat one meal each day without your phone', insight: 'Phone-free meals slow eating and reduce the mindless overeating that distraction drives.' },
-          { level: 'gentle', text: 'Take one deep breath before eating', insight: 'A pause before eating shifts you into “rest-and-digest” mode for better digestion.' },
-          { level: 'gentle', text: 'Spend at least 20 minutes on one meal', insight: 'Eating more slowly gives fullness signals time to reach the brain, reducing overeating.' },
-          { level: 'gentle', text: 'Notice one flavour you normally overlook', insight: 'Paying attention to taste increases meal satisfaction and curbs the urge for more.' },
-          { level: 'moderate', text: 'Eat every dinner without screens', insight: 'Screen-free dinners improve portion awareness and the quality of mealtime connection.' },
-          { level: 'moderate', text: 'Stop eating when comfortably satisfied rather than full', insight: 'Tuning into satiety, not the plate, naturally calibrates your portion size.' },
-          { level: 'moderate', text: 'Chew slowly during the first five minutes of each meal', insight: 'Thorough chewing aids digestion and slows the meal enough to register fullness.' },
-          { level: 'moderate', text: 'Express gratitude for one aspect of your meal', insight: 'Savouring and gratitude at meals heighten enjoyment and reduce stress eating.' },
-          { level: 'deep', text: 'Practice mindful eating for one meal every day', insight: 'Mindful eating is shown to reduce binge episodes and emotional eating.' },
-          { level: 'deep', text: 'Create a pleasant table setting even when eating alone', insight: 'A cared-for setting turns eating into a ritual that supports slower, calmer meals.' },
-          { level: 'deep', text: 'Never multitask while eating', insight: 'Undistracted eating improves both digestion and how satisfying the meal feels.' },
-          { level: 'deep', text: 'End each meal with one reflection on how it made you feel', insight: 'Reflecting on meals builds the body awareness that guides healthier future choices.' },
-        ],
-      },
-      {
-        name: 'Share',
-        evidence: '',
-        practices: [
-          { level: 'gentle', text: 'Share one meal this week with a friend, family member or colleague', insight: 'Shared meals are a cornerstone of the world’s longest-lived communities.' },
-          { level: 'gentle', text: 'Exchange one healthy recipe with your Circle', insight: 'Swapping recipes spreads healthy habits through your social network.' },
-          { level: 'gentle', text: 'Send a message inviting someone to have coffee or lunch', insight: 'Reaching out strengthens the social bonds that protect long-term health.' },
-          { level: 'moderate', text: 'Organise a healthy lunch or dinner with another person once a week', insight: 'Regular shared meals build the routine connection linked to longevity.' },
-          { level: 'moderate', text: "Cook a meal inspired by a Circle member's recommendation", insight: 'Trying others’ dishes broadens your diet and deepens community ties.' },
-          { level: 'moderate', text: 'Eat one meal this week without anyone using a phone at the table', insight: 'Device-free shared meals improve conversation quality and connection.' },
-          { level: 'moderate', text: 'Introduce one meaningful conversation question during a shared meal', insight: 'Meaningful table talk turns eating into a source of belonging, not just fuel.' },
-          { level: 'deep', text: 'Host a GoodEat Table with friends or family centred on health and conviviality', insight: 'Hosting around health and conviviality blends two longevity factors: diet and community.' },
-          { level: 'deep', text: 'Invite someone who might otherwise eat alone to join you', insight: 'Including others combats loneliness, itself a major risk to health and lifespan.' },
-          { level: 'deep', text: 'Share with your Circle one story or lesson from that meal', insight: 'Storytelling around food strengthens the social fabric of your Circle.' },
-          { level: 'deep', text: 'Ask everyone at the table: “What is one thing you hope to give more of to others this year?”', insight: 'Conversations about generosity deepen relationships and a sense of purpose.' },
-        ],
-      },
-      {
-        name: 'Celebrate',
-        evidence: '',
-        practices: [
-          { level: 'gentle', text: 'Cook a family recipe with a younger generation', insight: 'Passing recipes across generations preserves identity and strengthens family bonds.' },
-          { level: 'moderate', text: 'Share a meaningful food memory with your Circle', insight: 'Recalling meaningful meals deepens connection and a shared sense of belonging.' },
-          { level: 'moderate', text: 'Thank the person who prepared your meal', insight: 'Expressing thanks strengthens relationships and lifts wellbeing on both sides.' },
-          { level: 'deep', text: 'Invite someone new to your table', insight: 'Widening your table builds the new connections that enrich a long life.' },
-        ],
-      },
+      { name: `Nourish`, practices: [
+        { level: 'gentle', text: `Add a source of protein to every main meal`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'gentle', text: `Eat two portions of vegetables today`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'gentle', text: `Replace one ultra-processed snack with fruit or nuts`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'gentle', text: `Drink water before each meal`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'moderate', text: `Build every lunch around protein + vegetables`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'moderate', text: `Include legumes or whole grains three times this week`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'moderate', text: `Reach your personal daily protein target`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'moderate', text: `Eat 20 different plant foods during the week`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'deep', text: `Plan all weekday lunches and dinners in advance`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'deep', text: `Avoid ultra-processed foods for five consecutive days`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'deep', text: `Prioritize seasonal and minimally processed ingredients`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+        { level: 'deep', text: `Keep a simple food journal for the entire week`, source: `Morton, R. W. et al. (2018). Systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength.
+Hall, K. D. et al. (2019). Ultra-processed diets cause excess calorie intake and weight gain. Cell Metabolism. https://doi.org/10.1016/j.cmet.2019.05.008
+Corney, R., Sunderland, C., & James, L. (2016). Immediate pre-meal water ingestion decreases voluntary food intake in lean young males. European Journal of Nutrition.` },
+      ] },
+      { name: `Rhythm`, practices: [
+        { level: 'gentle', text: `Eat breakfast (or first meal) at a consistent time`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'gentle', text: `Avoid eating after 10 pm`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'gentle', text: `Sit down for every main meal`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'gentle', text: `Leave at least 2 hours between dinner and sleep`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'moderate', text: `Keep a consistent 12-hour eating window`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'moderate', text: `Avoid unnecessary snacking between meals`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'moderate', text: `Eat lunch before 2 pm`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'moderate', text: `Finish dinner at roughly the same time every day`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'deep', text: `Maintain your chosen eating window for 30 days`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'deep', text: `Avoid food within 3 hours of bedtime`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'deep', text: `Plan your week's meal schedule every Sunday`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'deep', text: `Reserve one meal each week for slow, uninterrupted eating`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+        { level: 'deep', text: `Intermittent fasting 5 times per week or more`, source: `McHill, A. W., & Wright, K. P. (2017). Role of meal timing in human circadian rhythms.
+Iao, S. et al. (2022). Associations between bedtime eating or drinking, sleep duration and wake after sleep onset: findings from the American Time Use Survey.` },
+      ] },
+      { name: `Presence`, practices: [
+        { level: 'gentle', text: `Eat one meal each day without your phone`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'gentle', text: `Take one deep breath before eating`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'gentle', text: `Spend at least 20 minutes on one meal`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'gentle', text: `Notice one flavour you normally overlook`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'moderate', text: `Eat every dinner without screens`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'moderate', text: `Stop eating when comfortably satisfied rather than full`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'moderate', text: `Chew slowly during the first five minutes of each meal`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'moderate', text: `Express gratitude for one aspect of your meal`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'deep', text: `Practice mindful eating for one meal every day`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'deep', text: `Create a pleasant table setting even when eating alone`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'deep', text: `Never multitask while eating`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+        { level: 'deep', text: `End each meal with one reflection on how it made you feel`, source: `Robinson, E. et al. (2013). Eating attentively: a systematic review and meta-analysis of the effect of food intake memory and awareness on eating.
+Robinson, E. et al. (2022). Systematic review on distracted eating and energy intake.` },
+      ] },
+      { name: `Share`, practices: [
+        { level: 'gentle', text: `Share one meal this week with a friend, family member or colleague`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'gentle', text: `Exchange one healthy recipe with your Circle`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'gentle', text: `Send a message inviting someone to have coffee or lunch`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'moderate', text: `Organise a healthy lunch or dinner with another person once a week`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'moderate', text: `Cook a meal inspired by a Circle member's recommendation`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'moderate', text: `Eat one meal this week without anyone using a phone at the table`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'moderate', text: `Introduce one meaningful conversation question during a shared meal`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'deep', text: `Host a GoodEat Table with friends or family centred on health and conviviality`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'deep', text: `Invite someone who might otherwise eat alone to join you`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'deep', text: `Share with your Circle one story or lesson from that meal`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+        { level: 'deep', text: `Ask everyone around the table: "What is one thing you hope to give more of to others this year?"`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Michie, S. et al. (2013). The Behaviour Change Technique Taxonomy.` },
+      ] },
+      { name: `Celebrate`, practices: [
+        { level: 'gentle', text: `Cook a family recipe with a younger generation`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Dunbar, R. I. M. (2017). Breaking Bread: The Functions of Social Eating. Adaptive Human Behavior and Physiology, 3, 198-211.` },
+        { level: 'moderate', text: `Share a meaningful food memory with your Circle`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Dunbar, R. I. M. (2017). Breaking Bread: The Functions of Social Eating. Adaptive Human Behavior and Physiology, 3, 198-211.` },
+        { level: 'moderate', text: `Thank the person who prepared your meal`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Dunbar, R. I. M. (2017). Breaking Bread: The Functions of Social Eating. Adaptive Human Behavior and Physiology, 3, 198-211.` },
+        { level: 'deep', text: `Invite someone new to your table`, source: `Holt-Lunstad, J., Smith, T. B., & Layton, J. B. (2010). Social Relationships and Mortality Risk: A Meta-analytic Review. PLoS Medicine, 7(7), e1000316.
+Dunbar, R. I. M. (2017). Breaking Bread: The Functions of Social Eating. Adaptive Human Behavior and Physiology, 3, 198-211.` },
+      ] },
     ],
   },
   {
@@ -389,36 +271,75 @@ export const SEASONS = [
     accent2: 'oklch(0.72 0.175 88)',
     soft: 'oklch(0.955 0.06 92)',
     categories: [
-      {
-        name: 'Daily practices',
-        evidence: 'Steps, strength and cardio each lower mortality risk through different, complementary pathways.',
-        practices: [
-          { level: 'gentle', text: '7,000 steps a day', insight: 'Around 7,000 steps a day is linked to a sharply lower risk of early death.' },
-          { level: 'gentle', text: '5-minute mobility flow every morning', insight: 'A short morning mobility flow improves joint range and reduces stiffness through the day.' },
-          { level: 'gentle', text: 'Take the stairs instead of the elevator', insight: 'Stair climbing is a potent micro-workout that improves cardiovascular fitness.' },
-          { level: 'gentle', text: 'Stand up every 60 minutes during work', insight: 'Breaking up sitting improves blood sugar and circulation, independent of exercise.' },
-          { level: 'moderate', text: '8–10k steps daily', insight: 'Higher daily step counts keep lowering mortality risk up to around 10,000.' },
-          { level: 'moderate', text: '2 strength sessions per week', insight: 'Two weekly strength sessions preserve muscle and bone and lower all-cause mortality.' },
-          { level: 'moderate', text: '1 cardio session of 30–45 minutes per week', insight: 'Regular cardio strengthens the heart and raises the VO₂ max tied to longevity.' },
-          { level: 'moderate', text: '10 minutes of mobility or stretching, 4x a week', insight: 'Frequent mobility work maintains flexibility and reduces injury risk as you age.' },
-          { level: 'deep', text: '10k+ steps daily', insight: 'Higher activity volumes add further gains in fitness, mood and metabolic health.' },
-          { level: 'deep', text: '3 strength sessions per week', insight: 'Three sessions accelerate strength and muscle gains for power and independence with age.' },
-          { level: 'deep', text: '1 VO₂ max session per week', insight: 'VO₂ max is one of the strongest single predictors of long-term survival.' },
-          { level: 'deep', text: 'Daily mobility, 15 minutes', insight: 'Daily mobility builds lasting flexibility and resilient, well-moving joints.' },
-        ],
-      },
-      {
-        name: 'Social & stretch practices',
-        evidence: '',
-        practices: [
-          { level: 'gentle', text: '20-minute walk with a friend or colleague', insight: 'Walking with others combines movement with the social connection that supports health.' },
-          { level: 'gentle', text: 'Walk-and-talk call instead of a seated call', insight: 'Turning calls into walks adds easy activity and breaks up prolonged sitting.' },
-          { level: 'moderate', text: 'One Circle walking challenge', insight: 'Shared goals boost motivation and make activity far more likely to stick.' },
-          { level: 'moderate', text: 'One partner workout during the month', insight: 'Exercising with a partner improves consistency and accountability.' },
-          { level: 'deep', text: 'Complete one physical challenge: a 10km hike, swim, dance event, or cycling challenge', insight: 'Training toward a challenge builds fitness and a rewarding sense of achievement.' },
-          { level: 'deep', text: 'Lead one movement session for your Circle (even 10 minutes on Zoom)', insight: 'Leading others reinforces your own habit and strengthens your Circle’s bonds.' },
-        ],
-      },
+      { name: `Incidental Movement & Sedentary Behavior`, practices: [
+        { level: 'gentle', text: `7,000 steps / day`, source: `Paluch, A. E., Bajpai, S., Bassett, D. R., Carnethon, M. R., Ekelund, U., Evenson, K. R., Galuska, D. A., Jefferis, B. J., Kraus, W. E., Lee, I. M., Matthews, C. E., Omura, J. D., Patel, A. V., Pieper, C. F., Rees-Punia, E., Dallmeier, D., Klenk, J., Whincup, P. H., Dooley, E. E., Pettee Gabriel, K., … Steps for Health Collaborative (2022). Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts. The Lancet. Public health, 7(3), e219–e228. https://doi.org/10.1016/S2468-2667(21)00302-9` },
+        { level: 'moderate', text: `8,000-10,000 steps daily`, source: `Paluch, A. E., Bajpai, S., Bassett, D. R., Carnethon, M. R., Ekelund, U., Evenson, K. R., Galuska, D. A., Jefferis, B. J., Kraus, W. E., Lee, I. M., Matthews, C. E., Omura, J. D., Patel, A. V., Pieper, C. F., Rees-Punia, E., Dallmeier, D., Klenk, J., Whincup, P. H., Dooley, E. E., Pettee Gabriel, K., … Steps for Health Collaborative (2022). Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts. The Lancet. Public health, 7(3), e219–e228. https://doi.org/10.1016/S2468-2667(21)00302-9` },
+        { level: 'deep', text: `10,000+ steps daily`, source: `Paluch, A. E., Bajpai, S., Bassett, D. R., Carnethon, M. R., Ekelund, U., Evenson, K. R., Galuska, D. A., Jefferis, B. J., Kraus, W. E., Lee, I. M., Matthews, C. E., Omura, J. D., Patel, A. V., Pieper, C. F., Rees-Punia, E., Dallmeier, D., Klenk, J., Whincup, P. H., Dooley, E. E., Pettee Gabriel, K., … Steps for Health Collaborative (2022). Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts. The Lancet. Public health, 7(3), e219–e228. https://doi.org/10.1016/S2468-2667(21)00302-9` },
+        { level: 'gentle', text: `Stand and move for 2 min every hour during work`, source: `Dunstan, D. W., Kingwell, B. A., Larsen, R., Healy, G. N., Cerin, E., Hamilton, M. T., Shaw, J. E., Bertovic, D. A., Zimmet, P. Z., Salmon, J., & Owen, N. (2012). Breaking up prolonged sitting reduces postprandial glucose and insulin responses. Diabetes care, 35(5), 976–983. https://doi.org/10.2337/dc11-1931` },
+        { level: 'moderate', text: `Take a 2-3 min walking break every 30 min of sitting`, source: `Dunstan, D. W., Kingwell, B. A., Larsen, R., Healy, G. N., Cerin, E., Hamilton, M. T., Shaw, J. E., Bertovic, D. A., Zimmet, P. Z., Salmon, J., & Owen, N. (2012). Breaking up prolonged sitting reduces postprandial glucose and insulin responses. Diabetes care, 35(5), 976–983. https://doi.org/10.2337/dc11-1931` },
+        { level: 'deep', text: `Break sitting every 20-30 min with light or moderate walking, on at least one work block daily`, source: `Dunstan, D. W., Kingwell, B. A., Larsen, R., Healy, G. N., Cerin, E., Hamilton, M. T., Shaw, J. E., Bertovic, D. A., Zimmet, P. Z., Salmon, J., & Owen, N. (2012). Breaking up prolonged sitting reduces postprandial glucose and insulin responses. Diabetes care, 35(5), 976–983. https://doi.org/10.2337/dc11-1931` },
+        { level: 'gentle', text: `Take a 10-minute walk after one meal three times this week`, source: `Reynolds AN, Mann JI, Williams S, Venn BJ (2016). Advice to walk after meals is more effective for lowering postprandial glycaemia in type 2 diabetes mellitus than advice that does not specify timing: a randomised crossover study. Diabetologia, 59(12), 2572-2578. https://doi.org/10.1007/s00125-016-4085-2` },
+        { level: 'moderate', text: `Take a 10-minute walk after one of your main meals, most days`, source: `Reynolds AN, Mann JI, Williams S, Venn BJ (2016). Advice to walk after meals is more effective for lowering postprandial glycaemia in type 2 diabetes mellitus than advice that does not specify timing: a randomised crossover study. Diabetologia, 59(12), 2572-2578. https://doi.org/10.1007/s00125-016-4085-2` },
+        { level: 'deep', text: `Take a 10-minute walk after every main meal, every day`, source: `Reynolds AN, Mann JI, Williams S, Venn BJ (2016). Advice to walk after meals is more effective for lowering postprandial glycaemia in type 2 diabetes mellitus than advice that does not specify timing: a randomised crossover study. Diabetologia, 59(12), 2572-2578. https://doi.org/10.1007/s00125-016-4085-2` },
+      ] },
+      { name: `Structured Cardio`, practices: [
+        { level: 'gentle', text: `10 min of moderate cardio (brisk walk, cycle, swim), 3 times this week`, source: `Bull FC, Al-Ansari SS, Biddle S, Borodulin K, Buman MP, Cardon G, et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451-1462. https://doi.org/10.1136/bjsports-2020-102955` },
+        { level: 'moderate', text: `150 min/week of moderate aerobic activity, spread across the week`, source: `Bull FC, Al-Ansari SS, Biddle S, Borodulin K, Buman MP, Cardon G, et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451-1462. https://doi.org/10.1136/bjsports-2020-102955` },
+        { level: 'deep', text: `300 min/week of moderate activity, or 75-150 min of vigorous activity`, source: `Bull FC, Al-Ansari SS, Biddle S, Borodulin K, Buman MP, Cardon G, et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451-1462. https://doi.org/10.1136/bjsports-2020-102955` },
+        { level: 'gentle', text: `Add one session this week where you get slightly out of breath (brisk incline walk, stairs)`, source: `Mandsager K, Harb S, Cremer P, Phelan D, Nissen SE, Jaber W (2018). Association of Cardiorespiratory Fitness With Long-term Mortality Among Adults Undergoing Exercise Treadmill Testing. JAMA Network Open, 1(6), e183605. https://doi.org/10.1001/jamanetworkopen.2018.3605` },
+        { level: 'moderate', text: `One interval-style session/week (e.g. 1 min fast / 2 min easy, x6)`, source: `Mandsager K, Harb S, Cremer P, Phelan D, Nissen SE, Jaber W (2018). Association of Cardiorespiratory Fitness With Long-term Mortality Among Adults Undergoing Exercise Treadmill Testing. JAMA Network Open, 1(6), e183605. https://doi.org/10.1001/jamanetworkopen.2018.3605` },
+        { level: 'deep', text: `One structured, near-maximal-effort interval session/week`, source: `Mandsager K, Harb S, Cremer P, Phelan D, Nissen SE, Jaber W (2018). Association of Cardiorespiratory Fitness With Long-term Mortality Among Adults Undergoing Exercise Treadmill Testing. JAMA Network Open, 1(6), e183605. https://doi.org/10.1001/jamanetworkopen.2018.3605` },
+        { level: 'gentle', text: `Try one 10-min HIIT-style session this week (20 sec hard / 40 sec easy, repeated)`, source: `Weston KS, Wisløff U, Coombes JS (2014). High-intensity interval training in patients with lifestyle-induced cardiometabolic disease: a systematic review and meta-analysis. British Journal of Sports Medicine, 48, 1227-1234. https://doi.org/10.1136/bjsports-2013-092576` },
+        { level: 'moderate', text: `One 15-20 min HIIT session per week`, source: `Weston KS, Wisløff U, Coombes JS (2014). High-intensity interval training in patients with lifestyle-induced cardiometabolic disease: a systematic review and meta-analysis. British Journal of Sports Medicine, 48, 1227-1234. https://doi.org/10.1136/bjsports-2013-092576` },
+        { level: 'deep', text: `Two HIIT sessions per week, alongside regular aerobic training`, source: `Weston KS, Wisløff U, Coombes JS (2014). High-intensity interval training in patients with lifestyle-induced cardiometabolic disease: a systematic review and meta-analysis. British Journal of Sports Medicine, 48, 1227-1234. https://doi.org/10.1136/bjsports-2013-092576` },
+      ] },
+      { name: `Strength & Resistance`, practices: [
+        { level: 'gentle', text: `One full-body strength session per week (bodyweight or light weights)`, source: `Saeidifard F, Medina-Inojosa JR, West CP, Olson TP, Somers VK, Bonikowske AR, Prokop LJ, Vinciguerra M, Lopez-Jimenez F (2019). The association of resistance training with mortality: A systematic review and meta-analysis. European Journal of Preventive Cardiology, 26(15), 1647-1665. https://doi.org/10.1177/2047487319850718` },
+        { level: 'moderate', text: `2 strength sessions/week covering major muscle groups`, source: `Saeidifard F, Medina-Inojosa JR, West CP, Olson TP, Somers VK, Bonikowske AR, Prokop LJ, Vinciguerra M, Lopez-Jimenez F (2019). The association of resistance training with mortality: A systematic review and meta-analysis. European Journal of Preventive Cardiology, 26(15), 1647-1665. https://doi.org/10.1177/2047487319850718` },
+        { level: 'deep', text: `3+ strength sessions/week with progressive overload`, source: `Saeidifard F, Medina-Inojosa JR, West CP, Olson TP, Somers VK, Bonikowske AR, Prokop LJ, Vinciguerra M, Lopez-Jimenez F (2019). The association of resistance training with mortality: A systematic review and meta-analysis. European Journal of Preventive Cardiology, 26(15), 1647-1665. https://doi.org/10.1177/2047487319850718` },
+        { level: 'gentle', text: `1 set of 8-12 reps for each major muscle group, once this week`, source: `Ralston GW, Kilgore L, Wyatt FB, Buchan D, Baker JS (2018). Weekly Training Frequency Effects on Strength Gain: A Meta-Analysis. Sports Medicine - Open, 4, 36. https://doi.org/10.1186/s40798-018-0149-9` },
+        { level: 'moderate', text: `1 full session/week hitting each muscle group with 2-3 sets`, source: `Ralston GW, Kilgore L, Wyatt FB, Buchan D, Baker JS (2018). Weekly Training Frequency Effects on Strength Gain: A Meta-Analysis. Sports Medicine - Open, 4, 36. https://doi.org/10.1186/s40798-018-0149-9` },
+        { level: 'deep', text: `Spread the same weekly volume across 2-3 shorter sessions if preferred`, source: `Ralston GW, Kilgore L, Wyatt FB, Buchan D, Baker JS (2018). Weekly Training Frequency Effects on Strength Gain: A Meta-Analysis. Sports Medicine - Open, 4, 36. https://doi.org/10.1186/s40798-018-0149-9` },
+        { level: 'gentle', text: `Add one grip-strength exercise this week (carry a heavy bag, dead-hang, grip trainer)`, source: `Leong DP, Teo KK, Rangarajan S, et al., for the PURE study investigators (2015). Prognostic value of grip strength: findings from the Prospective Urban Rural Epidemiology (PURE) study. The Lancet, 386(9990), 266-273.` },
+        { level: 'moderate', text: `Include a grip or carry exercise in 2 sessions this week`, source: `Leong DP, Teo KK, Rangarajan S, et al., for the PURE study investigators (2015). Prognostic value of grip strength: findings from the Prospective Urban Rural Epidemiology (PURE) study. The Lancet, 386(9990), 266-273.` },
+        { level: 'deep', text: `Make farmer's carries or dead hangs a regular part of every strength session`, source: `Leong DP, Teo KK, Rangarajan S, et al., for the PURE study investigators (2015). Prognostic value of grip strength: findings from the Prospective Urban Rural Epidemiology (PURE) study. The Lancet, 386(9990), 266-273.` },
+      ] },
+      { name: `Mobility, Flexibility & Balance`, practices: [
+        { level: 'gentle', text: `5-minute mobility flow every morning`, source: `Behm DG, Alizadeh S, Daneshjoo A, Hadjizadeh Anvar S, Graham A, Zahiri A, Goudini R, Edwards C, Culleton R, Scharf C, Konrad A (2023). Acute Effects of Various Stretching Techniques on Range of Motion: A Systematic Review with Meta-Analysis. Sports Medicine - Open, 9, 107.` },
+        { level: 'moderate', text: `10 minutes of mobility/stretching, 4 times this week`, source: `Behm DG, Alizadeh S, Daneshjoo A, Hadjizadeh Anvar S, Graham A, Zahiri A, Goudini R, Edwards C, Culleton R, Scharf C, Konrad A (2023). Acute Effects of Various Stretching Techniques on Range of Motion: A Systematic Review with Meta-Analysis. Sports Medicine - Open, 9, 107.` },
+        { level: 'deep', text: `Daily 15-minute mobility routine`, source: `Behm DG, Alizadeh S, Daneshjoo A, Hadjizadeh Anvar S, Graham A, Zahiri A, Goudini R, Edwards C, Culleton R, Scharf C, Konrad A (2023). Acute Effects of Various Stretching Techniques on Range of Motion: A Systematic Review with Meta-Analysis. Sports Medicine - Open, 9, 107.` },
+        { level: 'gentle', text: `Practice standing on one leg for 20-30 seconds, once a day`, source: `Sherrington C, Fairhall NJ, Wallbank GK, Tiedemann A, Michaleff ZA, Howard K, Clemson L, Hopewell S, Lamb SE (2019). Exercise for preventing falls in older people living in the community. Cochrane Database of Systematic Reviews, Issue 1, Art. No. CD012424. https://doi.org/10.1002/14651858.CD012424.pub2` },
+        { level: 'moderate', text: `10 min of balance-challenging exercise (single-leg stands, heel-to-toe walk, tai chi), 2x this week`, source: `Sherrington C, Fairhall NJ, Wallbank GK, Tiedemann A, Michaleff ZA, Howard K, Clemson L, Hopewell S, Lamb SE (2019). Exercise for preventing falls in older people living in the community. Cochrane Database of Systematic Reviews, Issue 1, Art. No. CD012424. https://doi.org/10.1002/14651858.CD012424.pub2` },
+        { level: 'deep', text: `3 hours/week of balance-challenging exercise (e.g. a tai chi class or dedicated balance training)`, source: `Sherrington C, Fairhall NJ, Wallbank GK, Tiedemann A, Michaleff ZA, Howard K, Clemson L, Hopewell S, Lamb SE (2019). Exercise for preventing falls in older people living in the community. Cochrane Database of Systematic Reviews, Issue 1, Art. No. CD012424. https://doi.org/10.1002/14651858.CD012424.pub2` },
+        { level: 'gentle', text: `Spend 3-5 min warming up (light cardio + dynamic movement) before any structured exercise`, source: `Soligard T, Myklebust G, Steffen K, Holme I, Silvers H, Bizzini M, Junge A, Dvorak J, Bahr R, Andersen TE (2008). Comprehensive warm-up programme to prevent injuries in young female footballers: cluster randomised controlled trial. BMJ, 337, a2469. https://doi.org/10.1136/bmj.a2469` },
+        { level: 'moderate', text: `Use a structured warm-up routine before every workout, at least twice this week`, source: `Soligard T, Myklebust G, Steffen K, Holme I, Silvers H, Bizzini M, Junge A, Dvorak J, Bahr R, Andersen TE (2008). Comprehensive warm-up programme to prevent injuries in young female footballers: cluster randomised controlled trial. BMJ, 337, a2469. https://doi.org/10.1136/bmj.a2469` },
+        { level: 'deep', text: `Use a comprehensive, injury-prevention-focused warm-up before every session`, source: `Soligard T, Myklebust G, Steffen K, Holme I, Silvers H, Bizzini M, Junge A, Dvorak J, Bahr R, Andersen TE (2008). Comprehensive warm-up programme to prevent injuries in young female footballers: cluster randomised controlled trial. BMJ, 337, a2469. https://doi.org/10.1136/bmj.a2469` },
+      ] },
+      { name: `Movement Snacking & Self-Monitoring`, practices: [
+        { level: 'gentle', text: `Add one 1-2 min burst of vigorous effort into your day (fast stair climb, brisk uphill walk)`, source: `Stamatakis E, Ahmadi MN, Gill JMR, et al. (2022). Association of wearable device-measured vigorous intermittent lifestyle physical activity with mortality. Nature Medicine, 28(12), 2521-2529. https://doi.org/10.1038/s41591-022-02100-x` },
+        { level: 'moderate', text: `3 short vigorous bursts (1-2 min each), spread through your day, most days`, source: `Stamatakis E, Ahmadi MN, Gill JMR, et al. (2022). Association of wearable device-measured vigorous intermittent lifestyle physical activity with mortality. Nature Medicine, 28(12), 2521-2529. https://doi.org/10.1038/s41591-022-02100-x` },
+        { level: 'deep', text: `Make vigorous incidental bursts a daily habit -- aim for 3+ most days of the week`, source: `Stamatakis E, Ahmadi MN, Gill JMR, et al. (2022). Association of wearable device-measured vigorous intermittent lifestyle physical activity with mortality. Nature Medicine, 28(12), 2521-2529. https://doi.org/10.1038/s41591-022-02100-x` },
+        { level: 'gentle', text: `Track your steps for 3 days this week, just to see your baseline`, source: `Bravata DM, Smith-Spangler C, Sundaram V, Gienger AL, Lin N, Lewis R, Stave CD, Olkin I, Sirard JR (2007). Using pedometers to increase physical activity and improve health: a systematic review. JAMA, 298(19), 2296-2304. https://doi.org/10.1001/jama.298.19.2296` },
+        { level: 'moderate', text: `Wear a tracker daily and aim to beat your weekly average by 1,000 steps`, source: `Bravata DM, Smith-Spangler C, Sundaram V, Gienger AL, Lin N, Lewis R, Stave CD, Olkin I, Sirard JR (2007). Using pedometers to increase physical activity and improve health: a systematic review. JAMA, 298(19), 2296-2304. https://doi.org/10.1001/jama.298.19.2296` },
+        { level: 'deep', text: `Set and track a personal daily step goal every day, adjusting it weekly`, source: `Bravata DM, Smith-Spangler C, Sundaram V, Gienger AL, Lin N, Lewis R, Stave CD, Olkin I, Sirard JR (2007). Using pedometers to increase physical activity and improve health: a systematic review. JAMA, 298(19), 2296-2304. https://doi.org/10.1001/jama.298.19.2296` },
+      ] },
+      { name: `Social & Accountability`, practices: [
+        { level: 'gentle', text: `Join or watch one group activity this month (class, sport, Circle session)`, source: `Burke SM, Carron AV, Eys MA, Ntoumanis N, Estabrooks PA (2005). Group versus individual approach? A meta-analysis of the effectiveness of interventions to promote physical activity. Sport & Exercise Psychology Review. DOI:10.53841/bpssepr.2006.2.1.13` },
+        { level: 'moderate', text: `One Circle or group workout this month`, source: `Burke SM, Carron AV, Eys MA, Ntoumanis N, Estabrooks PA (2005). Group versus individual approach? A meta-analysis of the effectiveness of interventions to promote physical activity. Sport & Exercise Psychology Review. DOI:10.53841/bpssepr.2006.2.1.14` },
+        { level: 'deep', text: `Lead one movement session for your Circle (even 10 min over video call)`, source: `Burke SM, Carron AV, Eys MA, Ntoumanis N, Estabrooks PA (2005). Group versus individual approach? A meta-analysis of the effectiveness of interventions to promote physical activity. Sport & Exercise Psychology Review. DOI:10.53841/bpssepr.2006.2.1.15` },
+        { level: 'gentle', text: `One walk-and-talk call instead of a seated call, this week`, source: `Xu Z, Zheng X, Ding H, Zhang D, Cheung PM-H, Yang Z, Tam KW, Zhou W, Chan DC-C, Wang W, Wong SY-S (2024). The Effect of Walking on Depressive and Anxiety Symptoms: Systematic Review and Meta-Analysis. JMIR Public Health and Surveillance, 10, e48355.
+Burke SM, Carron AV, Eys MA, Ntoumanis N, Estabrooks PA (2006), cited under Group Exercise / Circle Workouts.` },
+        { level: 'moderate', text: `20-minute walk with a friend or colleague, once a week`, source: `Xu Z, Zheng X, Ding H, Zhang D, Cheung PM-H, Yang Z, Tam KW, Zhou W, Chan DC-C, Wang W, Wong SY-S (2024). The Effect of Walking on Depressive and Anxiety Symptoms: Systematic Review and Meta-Analysis. JMIR Public Health and Surveillance, 10, e48355.
+Burke SM, Carron AV, Eys MA, Ntoumanis N, Estabrooks PA (2006), cited under Group Exercise / Circle Workouts.` },
+        { level: 'deep', text: `Make walking meetings or calls your default at least 3 times a week`, source: `Xu Z, Zheng X, Ding H, Zhang D, Cheung PM-H, Yang Z, Tam KW, Zhou W, Chan DC-C, Wang W, Wong SY-S (2024). The Effect of Walking on Depressive and Anxiety Symptoms: Systematic Review and Meta-Analysis. JMIR Public Health and Surveillance, 10, e48355.
+Burke SM, Carron AV, Eys MA, Ntoumanis N, Estabrooks PA (2006), cited under Group Exercise / Circle Workouts.` },
+        { level: 'gentle', text: `Suggest a friendly step-count challenge to one person this month`, source: `Chaudhry UAR, Wahlich C, Fortescue R, Cook DG, Knightly R, Harris T (2020). The effects of step-count monitoring interventions on physical activity: systematic review and meta-analysis of community-based randomised controlled trials in adults. International Journal of Behavioral Nutrition and Physical Activity, 17, 129. https://doi.org/10.1186/s12966-020-01020-8` },
+        { level: 'moderate', text: `Join or start a Circle step-count challenge this month, comparing progress weekly`, source: `Chaudhry UAR, Wahlich C, Fortescue R, Cook DG, Knightly R, Harris T (2020). The effects of step-count monitoring interventions on physical activity: systematic review and meta-analysis of community-based randomised controlled trials in adults. International Journal of Behavioral Nutrition and Physical Activity, 17, 129. https://doi.org/10.1186/s12966-020-01020-8` },
+        { level: 'deep', text: `Run a full-month Circle step challenge with a shared leaderboard, updated at least weekly`, source: `Chaudhry UAR, Wahlich C, Fortescue R, Cook DG, Knightly R, Harris T (2020). The effects of step-count monitoring interventions on physical activity: systematic review and meta-analysis of community-based randomised controlled trials in adults. International Journal of Behavioral Nutrition and Physical Activity, 17, 129. https://doi.org/10.1186/s12966-020-01020-8` },
+        { level: 'gentle', text: `Take at least 1 full rest or light-activity day this week`, source: `Gabbett TJ (2016). The training-injury prevention paradox: should athletes be training smarter and harder? British Journal of Sports Medicine, 50(5), 273-280. https://doi.org/10.1136/bjsports-2015-095788` },
+        { level: 'moderate', text: `Plan 1-2 rest/active-recovery days into your weekly routine`, source: `Gabbett TJ (2016). The training-injury prevention paradox: should athletes be training smarter and harder? British Journal of Sports Medicine, 50(5), 273-280. https://doi.org/10.1136/bjsports-2015-095788` },
+        { level: 'deep', text: `Structure your week so hard sessions are never scheduled back-to-back`, source: `Gabbett TJ (2016). The training-injury prevention paradox: should athletes be training smarter and harder? British Journal of Sports Medicine, 50(5), 273-280. https://doi.org/10.1136/bjsports-2015-095788` },
+      ] },
     ],
   },
   {
@@ -431,37 +352,72 @@ export const SEASONS = [
     soft: 'oklch(0.95 0.08 120)',
     light: true,
     categories: [
-      {
-        name: 'Daily practices',
-        evidence: 'Brief, regular practices in attention and reflection compound into measurable reductions in stress and anxiety.',
-        practices: [
-          { level: 'gentle', text: '2 minutes of conscious breathing daily', insight: 'Even brief daily breathing practice lowers stress reactivity and calms the nervous system.' },
-          { level: 'gentle', text: 'No phone for the first 15 minutes after waking', insight: 'A phone-free start protects your attention and sets a calmer tone for the day.' },
-          { level: 'gentle', text: 'Write 3 gratitude lines before sleep', insight: 'Regular gratitude practice is reliably linked to higher wellbeing and lower stress.' },
-          { level: 'gentle', text: '5 minutes of quiet reflection', insight: 'Short daily stillness builds the attention control that buffers against stress.' },
-          { level: 'moderate', text: '10-minute meditation, 4x a week', insight: 'Regular meditation measurably reduces anxiety and improves emotional regulation.' },
-          { level: 'moderate', text: 'Daily emotional check-in (“What am I feeling?”)', insight: 'Naming feelings (“affect labelling”) reduces their intensity and improves self-regulation.' },
-          { level: 'moderate', text: '1 hour of distraction-free deep work a day', insight: 'Protected, distraction-free focus strengthens attention and a sense of accomplishment.' },
-          { level: 'moderate', text: 'One screen-light evening per week', insight: 'Periodic breaks from screens reduce overstimulation and improve mood and sleep.' },
-          { level: 'moderate', text: 'Leave your phone at home when going to sports or a restaurant', insight: 'Time away from your phone deepens presence and the quality of real-world connection.' },
-          { level: 'deep', text: '15–20 minute meditation daily', insight: 'Longer daily practice produces larger, lasting gains in attention and calm.' },
-          { level: 'deep', text: 'Daily journaling', insight: 'Expressive writing reduces rumination and improves both mood and stress resilience.' },
-          { level: 'deep', text: 'One half-day digital detox per week', insight: 'Regular digital breaks reset attention and ease the low mood linked to heavy use.' },
-          { level: 'deep', text: 'Practice cognitive reframing under stress', insight: 'Reframing stressful thoughts is a core CBT skill shown to lower anxiety.' },
-        ],
-      },
-      {
-        name: 'Social & stretch practices',
-        evidence: '',
-        practices: [
-          { level: 'gentle', text: 'Send one thoughtful message a week to someone you appreciate', insight: 'Small acts of reaching out strengthen relationships and lift both people’s mood.' },
-          { level: 'gentle', text: 'Have one meaningful conversation during the month', insight: 'Deeper conversations, more than small talk, are associated with greater happiness.' },
-          { level: 'moderate', text: 'One Circle vulnerability check-in weekly: “What drained you? What nourished you?”', insight: 'Honest sharing builds the trust and belonging that protect mental health.' },
-          { level: 'moderate', text: 'Share one personal reflection in the WhatsApp group', insight: 'Expressing vulnerability deepens connection and reduces feelings of isolation.' },
-          { level: 'deep', text: 'Offer one act of service during the month: mentor, help, listen, or volunteer', insight: 'Helping others reliably boosts the helper’s own wellbeing and sense of purpose.' },
-          { level: 'deep', text: 'Host a deep conversation with another participant: “What changed you? What do you fear? Who are you becoming?”', insight: 'Meaningful dialogue fosters the close relationships central to a long, good life.' },
-        ],
-      },
+      { name: `Mindfulness & Meditation`, practices: [
+        { level: 'gentle', text: `5 min of guided meditation, 3 times this week`, source: `Goyal M, Singh S, Sibinga EMS, et al. (2014). Meditation Programs for Psychological Stress and Well-Being: A Systematic Review and Meta-Analysis. JAMA Internal Medicine, 174(3), 357-368. https://doi.org/10.1001/jamainternmed.2013.13018` },
+        { level: 'moderate', text: `10 min of meditation, 4 times this week`, source: `Goyal M, Singh S, Sibinga EMS, et al. (2014). Meditation Programs for Psychological Stress and Well-Being: A Systematic Review and Meta-Analysis. JAMA Internal Medicine, 174(3), 357-368. https://doi.org/10.1001/jamainternmed.2013.13018` },
+        { level: 'deep', text: `15-20 min of meditation daily`, explanation: `Research suggests that regular meditation can help reduce stress and improve emotional wellbeing over time. This practice gives you a simple, sustainable way to begin building that habit.`, evidenceSummary: `A systematic review and meta-analysis found that meditation programmes were associated with small to moderate improvements in stress, anxiety and depression symptoms.`, source: `Goyal M, Singh S, Sibinga EMS, et al. (2014). Meditation Programs for Psychological Stress and Well-Being: A Systematic Review and Meta-Analysis. JAMA Internal Medicine, 174(3), 357-368. https://doi.org/10.1001/jamainternmed.2013.13018` },
+        { level: 'gentle', text: `2 min of slow, conscious breathing daily`, source: `Ma X, Yue Z-Q, Gong Z-Q, Zhang H, Duan N-Y, Shi Y-T, Wei G-X, Li Y-F (2017). The Effect of Diaphragmatic Breathing on Attention, Negative Affect and Stress in Healthy Adults. Frontiers in Psychology, 8, 874. https://doi.org/10.3389/fpsyg.2017.00874` },
+        { level: 'moderate', text: `5 min of slow breathing daily`, source: `Ma X, Yue Z-Q, Gong Z-Q, Zhang H, Duan N-Y, Shi Y-T, Wei G-X, Li Y-F (2017). The Effect of Diaphragmatic Breathing on Attention, Negative Affect and Stress in Healthy Adults. Frontiers in Psychology, 8, 874. https://doi.org/10.3389/fpsyg.2017.00874` },
+        { level: 'deep', text: `10 min of paced breathing daily (around 4-6 breaths/min)`, source: `Ma X, Yue Z-Q, Gong Z-Q, Zhang H, Duan N-Y, Shi Y-T, Wei G-X, Li Y-F (2017). The Effect of Diaphragmatic Breathing on Attention, Negative Affect and Stress in Healthy Adults. Frontiers in Psychology, 8, 874. https://doi.org/10.3389/fpsyg.2017.00874` },
+        { level: 'gentle', text: `Once today, pause and name what you're doing right now, instead of thinking about something else`, source: `Killingsworth MA, Gilbert DT (2010). A Wandering Mind Is an Unhappy Mind. Science, 330(6006), 932. https://doi.org/10.1126/science.1192439` },
+        { level: 'moderate', text: `3 times this week, spend 5 min fully focused on one task without switching`, source: `Killingsworth MA, Gilbert DT (2010). A Wandering Mind Is an Unhappy Mind. Science, 330(6006), 932. https://doi.org/10.1126/science.1192439` },
+        { level: 'deep', text: `Build a daily habit of noticing when your mind has wandered and gently returning to the present`, source: `Killingsworth MA, Gilbert DT (2010). A Wandering Mind Is an Unhappy Mind. Science, 330(6006), 932. https://doi.org/10.1126/science.1192439` },
+      ] },
+      { name: `Cognitive & Emotional Regulation`, practices: [
+        { level: 'gentle', text: `Once this week, reframe a strong negative reaction in a more neutral or useful light`, source: `Gross JJ, John OP (2003). Individual Differences in Two Emotion Regulation Processes: Implications for Affect, Relationships, and Well-Being. Journal of Personality and Social Psychology, 85(2), 348-362. https://doi.org/10.1037/0022-3514.85.2.348` },
+        { level: 'moderate', text: `Practice reframing a stressful thought 2-3 times this week`, source: `Gross JJ, John OP (2003). Individual Differences in Two Emotion Regulation Processes: Implications for Affect, Relationships, and Well-Being. Journal of Personality and Social Psychology, 85(2), 348-362. https://doi.org/10.1037/0022-3514.85.2.348` },
+        { level: 'deep', text: `Make reappraisal your default first response to stress, daily`, source: `Gross JJ, John OP (2003). Individual Differences in Two Emotion Regulation Processes: Implications for Affect, Relationships, and Well-Being. Journal of Personality and Social Psychology, 85(2), 348-362. https://doi.org/10.1037/0022-3514.85.2.348` },
+        { level: 'gentle', text: `Once today, name what you're feeling in one or two words`, source: `Lieberman MD, Eisenberger NI, Crockett MJ, Tom SM, Pfeifer JH, Way BM (2007). Putting Feelings Into Words: Affect Labeling Disrupts Amygdala Activity in Response to Affective Stimuli. Psychological Science, 18(5), 421-428. https://doi.org/10.1111/j.1467-9280.2007.01916.x` },
+        { level: 'moderate', text: `Daily emotional check-in ("What am I feeling?"), 4 times this week`, source: `Lieberman MD, Eisenberger NI, Crockett MJ, Tom SM, Pfeifer JH, Way BM (2007). Putting Feelings Into Words: Affect Labeling Disrupts Amygdala Activity in Response to Affective Stimuli. Psychological Science, 18(5), 421-428. https://doi.org/10.1111/j.1467-9280.2007.01916.x` },
+        { level: 'deep', text: `Daily emotional check-in with a brief note on why, every day`, source: `Lieberman MD, Eisenberger NI, Crockett MJ, Tom SM, Pfeifer JH, Way BM (2007). Putting Feelings Into Words: Affect Labeling Disrupts Amygdala Activity in Response to Affective Stimuli. Psychological Science, 18(5), 421-428. https://doi.org/10.1111/j.1467-9280.2007.01916.x` },
+        { level: 'gentle', text: `Next time you're stressed, try talking to yourself using your own name instead of "I"`, source: `Kross E, Bruehlman-Senecal E, Park J, Burson A, Dougherty A, Shablack H, Bremner R, Moser J, Ayduk O (2014). Self-Talk as a Regulatory Mechanism: How You Do It Matters. Journal of Personality and Social Psychology, 106(2), 304-324. https://doi.org/10.1037/a0035173` },
+        { level: 'moderate', text: `Use third-person self-talk during 2 stressful moments this week`, source: `Kross E, Bruehlman-Senecal E, Park J, Burson A, Dougherty A, Shablack H, Bremner R, Moser J, Ayduk O (2014). Self-Talk as a Regulatory Mechanism: How You Do It Matters. Journal of Personality and Social Psychology, 106(2), 304-324. https://doi.org/10.1037/a0035173` },
+        { level: 'deep', text: `Make third-person self-talk your go-to tool before any high-pressure moment`, source: `Kross E, Bruehlman-Senecal E, Park J, Burson A, Dougherty A, Shablack H, Bremner R, Moser J, Ayduk O (2014). Self-Talk as a Regulatory Mechanism: How You Do It Matters. Journal of Personality and Social Psychology, 106(2), 304-324. https://doi.org/10.1037/a0035173` },
+      ] },
+      { name: `Digital Boundaries & Attention`, practices: [
+        { level: 'gentle', text: `Set a 30-min daily limit on one social media app, 3 days this week`, source: `Hunt MG, Marx R, Lipson C, Young J (2018). No More FOMO: Limiting Social Media Decreases Loneliness and Depression. Journal of Social and Clinical Psychology, 37(10), 751-768. https://doi.org/10.1521/jscp.2018.37.10.751` },
+        { level: 'moderate', text: `Limit total social media use to about 30 min/day, most days this week`, source: `Hunt MG, Marx R, Lipson C, Young J (2018). No More FOMO: Limiting Social Media Decreases Loneliness and Depression. Journal of Social and Clinical Psychology, 37(10), 751-768. https://doi.org/10.1521/jscp.2018.37.10.751` },
+        { level: 'deep', text: `Limit social media to 10 min per platform per day, every day`, source: `Hunt MG, Marx R, Lipson C, Young J (2018). No More FOMO: Limiting Social Media Decreases Loneliness and Depression. Journal of Social and Clinical Psychology, 37(10), 751-768. https://doi.org/10.1521/jscp.2018.37.10.751` },
+        { level: 'gentle', text: `Close extra tabs/apps for one focused task today`, source: `Ophir E, Nass C, Wagner AD (2009). Cognitive Control in Media Multitaskers. Proceedings of the National Academy of Sciences, 106(37), 15583-15587. https://doi.org/10.1073/pnas.0903620106` },
+        { level: 'moderate', text: `One hour of distraction-free, single-task work, most days this week`, source: `Ophir E, Nass C, Wagner AD (2009). Cognitive Control in Media Multitaskers. Proceedings of the National Academy of Sciences, 106(37), 15583-15587. https://doi.org/10.1073/pnas.0903620106` },
+        { level: 'deep', text: `One hour of distraction-free deep work, daily`, source: `Ophir E, Nass C, Wagner AD (2009). Cognitive Control in Media Multitaskers. Proceedings of the National Academy of Sciences, 106(37), 15583-15587. https://doi.org/10.1073/pnas.0903620106` },
+        { level: 'gentle', text: `Turn off notifications for one app today`, source: `Kushlev K, Proulx JDE, Dunn EW (2016). "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems, 1011-1020. https://doi.org/10.1145/2858036.2858359` },
+        { level: 'moderate', text: `Keep phone notifications off during one work block daily`, source: `Kushlev K, Proulx JDE, Dunn EW (2016). "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems, 1011-1020. https://doi.org/10.1145/2858036.2858359` },
+        { level: 'deep', text: `Keep notifications off by default, checking your phone only at set times`, source: `Kushlev K, Proulx JDE, Dunn EW (2016). "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems, 1011-1020. https://doi.org/10.1145/2858036.2858359` },
+      ] },
+      { name: `Gratitude & Reflection`, practices: [
+        { level: 'gentle', text: `Write 3 things you're grateful for before bed, once this week`, source: `Emmons RA, McCullough ME (2003). Counting Blessings Versus Burdens: An Experimental Investigation of Gratitude and Subjective Well-Being in Daily Life. Journal of Personality and Social Psychology, 84(2), 377-389. https://doi.org/10.1037/0022-3514.84.2.377` },
+        { level: 'moderate', text: `Write 3 gratitude lines before bed, most nights this week`, source: `Emmons RA, McCullough ME (2003). Counting Blessings Versus Burdens: An Experimental Investigation of Gratitude and Subjective Well-Being in Daily Life. Journal of Personality and Social Psychology, 84(2), 377-389. https://doi.org/10.1037/0022-3514.84.2.377` },
+        { level: 'deep', text: `Write 3 gratitude lines before bed, every night`, source: `Emmons RA, McCullough ME (2003). Counting Blessings Versus Burdens: An Experimental Investigation of Gratitude and Subjective Well-Being in Daily Life. Journal of Personality and Social Psychology, 84(2), 377-389. https://doi.org/10.1037/0022-3514.84.2.377` },
+        { level: 'gentle', text: `Write for 5 min about something on your mind, once this week`, source: `Pennebaker JW, Beall SK (1986). Confronting a Traumatic Event: Toward an Understanding of Inhibition and Disease. Journal of Abnormal Psychology, 95(3), 274-281. https://doi.org/10.1037/0021-843X.95.3.274` },
+        { level: 'moderate', text: `Journal for 10-15 min, 2-3 times this week`, source: `Pennebaker JW, Beall SK (1986). Confronting a Traumatic Event: Toward an Understanding of Inhibition and Disease. Journal of Abnormal Psychology, 95(3), 274-281. https://doi.org/10.1037/0021-843X.95.3.274` },
+        { level: 'deep', text: `Journal for 15 min daily about your thoughts and feelings`, source: `Pennebaker JW, Beall SK (1986). Confronting a Traumatic Event: Toward an Understanding of Inhibition and Disease. Journal of Abnormal Psychology, 95(3), 274-281. https://doi.org/10.1037/0021-843X.95.3.274` },
+        { level: 'gentle', text: `Write down 1 good thing that happened today, once this week`, source: `Seligman MEP, Steen TA, Park N, Peterson C (2005). Positive Psychology Progress: Empirical Validation of Interventions. American Psychologist, 60(5), 410-421. https://doi.org/10.1037/0003-066X.60.5.410` },
+        { level: 'moderate', text: `Write down 3 good things that happened, 4 days this week`, source: `Seligman MEP, Steen TA, Park N, Peterson C (2005). Positive Psychology Progress: Empirical Validation of Interventions. American Psychologist, 60(5), 410-421. https://doi.org/10.1037/0003-066X.60.5.410` },
+        { level: 'deep', text: `Write down 3 good things -- and why they happened -- every day`, source: `Seligman MEP, Steen TA, Park N, Peterson C (2005). Positive Psychology Progress: Empirical Validation of Interventions. American Psychologist, 60(5), 410-421. https://doi.org/10.1037/0003-066X.60.5.410` },
+      ] },
+      { name: `Social Connection & Vulnerability`, practices: [
+        { level: 'gentle', text: `Share one honest, personal thought with someone this week, instead of keeping it to small talk`, source: `Collins NL, Miller LC (1994). Self-Disclosure and Liking: A Meta-Analytic Review. Psychological Bulletin, 116(3), 457-475. https://doi.org/10.1037/0033-2909.116.3.457` },
+        { level: 'moderate', text: `Share something a little more personal with 2-3 different people this week`, source: `Collins NL, Miller LC (1994). Self-Disclosure and Liking: A Meta-Analytic Review. Psychological Bulletin, 116(3), 457-475. https://doi.org/10.1037/0033-2909.116.3.457` },
+        { level: 'deep', text: `Make sharing something real (not just surface talk) a regular part of your conversations, most days`, source: `Collins NL, Miller LC (1994). Self-Disclosure and Liking: A Meta-Analytic Review. Psychological Bulletin, 116(3), 457-475. https://doi.org/10.1037/0033-2909.116.3.457` },
+        { level: 'gentle', text: `Have one extra brief chat today with someone you don't know well (neighbor, barista, colleague)`, source: `Sandstrom GM, Dunn EW (2014). Social Interactions and Well-Being: The Surprising Power of Weak Ties. Personality and Social Psychology Bulletin, 40(7), 910-922. https://doi.org/10.1177/0146167214529799` },
+        { level: 'moderate', text: `Chat with 3 different acquaintances or "weak ties" this week, even briefly`, source: `Sandstrom GM, Dunn EW (2014). Social Interactions and Well-Being: The Surprising Power of Weak Ties. Personality and Social Psychology Bulletin, 40(7), 910-922. https://doi.org/10.1177/0146167214529799` },
+        { level: 'deep', text: `Make small talk with someone new most days this week`, source: `Sandstrom GM, Dunn EW (2014). Social Interactions and Well-Being: The Surprising Power of Weak Ties. Personality and Social Psychology Bulletin, 40(7), 910-922. https://doi.org/10.1177/0146167214529799` },
+        { level: 'gentle', text: `Send one thoughtful message this week to someone you appreciate`, source: `Holt-Lunstad J, Smith TB, Layton JB (2010). Social Relationships and Mortality Risk: A Meta-Analytic Review. PLoS Medicine, 7(7), e1000316. https://doi.org/10.1371/journal.pmed.1000316` },
+        { level: 'moderate', text: `One Circle vulnerability check-in weekly (what drained you, what nourished you)`, source: `Holt-Lunstad J, Smith TB, Layton JB (2010). Social Relationships and Mortality Risk: A Meta-Analytic Review. PLoS Medicine, 7(7), e1000316. https://doi.org/10.1371/journal.pmed.1000316` },
+        { level: 'deep', text: `Share one personal reflection with your Circle every week`, source: `Holt-Lunstad J, Smith TB, Layton JB (2010). Social Relationships and Mortality Risk: A Meta-Analytic Review. PLoS Medicine, 7(7), e1000316. https://doi.org/10.1371/journal.pmed.1000316` },
+      ] },
+      { name: `Rest & Restoration`, practices: [
+        { level: 'gentle', text: `Spend 20 min outdoors in a green space this week`, source: `White MP, Alcock I, Grellier J, Wheeler BW, Hartig T, Warber SL, Bone A, Depledge MH, Fleming LE (2019). Spending at Least 120 Minutes a Week in Nature Is Associated With Good Health and Wellbeing. Scientific Reports, 9(1), 7730. https://doi.org/10.1038/s41598-019-44097-3` },
+        { level: 'moderate', text: `Spend at least 120 min in nature this week, in one or more visits`, source: `White MP, Alcock I, Grellier J, Wheeler BW, Hartig T, Warber SL, Bone A, Depledge MH, Fleming LE (2019). Spending at Least 120 Minutes a Week in Nature Is Associated With Good Health and Wellbeing. Scientific Reports, 9(1), 7730. https://doi.org/10.1038/s41598-019-44097-3` },
+        { level: 'deep', text: `Make 120+ min in nature a weekly habit`, source: `White MP, Alcock I, Grellier J, Wheeler BW, Hartig T, Warber SL, Bone A, Depledge MH, Fleming LE (2019). Spending at Least 120 Minutes a Week in Nature Is Associated With Good Health and Wellbeing. Scientific Reports, 9(1), 7730. https://doi.org/10.1038/s41598-019-44097-3` },
+        { level: 'gentle', text: `Take one 15-min walk this week and notice one thing that feels vast or amazing`, source: `Sturm VE, Datta S, Roy ARK, Sible IJ, Kosik EL, Veziris CR, Chow TE, Morris NA, Neuhaus J, Kramer JH, Miller BL, Holley SR, Keltner D (2020). Big Smile, Small Self: Awe Walks Promote Prosocial Positive Emotions in Older Adults. Emotion, 22(5), 1044-1058. https://doi.org/10.1037/emo0000876` },
+        { level: 'moderate', text: `Take a 15-min "awe walk" once a week, looking for wonder rather than worry`, source: `Sturm VE, Datta S, Roy ARK, Sible IJ, Kosik EL, Veziris CR, Chow TE, Morris NA, Neuhaus J, Kramer JH, Miller BL, Holley SR, Keltner D (2020). Big Smile, Small Self: Awe Walks Promote Prosocial Positive Emotions in Older Adults. Emotion, 22(5), 1044-1058. https://doi.org/10.1037/emo0000876` },
+        { level: 'deep', text: `Make a weekly awe walk a standing habit for the month`, source: `Sturm VE, Datta S, Roy ARK, Sible IJ, Kosik EL, Veziris CR, Chow TE, Morris NA, Neuhaus J, Kramer JH, Miller BL, Holley SR, Keltner D (2020). Big Smile, Small Self: Awe Walks Promote Prosocial Positive Emotions in Older Adults. Emotion, 22(5), 1044-1058. https://doi.org/10.1037/emo0000876` },
+        { level: 'gentle', text: `Take one evening this week fully off from work-related messages or thoughts`, source: `Sonnentag S (2001). Work, Recovery Activities, and Individual Well-Being: A Diary Study. Journal of Occupational Health Psychology, 6(3), 196-210. https://doi.org/10.1037/1076-8998.6.3.196` },
+        { level: 'moderate', text: `One half-day digital/work detox this week`, source: `Sonnentag S (2001). Work, Recovery Activities, and Individual Well-Being: A Diary Study. Journal of Occupational Health Psychology, 6(3), 196-210. https://doi.org/10.1037/1076-8998.6.3.196` },
+        { level: 'deep', text: `Protect one full digital/work-free block every week, consistently`, source: `Sonnentag S (2001). Work, Recovery Activities, and Individual Well-Being: A Diary Study. Journal of Occupational Health Psychology, 6(3), 196-210. https://doi.org/10.1037/1076-8998.6.3.196` },
+      ] },
     ],
   },
 ];
