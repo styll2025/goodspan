@@ -1,0 +1,19 @@
+# Legacy paths
+/seasons /membership 301
+/seasons.html /membership 301
+/terms /terms-and-conditions 301
+/terms.html /terms-and-conditions 301
+/lisbon /lisbon-chapter 301
+/lisbon.html /lisbon-chapter 301
+
+# Canonical clean URLs (strip .html)
+/membership.html /membership 301
+/terms-and-conditions.html /terms-and-conditions 301
+/lisbon-chapter.html /lisbon-chapter 301
+/evidence.html /evidence 301
+/calendar.html /calendar 301
+/privacy-policy.html /privacy-policy 301
+/cookie-policy.html /cookie-policy 301
+/community-guidelines.html /community-guidelines 301
+/medical-disclaimer.html /medical-disclaimer 301
+/index.html / 301
