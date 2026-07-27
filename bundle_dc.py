@@ -34,7 +34,7 @@ IMAGE_ALIASES: dict[str, str | tuple[str, str]] = {
     "uploads/6.png": "/Users/sara/Downloads/Untitled design/uploads/6.png",
     "uploads/5.png": "/Users/sara/Downloads/Untitled design/uploads/eat.png",
     "uploads/circle.png": "/Users/sara/Downloads/Untitled design/uploads/circle.png",
-    "uploads/12.png": "/Users/sara/Downloads/Untitled design/uploads/12.png",
+    "uploads/12.png": "/Users/sara/Documents/goodspan/uploads/healthy-habits.jpg",
     "uploads/hero_image.jpg": "/Users/sara/Downloads/Untitled design/uploads/hero_image.jpg",
 }
 
