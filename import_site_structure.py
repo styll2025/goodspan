@@ -20,11 +20,11 @@ REPO = Path(__file__).resolve().parent
 DOWNLOADS = Path("/Users/sara/Downloads")
 
 DC_PAGES = {
-    "GoodSpan Landing.dc (3).html": "index.html",
-    "Your Journey.dc.html": "your-journey.html",
-    "Memberships.dc.html": "memberships.html",
-    "About.dc.html": "about.html",
-    "GoodSpan Evidence.dc.html": "evidence.html",
+    "GoodSpan Landing.dc (4).html": "index.html",
+    "Your Journey.dc (1).html": "your-journey.html",
+    "Memberships.dc (1).html": "memberships.html",
+    "About.dc (1).html": "about.html",
+    "GoodSpan Evidence.dc (1).html": "evidence.html",
 }
 
 LINK_REPLACEMENTS = [
