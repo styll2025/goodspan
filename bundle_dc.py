@@ -29,7 +29,7 @@ IMAGE_ALIASES: dict[str, str | tuple[str, str]] = {
     "uploads/together.png": "/Users/sara/Downloads/Untitled design/uploads/together.png",
     "uploads/Untitled design (1).png": "/Users/sara/Documents/goodspan/uploads/evidence-collage.png",
     "uploads/Untitled design (2).png": "/Users/sara/Documents/goodspan/uploads/evidence-journeys.png",
-    "uploads/sleep-waking-up.png": "/Users/sara/Downloads/Untitled design/uploads/sleep.png",
+    "uploads/sleep-waking-up.png": "/Users/sara/Documents/goodspan/uploads/goodsleep-waking-up.png",
     "uploads/14.png": "/Users/sara/Downloads/Untitled design/uploads/move.png",
     "uploads/6.png": "/Users/sara/Downloads/Untitled design/uploads/6.png",
     "uploads/5.png": "/Users/sara/Downloads/Untitled design/uploads/eat.png",
