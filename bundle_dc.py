@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import base64
+import gzip
 import json
 import mimetypes
 import re
@@ -12,10 +13,15 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent
 REFERENCE = REPO / "evidence.html"
+MEMBERSHIP = REPO / "membership.html"
 LISBON = REPO / "lisbon-chapter.html"
+SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site")
+SUPPORT_JS = SITE_EXPORT / "support.js"
+SEASONS_DATA = REPO / "seasons-data.js"
 
 UPLOAD_DIRS = [
     REPO / "uploads",
+    SITE_EXPORT / "uploads",
     Path("/Users/sara/Downloads/Untitled design/uploads"),
     Path("/Users/sara/Downloads"),
 ]
@@ -36,6 +42,8 @@ IMAGE_ALIASES: dict[str, str | tuple[str, str]] = {
     "uploads/circle.png": "/Users/sara/Documents/goodspan/uploads/circle.jpg",
     "uploads/12.png": "/Users/sara/Documents/goodspan/uploads/healthy-habits.jpg",
     "uploads/hero_image.jpg": "/Users/sara/Downloads/Untitled design/uploads/hero_image.jpg",
+    "uploads/Screenshot 2026-07-13 at 16.50.29.png": "/Users/sara/Downloads/Season practice builder (15)/uploads/Screenshot 2026-07-13 at 16.50.29.png",
+    "uploads/2026.06.28.Joel.8303.jpg": "/Users/sara/Downloads/2026.06.28.Joel.8303.jpg",
 }
 
 PAGE_IMAGE_SOURCES = {
@@ -236,6 +244,38 @@ def build_template(
     )
 
 
+def reference_for(dc_path: Path) -> Path:
+    if dc_path.name == "GoodSpan Seasons.dc.html":
+        return MEMBERSHIP
+    return REFERENCE
+
+
+def js_manifest_entry(data: bytes, mime: str = "text/javascript") -> dict:
+    return {
+        "mime": mime,
+        "compressed": True,
+        "data": base64.b64encode(gzip.compress(data)).decode("ascii"),
+    }
+
+
+def refresh_runtime(text: str, runtime_uid: str) -> str:
+    if not SUPPORT_JS.exists():
+        return text
+    manifest = get_manifest(text)
+    manifest[runtime_uid] = js_manifest_entry(SUPPORT_JS.read_bytes())
+    return set_manifest(text, manifest)
+
+
+def refresh_seasons_data(text: str) -> str:
+    if not SEASONS_DATA.exists():
+        return text
+    ext = get_ext_resources(text)
+    seasons_uid = next(item["uuid"] for item in ext if item["id"] == "seasonsData")
+    manifest = get_manifest(text)
+    manifest[seasons_uid] = js_manifest_entry(SEASONS_DATA.read_bytes(), "application/javascript")
+    return set_manifest(text, manifest)
+
+
 def replace_thumbnail_shell(text: str, thumbnail_inner: str) -> str:
     if not thumbnail_inner:
         return text
@@ -246,7 +286,8 @@ def replace_thumbnail_shell(text: str, thumbnail_inner: str) -> str:
 
 
 def bundle_dc(dc_path: Path) -> str:
-    ref_text = REFERENCE.read_text(encoding="utf-8")
+    ref_path = reference_for(dc_path)
+    ref_text = ref_path.read_text(encoding="utf-8")
     ref_template = get_template(ref_text)
     ref_manifest = get_manifest(ref_text)
     ext_resources = get_ext_resources(ref_text)
@@ -270,6 +311,9 @@ def bundle_dc(dc_path: Path) -> str:
     output = replace_thumbnail_shell(output, thumbnail_inner)
     output = set_manifest(output, manifest)
     output = set_template_block(output, template)
+    output = refresh_runtime(output, runtime_uid)
+    if dc_path.name == "GoodSpan Seasons.dc.html":
+        output = refresh_seasons_data(output)
     return output
 
 

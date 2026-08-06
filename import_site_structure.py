@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
-"""Import Jul 2026 site structure update from .dc.html sources."""
+"""Import GoodSpan site updates from .dc.html sources."""
 
 from __future__ import annotations
 
-import json
 import re
 from pathlib import Path
 
 from bundle_dc import (
     bundle_dc,
-    encode_template,
     get_template,
     hide_splash,
     set_template_block,
@@ -17,28 +15,44 @@ from bundle_dc import (
 )
 
 REPO = Path(__file__).resolve().parent
-DOWNLOADS = Path("/Users/sara/Downloads")
+SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site")
 
 DC_PAGES = {
-    "GoodSpan Landing.dc (4).html": "index.html",
-    "Your Journey.dc (1).html": "your-journey.html",
-    "Memberships.dc (1).html": "memberships.html",
-    "About.dc (1).html": "about.html",
-    "GoodSpan Evidence.dc (1).html": "evidence.html",
+    "GoodSpan Landing.dc.html": "index.html",
+    "Your Journey.dc.html": "your-journey.html",
+    "Memberships.dc.html": "memberships.html",
+    "About.dc.html": "about.html",
+    "GoodSpan Evidence.dc.html": "evidence.html",
+    "GoodSpan Seasons.dc.html": "membership.html",
+    "GoodSpan Calendar.dc.html": "calendar.html",
+    "Lisbon Chapter.dc.html": "lisbon-chapter.html",
+    "Terms and Conditions.dc.html": "terms-and-conditions.html",
+    "Privacy Policy.dc.html": "privacy-policy.html",
+    "Cookie Policy.dc.html": "cookie-policy.html",
+    "Community Guidelines.dc.html": "community-guidelines.html",
+    "Medical Disclaimer.dc.html": "medical-disclaimer.html",
 }
 
 LINK_REPLACEMENTS = [
+    ("GoodSpan Landing.dc (4).html", "/"),
     ("GoodSpan Landing.dc (3).html", "/"),
     ("GoodSpan Landing.dc.html", "/"),
+    ("Your Journey.dc (1).html", "/your-journey"),
     ("Your Journey.dc.html", "/your-journey"),
+    ("Memberships.dc (1).html", "/memberships"),
     ("Memberships.dc.html", "/memberships"),
+    ("GoodSpan Evidence.dc (1).html", "/evidence"),
     ("GoodSpan Evidence.dc.html", "/evidence"),
+    ("About.dc (1).html", "/about"),
     ("About.dc.html", "/about"),
+    ("GoodSpan Seasons.dc.html?paid=starter", "/membership?paid=starter"),
+    ("GoodSpan Seasons.dc.html?paid=explorer", "/membership?paid=explorer"),
+    ("GoodSpan Seasons.dc.html?paid=insider", "/membership?paid=insider"),
     ("GoodSpan Seasons.dc.html?theme=sleep", "/membership?theme=sleep"),
     ("GoodSpan Seasons.dc.html?theme=move", "/membership?theme=move"),
     ("GoodSpan Seasons.dc.html?theme=mind", "/membership?theme=mind"),
-    ("GoodSpan Seasons.dc.html?theme=eat", "/membership?theme=eating"),
-    ("GoodSpan Seasons.dc.html?theme=eating", "/membership?theme=eating"),
+    ("GoodSpan Seasons.dc.html?theme=eat", "/membership?theme=eat"),
+    ("GoodSpan Seasons.dc.html?theme=eating", "/membership?theme=eat"),
     ("GoodSpan Seasons.dc.html?unsure=1", "/membership?unsure=1"),
     ("GoodSpan Seasons.dc.html", "/membership"),
     ("GoodSpan Calendar.dc.html", "/calendar"),
@@ -56,15 +70,11 @@ LINK_REPLACEMENTS = [
     ("/#gathering", "/your-journey"),
 ]
 
-NAV_PATCH_PAGES = [
-    "calendar.html",
-    "terms-and-conditions.html",
-    "privacy-policy.html",
-    "cookie-policy.html",
-    "community-guidelines.html",
-    "medical-disclaimer.html",
-    "lisbon-chapter.html",
-]
+ABOUT_ACTIVITIES_FAQ = """        <div style="padding:22px 0;border-top:1px solid #E2DBCC;">
+          <div style="font-family:'Newsreader',serif;font-weight:600;font-size:18px;color:#20251F;margin-bottom:8px;">Where do the activities come from?</div>
+          <p style="font-size:15px;line-height:1.65;color:#5A5F56;margin:0;">Every experience is grounded in evidence-based practices and shaped by research into what helps people live healthier, more connected and meaningful lives. We turn the evidence into simple actions that are enjoyable, practical and easy to incorporate into daily life.</p>
+        </div>
+"""
 
 REDIRECTS_APPEND = """
 /your-journey.html /your-journey 301
@@ -87,66 +97,30 @@ def patch_template_links(template: str) -> str:
     return fix_copyright(normalize_links(template))
 
 
-def extract_nav_block(template: str) -> str | None:
-    start = template.find("<!-- NAV -->")
-    if start < 0:
-        return None
-    for marker in ('<span id="top">', "<!-- HERO -->"):
-        anchor = template.find(marker, start + 10)
-        if anchor > start:
-            return template[start:anchor].rstrip() + "\n\n"
-    menu = template.find('<sc-if value="{{ menuOpen }}">', start)
-    if menu > start:
-        end = template.find("</sc-if>", menu) + len("</sc-if>")
-        return template[start:end].rstrip() + "\n\n"
-    return None
+def apply_custom_patches(template: str, dst_name: str) -> str:
+    if dst_name == "about.html" and "Where do the activities come from?" not in template:
+        marker = """        <div style="padding:22px 0;border-top:1px solid #E2DBCC;border-bottom:1px solid #E2DBCC;">
+          <div style="font-family:'Newsreader',serif;font-weight:600;font-size:18px;color:#20251F;margin-bottom:8px;">Is The Good Span a medical programme?</div>"""
+        if marker in template:
+            template = template.replace(marker, ABOUT_ACTIVITIES_FAQ + marker, 1)
 
-
-def extract_footer_block(template: str) -> str | None:
-    start = template.find("<!-- FOOTER -->")
-    if start < 0:
-        return None
-    end = template.find("</footer>", start)
-    if end < 0:
-        return None
-    return template[start : end + len("</footer>")]
-
-
-def sync_nav_footer(template: str, reference: str) -> str:
-    ref_nav = extract_nav_block(reference)
-    ref_footer = extract_footer_block(reference)
-    if not ref_nav or not ref_footer:
-        raise SystemExit("Reference nav/footer blocks missing")
-
-    old_nav = extract_nav_block(template)
-    if old_nav:
-        template = template.replace(old_nav, ref_nav, 1)
-
-    old_footer = extract_footer_block(template)
-    if old_footer:
-        template = template.replace(old_footer, ref_footer, 1)
+    if dst_name == "your-journey.html":
+        template = template.replace(
+            'alt="A Circle gathered together over tea and conversation"',
+            'alt="Hands joined together in a circle"',
+            1,
+        )
 
     return template
 
 
-def update_page_template(path: Path, reference_nav: str | None = None) -> None:
-    text = path.read_text(encoding="utf-8")
-    template = get_template(text)
-    if reference_nav and path.name in NAV_PATCH_PAGES:
-        template = sync_nav_footer(template, reference_nav)
-    template = patch_template_links(template)
-    text = set_template_block(text, template)
-    validate(text)
-    path.write_text(text, encoding="utf-8")
-
-
 def import_dc_page(src_name: str, dst_name: str) -> None:
-    src = DOWNLOADS / src_name
+    src = SITE_EXPORT / src_name
     dst = REPO / dst_name
     print(f"Bundling {src_name} -> {dst_name}")
     text = bundle_dc(src)
     text = hide_splash(text)
-    template = patch_template_links(get_template(text))
+    template = apply_custom_patches(patch_template_links(get_template(text)), dst_name)
     text = set_template_block(text, template)
     validate(text)
     if ".dc.html" in get_template(text):
@@ -164,18 +138,18 @@ def update_redirects() -> None:
     path.write_text(content, encoding="utf-8")
 
 
+def sync_support_assets() -> None:
+    src = SITE_EXPORT / "seasons-data.js"
+    dst = REPO / "seasons-data.js"
+    if src.exists():
+        dst.write_bytes(src.read_bytes())
+        print(f"Synced {dst.name}")
+
+
 def main() -> None:
+    sync_support_assets()
     for src, dst in DC_PAGES.items():
         import_dc_page(src, dst)
-
-    reference_nav = patch_template_links(get_template((REPO / "index.html").read_text(encoding="utf-8")))
-
-    for html_path in sorted(REPO.glob("*.html")):
-        if html_path.name in DC_PAGES.values():
-            continue
-        print(f"Updating links/nav in {html_path.name}")
-        update_page_template(html_path, reference_nav)
-
     update_redirects()
     print("Done.")
 
