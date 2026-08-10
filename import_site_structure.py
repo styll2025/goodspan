@@ -15,7 +15,7 @@ from bundle_dc import (
 )
 
 REPO = Path(__file__).resolve().parent
-SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site 2")
+SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site 4")
 JOURNEY_SOURCE = Path("/Users/sara/Downloads/Your Journey.dc (2).html")
 
 DC_PAGES = {
@@ -24,6 +24,8 @@ DC_PAGES = {
     "Memberships.dc.html": "memberships.html",
     "About.dc.html": "about.html",
     "GoodSpan Evidence.dc.html": "evidence.html",
+    "GoodEat Insights.dc.html": "goodeat-insights.html",
+    "GoodMind Insights.dc.html": "goodmind-insights.html",
     "GoodSpan Seasons.dc.html": "membership.html",
     "GoodSpan Calendar.dc.html": "calendar.html",
     "Lisbon Chapter.dc.html": "lisbon-chapter.html",
@@ -45,6 +47,8 @@ LINK_REPLACEMENTS = [
     ("Memberships.dc.html", "/memberships"),
     ("GoodSpan Evidence.dc (1).html", "/evidence"),
     ("GoodSpan Evidence.dc.html", "/evidence"),
+    ("GoodEat Insights.dc.html", "/goodeat-insights"),
+    ("GoodMind Insights.dc.html", "/goodmind-insights"),
     ("About.dc (1).html", "/about"),
     ("About.dc.html", "/about"),
     ("GoodSpan Seasons.dc.html?paid=starter", "/membership?paid=starter"),
@@ -82,6 +86,8 @@ REDIRECTS_APPEND = """
 /your-journey.html /your-journey 301
 /memberships.html /memberships 301
 /about.html /about 301
+/goodeat-insights.html /goodeat-insights 301
+/goodmind-insights.html /goodmind-insights 301
 """
 
 
@@ -149,8 +155,16 @@ def sync_support_assets() -> None:
 
 
 def main() -> None:
+    import sys
+
     sync_support_assets()
-    for src, dst in DC_PAGES.items():
+    pages = DC_PAGES
+    if len(sys.argv) > 1:
+        selected = set(sys.argv[1:])
+        pages = {k: v for k, v in DC_PAGES.items() if v in selected or k in selected}
+        if not pages:
+            raise SystemExit(f"No matching pages for: {sys.argv[1:]}")
+    for src, dst in pages.items():
         if dst == "your-journey.html" and JOURNEY_SOURCE.exists():
             import_dc_page(src, dst, JOURNEY_SOURCE)
         else:
