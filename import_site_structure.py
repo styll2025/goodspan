@@ -15,7 +15,8 @@ from bundle_dc import (
 )
 
 REPO = Path(__file__).resolve().parent
-SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site")
+SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site 2")
+JOURNEY_SOURCE = Path("/Users/sara/Downloads/Your Journey.dc (2).html")
 
 DC_PAGES = {
     "GoodSpan Landing.dc.html": "index.html",
@@ -37,6 +38,7 @@ LINK_REPLACEMENTS = [
     ("GoodSpan Landing.dc (4).html", "/"),
     ("GoodSpan Landing.dc (3).html", "/"),
     ("GoodSpan Landing.dc.html", "/"),
+    ("Your Journey.dc (2).html", "/your-journey"),
     ("Your Journey.dc (1).html", "/your-journey"),
     ("Your Journey.dc.html", "/your-journey"),
     ("Memberships.dc (1).html", "/memberships"),
@@ -114,10 +116,10 @@ def apply_custom_patches(template: str, dst_name: str) -> str:
     return template
 
 
-def import_dc_page(src_name: str, dst_name: str) -> None:
-    src = SITE_EXPORT / src_name
+def import_dc_page(src_name: str, dst_name: str, src_path: Path | None = None) -> None:
+    src = src_path or (SITE_EXPORT / src_name)
     dst = REPO / dst_name
-    print(f"Bundling {src_name} -> {dst_name}")
+    print(f"Bundling {src.name} -> {dst_name}")
     text = bundle_dc(src)
     text = hide_splash(text)
     template = apply_custom_patches(patch_template_links(get_template(text)), dst_name)
@@ -149,7 +151,10 @@ def sync_support_assets() -> None:
 def main() -> None:
     sync_support_assets()
     for src, dst in DC_PAGES.items():
-        import_dc_page(src, dst)
+        if dst == "your-journey.html" and JOURNEY_SOURCE.exists():
+            import_dc_page(src, dst, JOURNEY_SOURCE)
+        else:
+            import_dc_page(src, dst)
     update_redirects()
     print("Done.")
 

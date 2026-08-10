@@ -15,7 +15,7 @@ REPO = Path(__file__).resolve().parent
 REFERENCE = REPO / "evidence.html"
 MEMBERSHIP = REPO / "membership.html"
 LISBON = REPO / "lisbon-chapter.html"
-SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site")
+SITE_EXPORT = Path("/Users/sara/Downloads/goodspan-site 2")
 SUPPORT_JS = SITE_EXPORT / "support.js"
 SEASONS_DATA = REPO / "seasons-data.js"
 
