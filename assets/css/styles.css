@@ -129,6 +129,8 @@ a { color: #4d2831; } a:hover { color: #000000; }
 .tgs-dims { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
 .tgs-four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .tgs-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tgs-plan-cta { margin-top: auto; display: flex; flex-direction: column; align-items: stretch; gap: 24px; }
+.tgs-plan-cta .gs-btn { width: 100%; }
 .tgs-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
 .tgs-steps .gs-step__body { max-width: none; }
 body .gs-hero__title, body .gs-feature__title { font-size: 56px; line-height: 62px; }
