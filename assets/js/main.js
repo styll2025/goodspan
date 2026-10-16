@@ -77,7 +77,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
   var submit = modal.querySelector('[data-submit]');
   var SUMMARY = { 'Core': '€129/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
   var OPTION_LABEL = { 'six-month': 'Six-month commitment (€19/month)', 'trial': 'One-month trial (€25)' };
-  var state = { tier: '' }, lastFocus = null;
+  var state = { tier: '' }, lastFocus = null, sendToken = 0;
 
   function $(sel) { return modal.querySelectorAll(sel); }
   function show(step) {
@@ -107,6 +107,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     submit.disabled = false; submit.textContent = 'Register my interest';
   }
   function open(tier, option) {
+    sendToken++;
     lastFocus = document.activeElement;
     state.tier = tier;
     resetForm();
@@ -118,6 +119,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     show('email');
   }
   function close() {
+    sendToken++;
     modal.hidden = true;
     document.documentElement.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -168,17 +170,25 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
       website: form.website.value
     });
     function done() { modal.querySelector('[data-email-echo]').textContent = v; setTier(); show('thanks'); }
-    if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); done(); return; }
-    submit.disabled = true; submit.textContent = 'Sending…';
-    fetch(INTEREST_ENDPOINT, { method: 'POST', body: data })
-      .then(function (res) { return res.json(); })
+    function failSend() {
+      show('email');
+      submit.disabled = false; submit.textContent = 'Register my interest';
+      modal.querySelector('[data-send-error]').hidden = false;
+    }
+    /* The sheet usually answers after a few seconds. Confirm straight away, and
+       only come back to the form if the sheet actually rejects the sign-up. */
+    var token = ++sendToken;
+    done();
+    if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); return; }
+    fetch(INTEREST_ENDPOINT, { method: 'POST', body: data, keepalive: true })
+      .then(function (res) { if (!res.ok) throw new Error('status'); return res.json(); })
       .then(function (json) {
-        if (!json || json.ok !== true) throw new Error('rejected');
-        done();
+        if (token !== sendToken) return;
+        if (!json || json.ok !== true) failSend();
       })
       .catch(function () {
-        submit.disabled = false; submit.textContent = 'Register my interest';
-        modal.querySelector('[data-send-error]').hidden = false;
+        if (token !== sendToken || modal.hidden) return;
+        failSend();
       });
   });
 })();

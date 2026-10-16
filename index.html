@@ -8,7 +8,7 @@
 <meta name="description" content="The Good Span is a human-guided, habit-driven longevity membership. Start with a free personal evaluation across six connected dimensions.">
 <link rel="icon" href="assets/img/logo-header.svg" type="image/svg+xml">
 <title>The Good Span. More years that matter.</title>
-<link rel="stylesheet" href="assets/css/styles.css?v=20261016e">
+<link rel="stylesheet" href="assets/css/styles.css?v=20261016f">
 </head>
 <body>
 <div style="background: #fff2ea; color: #4d2831; font-family: var(--font-display); min-width: 0; overflow: hidden">
@@ -114,13 +114,14 @@
   <div class="tgs-modal__backdrop" data-close></div>
   <div class="tgs-modal__panel" role="dialog" aria-modal="true" aria-labelledby="im-title-choose" tabindex="-1">
     <span class="tgs-modal__handle" aria-hidden="true"></span>
-    <button type="button" class="tgs-modal__close" data-close aria-label="Close">×</button>
+    <div class="tgs-modal__tools"><button type="button" class="tgs-modal__close" data-close aria-label="Close">×</button></div>
 
     <section class="tgs-modal__step" data-step="email" hidden>
-      <div class="tgs-modal__meta"><span class="tgs-pill" data-tier-pill>Core</span><span class="tgs-modal__summary" data-summary></span></div>
-      <h2 class="tgs-modal__title" id="im-title-email" data-title>Thank you for your interest in <span data-tier-name>Core</span>.</h2>
-      <p class="tgs-modal__text" data-intro>Memberships open soon. Leave your email and we’ll come back to you as soon as you can join.</p>
       <form class="tgs-form" novalidate>
+        <div class="tgs-modal__scroll">
+        <div class="tgs-modal__meta"><span class="tgs-pill" data-tier-pill>Core</span><span class="tgs-modal__summary" data-summary></span></div>
+        <h2 class="tgs-modal__title" id="im-title-email" data-title>Thank you for your interest in <span data-tier-name>Core</span>.</h2>
+        <p class="tgs-modal__text" data-intro>Memberships open soon. Leave your email and we’ll come back to you as soon as you can join.</p>
         <fieldset class="tgs-choice" data-self-options>
           <legend class="tgs-form__label">Choose an option</legend>
           <label class="tgs-option">
@@ -152,6 +153,7 @@
           <p class="tgs-form__error" id="im-consent-error" hidden>Please tick the box so we can email you.</p>
         </div>
         <p class="tgs-form__error" data-send-error hidden>Something went wrong. Please check your connection and try again.</p>
+        </div>
         <div class="tgs-form__actions">
           <button type="submit" class="gs-btn gs-btn--primary" data-submit>Register my interest</button>
         </div>
@@ -159,10 +161,12 @@
     </section>
 
     <section class="tgs-modal__step" data-step="thanks" hidden>
+      <div class="tgs-modal__scroll">
       <div class="tgs-modal__ring"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="32" cy="32" r="27"/><circle cx="32" cy="32" r="19" stroke-dasharray="0.01 3" stroke-linecap="round"/><path d="M23 33 l6 6 l12 -13" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2 class="tgs-modal__title" id="im-title-thanks" tabindex="-1">Thank you. Your interest is registered.</h2>
       <p class="tgs-modal__text">We’ll come back to you soon at <b data-email-echo></b> with everything you need to join <span data-tier-name>Core</span>.</p>
       <p class="tgs-modal__text tgs-modal__text--muted">In the meantime, you can discover your Starting Position with our free personal evaluation.</p>
+      </div>
       <div class="tgs-form__actions">
         <a class="gs-btn gs-btn--primary" href="https://thegoodspan-assessment.pages.dev/" target="_blank" rel="noopener">Find my Good Span</a>
         <button type="button" class="gs-btn gs-btn--outline" data-close>Close</button>
@@ -171,6 +175,6 @@
   </div>
 </div>
 
-<script src="assets/js/main.js?v=20261016e"></script>
+<script src="assets/js/main.js?v=20261016f"></script>
 </body>
 </html>

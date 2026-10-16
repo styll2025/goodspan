@@ -273,10 +273,12 @@ main[hidden] { display: none !important; }
   border-radius: 40px; padding: 56px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25); outline: none; }
 .tgs-modal--choose .tgs-modal__panel { width: min(860px, 100%); }
 .tgs-modal__handle { display: none; }
-.tgs-modal__close { position: absolute; top: 24px; right: 24px; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--plum); background: transparent;
+.tgs-modal__tools { position: absolute; top: 24px; right: 24px; z-index: 3; }
+.tgs-modal__close { width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--plum); background: var(--cream);
   color: var(--plum); font-size: 22px; line-height: 1; cursor: pointer; }
 .tgs-modal__close:focus-visible, .tgs-link:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
 .tgs-modal__step { display: flex; flex-direction: column; gap: 24px; }
+.tgs-modal__scroll { display: contents; }
 .tgs-modal__step[hidden] { display: none; }
 .tgs-modal__title { margin: 0; padding-right: 48px; font-weight: 300; font-size: 40px; line-height: 44px; letter-spacing: -0.015em; outline: none; }
 .tgs-modal__text { margin: 0; font-weight: 300; font-size: 18px; line-height: 26px; }
@@ -323,10 +325,16 @@ main[hidden] { display: none !important; }
 .tgs-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 @media (max-width: 760px) {
   .tgs-modal { align-items: flex-end; padding: 0; }
-  .tgs-modal__panel, .tgs-modal--choose .tgs-modal__panel { width: 100%; max-height: calc(100vh - 24px); border-radius: 32px 32px 0 0;
-    padding: 40px 24px calc(32px + env(safe-area-inset-bottom, 0px)); }
+  .tgs-modal__panel, .tgs-modal--choose .tgs-modal__panel { display: flex; flex-direction: column; width: 100%; max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); overflow: hidden; border-radius: 32px 32px 0 0;
+    padding: 28px 20px calc(16px + env(safe-area-inset-bottom, 0px)); }
   .tgs-modal__handle { display: block; position: absolute; top: 12px; left: 50%; width: 44px; height: 4px; margin-left: -22px; border-radius: 999px; background: rgba(77, 40, 49, .25); }
-  .tgs-modal__close { top: 20px; right: 16px; }
+  .tgs-modal__tools { position: absolute; top: 16px; right: 16px; z-index: 3; }
+  .tgs-modal__meta { padding-right: 56px; }
+  .tgs-modal__step:not([hidden]) { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .tgs-form { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .tgs-modal__scroll { display: flex; flex-direction: column; gap: 16px; overflow: auto; min-height: 0; flex: 1 1 auto; }
+  .tgs-form__actions { flex: none; flex-direction: column; align-items: stretch; gap: 12px; background: var(--cream); padding-top: 12px; }
+  .tgs-form__actions .gs-btn { width: 100%; }
   .tgs-modal__step { gap: 20px; }
   .tgs-modal__title { font-size: 32px; line-height: 36px; }
   .tgs-modal__text { font-size: 16px; line-height: 22px; }
