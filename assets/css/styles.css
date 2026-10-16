@@ -147,7 +147,14 @@ body .gs-hero--split .gs-hero__media img { position: absolute; inset: 0; }
 @media (min-width: 1500px) { body .gs-feature, .tgs-pad { padding-left: calc((100% - 1440px) / 2 + 72px) !important; padding-right: calc((100% - 1440px) / 2 + 72px) !important; } }
 @media (max-width: 760px) { .tgs-dots { grid-template-columns: minmax(0, 1fr) !important; } }
 .tgs-dims3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 16px; }
-@media (max-width: 760px) { .tgs-dims3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; } }
+.tgs-dims3 figure, .tgs-dims3 figcaption { min-width: 0; }
+.tgs-dims3 figcaption > span:first-child { flex: 0 0 60px; }
+@media (max-width: 760px) {
+  .tgs-dims3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; }
+  .tgs-dims3 figcaption { gap: 8px !important; }
+  .tgs-dims3 figcaption > span:first-child { flex: 0 0 40px !important; width: 40px !important; height: 26px !important; font-size: 10px !important; }
+  .tgs-dims3 figcaption > span:last-child { min-width: 0; font-size: 12px !important; line-height: 14px !important; letter-spacing: 0.02em !important; }
+}
 @media (max-width: 1100px) {
   .tgs-dims { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tgs-four, .tgs-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
