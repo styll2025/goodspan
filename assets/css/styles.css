@@ -31,8 +31,8 @@
   /* the header is always cream with a plum logo, in both themes */
   background: var(--cream); --ink: var(--plum); --line: var(--plum); --surface: var(--cream); --button-fill: var(--plum); --button-ink: var(--cream); --focus: var(--plum);
 }
-.gs-header__nav { display: flex; flex-wrap: nowrap; gap: var(--space-4); }
-.gs-header__link { font-family: var(--font-ui); font-size: 13px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.gs-header__nav { display: flex; gap: var(--space-4); }
+.gs-header__link { font-family: var(--font-ui); font-size: 13px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
 .gs-header__link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .gs-header__logo img { display: block; width: 375px; height: auto; }
 .gs-header__cta { display: flex; justify-content: flex-end; }
@@ -86,7 +86,6 @@
   font-family: var(--font-ui); font-size: 11px; line-height: 12px; color: var(--black); }
 .gs-step__num--pink { background: var(--pink); } .gs-step__num--ochre { background: var(--ochre); }
 .gs-step__num--light-blue { background: var(--light-blue); } .gs-step__num--orange { background: var(--orange); }
-.gs-step__num--plum { background: var(--plum); color: var(--cream); }
 .gs-step__label { margin: 0; font-size: 18px; line-height: 24px; font-weight: 300; letter-spacing: .04em; text-transform: uppercase; }
 .gs-step__body { margin: 0; max-width: 340px; font-size: 18px; line-height: 24px; font-weight: 300; }
 
@@ -130,8 +129,6 @@ a { color: #4d2831; } a:hover { color: #000000; }
 .tgs-dims { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
 .tgs-four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .tgs-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.tgs-plan-cta { margin-top: auto; display: flex; flex-direction: column; align-items: stretch; gap: 24px; }
-.tgs-plan-cta .gs-btn { width: 100%; }
 .tgs-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
 .tgs-steps .gs-step__body { max-width: none; }
 body .gs-hero__title, body .gs-feature__title { font-size: 56px; line-height: 62px; }
@@ -147,14 +144,7 @@ body .gs-hero--split .gs-hero__media img { position: absolute; inset: 0; }
 @media (min-width: 1500px) { body .gs-feature, .tgs-pad { padding-left: calc((100% - 1440px) / 2 + 72px) !important; padding-right: calc((100% - 1440px) / 2 + 72px) !important; } }
 @media (max-width: 760px) { .tgs-dots { grid-template-columns: minmax(0, 1fr) !important; } }
 .tgs-dims3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 16px; }
-.tgs-dims3 figure, .tgs-dims3 figcaption { min-width: 0; }
-.tgs-dims3 figcaption > span:first-child { flex: 0 0 60px; }
-@media (max-width: 760px) {
-  .tgs-dims3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; }
-  .tgs-dims3 figcaption { gap: 8px !important; }
-  .tgs-dims3 figcaption > span:first-child { flex: 0 0 40px !important; width: 40px !important; height: 26px !important; font-size: 10px !important; }
-  .tgs-dims3 figcaption > span:last-child { min-width: 0; font-size: 12px !important; line-height: 14px !important; letter-spacing: 0.02em !important; }
-}
+@media (max-width: 760px) { .tgs-dims3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; } }
 @media (max-width: 1100px) {
   .tgs-dims { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tgs-four, .tgs-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -218,7 +208,7 @@ main[hidden] { display: none !important; }
 /* ---- Final: hamburger menu + responsive fixes ---- */
 .tgs-burger { display: none; }
 .tgs-menu { display: none; }
-@media (max-width: 1320px) {
+@media (max-width: 1100px) {
   .gs-header { display: grid; grid-template-columns: 1fr auto auto; align-items: center; height: auto; padding: 20px 40px; gap: 16px; }
   .gs-header__nav { display: none !important; }
   .gs-header__logo { grid-column: 1; grid-row: 1; justify-self: start; }
@@ -236,8 +226,6 @@ main[hidden] { display: none !important; }
   .tgs-menu__link { font-family: var(--font-display); font-weight: 300; font-size: 28px; line-height: 34px; color: var(--plum); text-decoration: none; padding: 16px 0; border-top: 1px solid rgba(77, 40, 49, 0.2); }
   .tgs-menu__link:last-of-type { border-bottom: 1px solid rgba(77, 40, 49, 0.2); }
   .tgs-menu__cta { display: none; align-self: flex-start; margin-top: 24px; }
-}
-@media (max-width: 1100px) {
   body .gs-hero--split .gs-hero__panel { padding: 64px 48px !important; }
 }
 @media (min-width: 761px) and (max-width: 1100px) {
@@ -258,9 +246,80 @@ main[hidden] { display: none !important; }
   .gs-hero__title br, .tgs-display br, .gs-feature__title br, .gs-banner__title br { display: none; }
   .gs-card__body { max-width: none; }
 }
-.tgs-starting-intro { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
-.tgs-starting-title { margin: 0; font-weight: 200; font-size: 56px; line-height: 62px; letter-spacing: -0.04em; white-space: nowrap; }
-.tgs-starting-intro p { margin: 0; max-width: 720px; font-weight: 300; font-size: 18px; line-height: 27px; }
-@media (max-width: 1100px) {
-  .tgs-starting-title { white-space: normal; }
+
+/* ---- Membership interest pop-up ---- */
+.tgs-modal[hidden] { display: none !important; }
+.tgs-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; color: var(--plum); font-family: var(--font-display); }
+.tgs-modal__backdrop { position: absolute; inset: 0; background: rgba(40, 18, 24, 0.66); }
+.tgs-modal__panel { position: relative; width: min(760px, 100%); max-height: calc(100vh - 48px); overflow: auto; box-sizing: border-box; background: var(--cream);
+  border-radius: 40px; padding: 56px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25); outline: none; }
+.tgs-modal--choose .tgs-modal__panel { width: min(860px, 100%); }
+.tgs-modal__handle { display: none; }
+.tgs-modal__close { position: absolute; top: 24px; right: 24px; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--plum); background: transparent;
+  color: var(--plum); font-size: 22px; line-height: 1; cursor: pointer; }
+.tgs-modal__close:focus-visible, .tgs-link:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
+.tgs-modal__step { display: flex; flex-direction: column; gap: 24px; }
+.tgs-modal__step[hidden] { display: none; }
+.tgs-modal__title { margin: 0; padding-right: 48px; font-weight: 300; font-size: 40px; line-height: 44px; letter-spacing: -0.015em; outline: none; }
+.tgs-modal__text { margin: 0; font-weight: 300; font-size: 18px; line-height: 26px; }
+.tgs-modal__text--muted { color: #7a5a5f; }
+.tgs-modal__text b { font-weight: 400; }
+.tgs-modal__meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.tgs-modal__summary { font-family: var(--font-ui); font-size: 13px; line-height: 18px; }
+.tgs-modal__ring { color: var(--plum); line-height: 0; }
+.tgs-pill { display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 999px; font-family: var(--font-ui); font-size: 11px;
+  letter-spacing: 0.04em; text-transform: uppercase; box-sizing: border-box; }
+.tgs-pill--self { border: 1px solid var(--plum); color: #000; background: transparent; }
+.tgs-pill--core { background: var(--orange); color: #000; }
+.tgs-pill--concierge { background: var(--plum); color: var(--cream); }
+.tgs-choice { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tgs-choice[hidden] { display: none; }
+.tgs-choice legend { grid-column: 1 / -1; padding: 0; margin-bottom: 8px; }
+.tgs-option { position: relative; display: block; cursor: pointer; }
+.tgs-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tgs-option__body { display: flex; flex-direction: column; gap: 10px; height: 100%; box-sizing: border-box; padding: 24px 24px 24px 60px; border-radius: 24px;
+  background: #fff; border: 1px solid rgba(77, 40, 49, 0.25); transition: background .15s ease, border-color .15s ease; }
+.tgs-option__body::before { content: ""; position: absolute; left: 24px; top: 26px; width: 20px; height: 20px; border-radius: 999px; border: 1.5px solid var(--plum); background: #fff; box-sizing: border-box; }
+.tgs-option input:checked + .tgs-option__body { background: var(--light-blue); border: 2px solid var(--plum); padding: 23px 23px 23px 59px; }
+.tgs-option input:checked + .tgs-option__body::before { border-width: 6px; }
+.tgs-option input:focus-visible + .tgs-option__body { outline: 2px solid var(--plum); outline-offset: 2px; }
+.tgs-option__kicker { font-weight: 300; font-size: 14px; line-height: 18px; letter-spacing: 0.04em; text-transform: uppercase; }
+.tgs-option__price { font-weight: 200; font-size: 44px; line-height: 46px; letter-spacing: -0.02em; }
+.tgs-option__price span { font-weight: 300; font-size: 16px; letter-spacing: 0; }
+.tgs-option__desc { font-weight: 300; font-size: 15px; line-height: 21px; }
+.tgs-form { display: flex; flex-direction: column; gap: 20px; }
+.tgs-form__label { display: block; margin-bottom: 8px; font-family: var(--font-ui); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.tgs-form__input { box-sizing: border-box; width: 100%; height: 56px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--plum); background: #fff;
+  color: var(--plum); font-family: var(--font-display); font-weight: 300; font-size: 18px; }
+.tgs-form__input:focus { outline: 2px solid var(--plum); outline-offset: 2px; }
+.tgs-form__input[aria-invalid="true"] { border: 2px solid var(--orange); }
+.tgs-form__error { margin: 8px 0 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 13px; line-height: 18px; }
+.tgs-form__error::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--orange); flex: none; }
+.tgs-form__error[hidden] { display: none; }
+.tgs-form__consent { display: flex; gap: 12px; align-items: flex-start; font-family: var(--font-ui); font-size: 13px; line-height: 19px; cursor: pointer; }
+.tgs-form__consent input { margin: 2px 0 0; width: 18px; height: 18px; accent-color: var(--plum); flex: none; }
+.tgs-form__consent a { color: var(--plum); }
+.tgs-form__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.tgs-form__actions .gs-btn[disabled] { opacity: .6; cursor: progress; }
+.tgs-link { background: none; border: 0; padding: 0; color: var(--plum); font-family: var(--font-ui); font-size: 13px; letter-spacing: .02em; text-decoration: underline; cursor: pointer; }
+.tgs-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 760px) {
+  .tgs-modal { align-items: flex-end; padding: 0; }
+  .tgs-modal__panel, .tgs-modal--choose .tgs-modal__panel { width: 100%; max-height: calc(100vh - 24px); border-radius: 32px 32px 0 0;
+    padding: 40px 24px calc(32px + env(safe-area-inset-bottom, 0px)); }
+  .tgs-modal__handle { display: block; position: absolute; top: 12px; left: 50%; width: 44px; height: 4px; margin-left: -22px; border-radius: 999px; background: rgba(77, 40, 49, .25); }
+  .tgs-modal__close { top: 20px; right: 16px; }
+  .tgs-modal__step { gap: 20px; }
+  .tgs-modal__title { font-size: 32px; line-height: 36px; }
+  .tgs-modal__text { font-size: 16px; line-height: 22px; }
+  .tgs-modal--choose .tgs-modal__step { gap: 16px; }
+  .tgs-modal--choose .tgs-modal__title { font-size: 28px; line-height: 32px; }
+  .tgs-modal--choose .tgs-form { gap: 16px; }
+  .tgs-choice { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tgs-choice legend { margin-bottom: 4px; }
+  .tgs-option__desc { font-size: 14px; line-height: 19px; }
+  .tgs-option__body { gap: 6px; padding: 16px 16px 16px 52px; }
+  .tgs-option input:checked + .tgs-option__body { padding: 15px 15px 15px 51px; }
+  .tgs-option__body::before { left: 18px; top: 18px; }
+  .tgs-option__price { font-size: 30px; line-height: 32px; }
 }
