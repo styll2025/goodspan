@@ -60,7 +60,7 @@ route();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
   window.addEventListener('hashchange', closeAll);
-  window.addEventListener('resize', function () { if (innerWidth > 1100) closeAll(); });
+  window.addEventListener('resize', function () { if (innerWidth > 1320) closeAll(); });
 })();
 
 /* Membership interest pop-up.
@@ -170,8 +170,12 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     function done() { modal.querySelector('[data-email-echo]').textContent = v; setTier(); show('thanks'); }
     if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); done(); return; }
     submit.disabled = true; submit.textContent = 'Sending…';
-    fetch(INTEREST_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
-      .then(done)
+    fetch(INTEREST_ENDPOINT, { method: 'POST', body: data })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (!json || json.ok !== true) throw new Error('rejected');
+        done();
+      })
       .catch(function () {
         submit.disabled = false; submit.textContent = 'Register my interest';
         modal.querySelector('[data-send-error]').hidden = false;
