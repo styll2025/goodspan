@@ -60,5 +60,5 @@ route();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
   window.addEventListener('hashchange', closeAll);
-  window.addEventListener('resize', function () { if (innerWidth > 1100) closeAll(); });
+  window.addEventListener('resize', function () { if (innerWidth > 1320) closeAll(); });
 })();
