@@ -9,9 +9,10 @@ thegoodspan-website/
 ├── index.html              all six pages (Home, How it works, Memberships, Evidence, About, Find your Good Span)
 ├── assets/
 │   ├── css/styles.css      all styling, including the mobile menu and responsive layout
-│   ├── js/main.js          page navigation and the mobile menu
+│   ├── js/main.js          page navigation, the mobile menu and the membership interest pop-up
 │   ├── img/                23 photos + 2 logos (SVG)
 │   └── fonts/              BST Bazaine (Thin, Light) and Archivo
+├── google-apps-script/     Code.gs + SETUP.md: collects membership interest in a Google Sheet
 ├── .nojekyll               tells GitHub Pages to serve the files exactly as they are
 └── README.md
 ```
@@ -60,10 +61,15 @@ Create the empty repository on github.com first (**New repository**, without a R
 
 Connect the GitHub repository, leave the build command empty and set the publish directory to the root (`/`). Then add `thegoodspan.com` as a custom domain and follow the host's DNS instructions. After that, every push to `main` publishes automatically.
 
+## Membership interest pop-up
+
+Until payments are live, **Choose Self**, **Try one month for €25**, **Choose Core** and **Choose Concierge** open a pop-up that collects the visitor's email and the plan they're interested in, and saves it to a Google Sheet. Follow `google-apps-script/SETUP.md` to connect it, then paste the web app URL into `INTEREST_ENDPOINT` at the top of the pop-up code in `assets/js/main.js`. Until you do, the pop-up runs in preview mode and sends nothing.
+
 ## Before going live: checklist
 
 These are open items that the website itself can't resolve:
 
+- [ ] **Interest pop-up connected:** `INTEREST_ENDPOINT` is set in `assets/js/main.js` and a test sign-up appears in the sheet.
 - [ ] **Font licence.** The BST Bazaine files are **trial versions**. A web licence is needed before the site goes public.
 - [ ] **"Book a Good Span Review"** buttons have no destination yet. Search `index.html` for `Book a Good Span Review` and replace `href="#"` with the booking link.
 - [ ] **Privacy Policy and footer links** (Terms & Conditions, Privacy Policy, Cookie Policy, Community Guidelines) are placeholders. Search for `data-dead` to find them.
