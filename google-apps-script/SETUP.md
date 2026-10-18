@@ -1,6 +1,6 @@
 # Connect the membership pop-up to a Google Sheet
 
-This takes about 10 minutes. You'll end up with a Google Sheet that gets a new row every time someone registers interest on the website:
+This takes about 10 minutes. You'll end up with a Google Sheet that gets a new row every time someone registers interest in a membership (**Interest** tab) or subscribes to the newsletter (**Newsletter** tab). Interest rows look like this:
 
 | Date | Email | Tier | Option | Consent | Page | Language |
 |---|---|---|---|---|---|---|
@@ -18,7 +18,7 @@ This takes about 10 minutes. You'll end up with a Google Sheet that gets a new r
 
 1. In the function menu at the top of the editor, choose **testSetup** and click **Run**.
 2. Google asks for permission the first time. Click **Review permissions**, choose your account, then **Advanced → Go to (project name) → Allow**. This allows the script to write to *this* sheet (and send the notification email, if you turned that on).
-3. Go back to the sheet. There's now an **Interest** tab with headings and one test row. Delete the test row.
+3. Go back to the sheet. There are now **Interest** and **Newsletter** tabs, each with headings and one test row. Delete the test rows.
 
 ## 3. Publish it as a web app
 
@@ -58,4 +58,4 @@ After editing `Code.gs`, go to **Deploy → Manage deployments**, click the penc
 - **Consent:** the form can't be submitted without the consent tickbox, and every row records "Consent: Yes". When you email these people, include an unsubscribe link, and link the Privacy Policy once it's live (it's still a placeholder in the pop-up).
 - **Spam:** the form has a hidden trap field that bots fill in and people don't. Those submissions are silently ignored.
 - **Duplicates:** if someone signs up twice, you'll see two rows. In the sheet, **Data → Data cleanup → Remove duplicates** on the Email column tidies this up.
-- **When payments go live:** point the Choose Self, Choose Core and Choose Concierge buttons to checkout instead. In `index.html`, search for `data-interest` to find them. The one-month Self trial is an option inside the Self pop-up, not a separate card button.
+- **When payments go live:** point the Choose Self, Choose Core, Choose Concierge and Try one month buttons to checkout instead. In `index.html`, search for `data-interest` to find them.

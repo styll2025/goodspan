@@ -9,10 +9,10 @@ thegoodspan-website/
 ├── index.html              all six pages (Home, How it works, Memberships, Evidence, About, Find your Good Span)
 ├── assets/
 │   ├── css/styles.css      all styling, including the mobile menu and responsive layout
-│   ├── js/main.js          page navigation, the mobile menu and the membership interest pop-up
+│   ├── js/main.js          page navigation, mobile menu, membership pop-up and newsletter sign-up
 │   ├── img/                23 photos + 2 logos (SVG)
 │   └── fonts/              BST Bazaine (Thin, Light) and Archivo
-├── google-apps-script/     Code.gs + SETUP.md: collects membership interest in a Google Sheet
+├── google-apps-script/     Code.gs + SETUP.md: collects membership interest and newsletter sign-ups in a Google Sheet
 ├── .nojekyll               tells GitHub Pages to serve the files exactly as they are
 └── README.md
 ```
@@ -64,6 +64,14 @@ Connect the GitHub repository, leave the build command empty and set the publish
 ## Membership interest pop-up
 
 Until payments are live, **Choose Self**, **Try one month for €25**, **Choose Core** and **Choose Concierge** open a pop-up that collects the visitor's email and the plan they're interested in, and saves it to a Google Sheet. Follow `google-apps-script/SETUP.md` to connect it, then paste the web app URL into `INTEREST_ENDPOINT` at the top of the pop-up code in `assets/js/main.js`. Until you do, the pop-up runs in preview mode and sends nothing.
+
+## Newsletter sign-up
+
+Every page has a "Stay in the loop." band above the footer. Sign-ups go to the same Google web app and land in a separate **Newsletter** tab of the sheet.
+
+## Beta notice
+
+A thin orange strip at the top of every page reads "Coming soon. Register your interest to hear when The Good Span launches." and links to the membership plans. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html`.
 
 ## Before going live: checklist
 
