@@ -63,15 +63,15 @@ Connect the GitHub repository, leave the build command empty and set the publish
 
 ## Membership interest pop-up
 
-Until payments are live, **Choose Self**, **Try one month for €25**, **Choose Core** and **Choose Concierge** open a pop-up that collects the visitor's email and the plan they're interested in, and saves it to a Google Sheet. Follow `google-apps-script/SETUP.md` to connect it, then paste the web app URL into `INTEREST_ENDPOINT` at the top of the pop-up code in `assets/js/main.js`. Until you do, the pop-up runs in preview mode and sends nothing.
+Until payments are live, **Choose Self**, **Choose Core** and **Choose Concierge** open a pop-up that collects the visitor's email and the plan they're interested in, and saves it to a Google Sheet. The one-month Self trial is an option inside the Self pop-up, not a separate card button. Follow `google-apps-script/SETUP.md` to connect it, then paste the web app URL into `INTEREST_ENDPOINT` at the top of the pop-up code in `assets/js/main.js`. Until you do, the pop-up runs in preview mode and sends nothing.
 
 ## Newsletter sign-up
 
-Every page has a "Stay in the loop." band above the footer. Sign-ups go to the same Google web app and land in a separate **Newsletter** tab of the sheet.
+Every page has a "Stay in the loop." band above the footer. Sign-ups go to the same Google web app and land in a separate **Newsletter** tab of the sheet. After updating `Code.gs`, deploy a new web app version (Deploy → Manage deployments → New version) or newsletter rows will not be written.
 
 ## Beta notice
 
-A thin orange strip at the top of every page reads "Coming soon. Register your interest to hear when The Good Span launches." and links to the membership plans. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html`.
+A thin orange strip at the top of every page reads "Coming soon. Register your interest to hear when The Good Span launches." and links to the membership plans. The membership plans section also has a "Coming soon" notice: no payment is taken yet. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html` and the `<div class="tgs-plans-notice" …>` block in the plans section.
 
 ## Before going live: checklist
 

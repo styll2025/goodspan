@@ -31,8 +31,8 @@
   /* the header is always cream with a plum logo, in both themes */
   background: var(--cream); --ink: var(--plum); --line: var(--plum); --surface: var(--cream); --button-fill: var(--plum); --button-ink: var(--cream); --focus: var(--plum);
 }
-.gs-header__nav { display: flex; gap: var(--space-4); }
-.gs-header__link { font-family: var(--font-ui); font-size: 13px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+.gs-header__nav { display: flex; flex-wrap: nowrap; gap: var(--space-4); }
+.gs-header__link { font-family: var(--font-ui); font-size: 13px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .gs-header__link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .gs-header__logo img { display: block; width: 375px; height: auto; }
 .gs-header__cta { display: flex; justify-content: flex-end; }
@@ -86,6 +86,7 @@
   font-family: var(--font-ui); font-size: 11px; line-height: 12px; color: var(--black); }
 .gs-step__num--pink { background: var(--pink); } .gs-step__num--ochre { background: var(--ochre); }
 .gs-step__num--light-blue { background: var(--light-blue); } .gs-step__num--orange { background: var(--orange); }
+.gs-step__num--plum { background: var(--plum); color: var(--cream); }
 .gs-step__label { margin: 0; font-size: 18px; line-height: 24px; font-weight: 300; letter-spacing: .04em; text-transform: uppercase; }
 .gs-step__body { margin: 0; max-width: 340px; font-size: 18px; line-height: 24px; font-weight: 300; }
 
@@ -129,6 +130,8 @@ a { color: #4d2831; } a:hover { color: #000000; }
 .tgs-dims { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
 .tgs-four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .tgs-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tgs-plan-cta { margin-top: auto; display: flex; flex-direction: column; align-items: stretch; gap: 24px; }
+.tgs-plan-cta .gs-btn { width: 100%; }
 .tgs-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
 .tgs-steps .gs-step__body { max-width: none; }
 body .gs-hero__title, body .gs-feature__title { font-size: 56px; line-height: 62px; }
@@ -144,7 +147,14 @@ body .gs-hero--split .gs-hero__media img { position: absolute; inset: 0; }
 @media (min-width: 1500px) { body .gs-feature, .tgs-pad { padding-left: calc((100% - 1440px) / 2 + 72px) !important; padding-right: calc((100% - 1440px) / 2 + 72px) !important; } }
 @media (max-width: 760px) { .tgs-dots { grid-template-columns: minmax(0, 1fr) !important; } }
 .tgs-dims3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 16px; }
-@media (max-width: 760px) { .tgs-dims3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; } }
+.tgs-dims3 figure, .tgs-dims3 figcaption { min-width: 0; }
+.tgs-dims3 figcaption > span:first-child { flex: 0 0 60px; }
+@media (max-width: 760px) {
+  .tgs-dims3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px; }
+  .tgs-dims3 figcaption { gap: 8px !important; }
+  .tgs-dims3 figcaption > span:first-child { flex: 0 0 40px !important; width: 40px !important; height: 26px !important; font-size: 10px !important; }
+  .tgs-dims3 figcaption > span:last-child { min-width: 0; font-size: 12px !important; line-height: 14px !important; letter-spacing: 0.02em !important; }
+}
 @media (max-width: 1100px) {
   .tgs-dims { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tgs-four, .tgs-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -208,7 +218,13 @@ main[hidden] { display: none !important; }
 /* ---- Final: hamburger menu + responsive fixes ---- */
 .tgs-burger { display: none; }
 .tgs-menu { display: none; }
-@media (max-width: 1100px) {
+/* A 14-inch laptop is often about 1280px wide. Keep the links on one line there. */
+@media (max-width: 1400px) {
+  .gs-header { padding-left: 48px; padding-right: 48px; }
+  .gs-header__nav { gap: 16px; }
+  .gs-header__link, .gs-btn--nav { font-size: 12px; letter-spacing: .02em; }
+}
+@media (max-width: 1180px) {
   .gs-header { display: grid; grid-template-columns: 1fr auto auto; align-items: center; height: auto; padding: 20px 40px; gap: 16px; }
   .gs-header__nav { display: none !important; }
   .gs-header__logo { grid-column: 1; grid-row: 1; justify-self: start; }
@@ -226,6 +242,8 @@ main[hidden] { display: none !important; }
   .tgs-menu__link { font-family: var(--font-display); font-weight: 300; font-size: 28px; line-height: 34px; color: var(--plum); text-decoration: none; padding: 16px 0; border-top: 1px solid rgba(77, 40, 49, 0.2); }
   .tgs-menu__link:last-of-type { border-bottom: 1px solid rgba(77, 40, 49, 0.2); }
   .tgs-menu__cta { display: none; align-self: flex-start; margin-top: 24px; }
+}
+@media (max-width: 1100px) {
   body .gs-hero--split .gs-hero__panel { padding: 64px 48px !important; }
 }
 @media (min-width: 761px) and (max-width: 1100px) {
@@ -246,6 +264,12 @@ main[hidden] { display: none !important; }
   .gs-hero__title br, .tgs-display br, .gs-feature__title br, .gs-banner__title br { display: none; }
   .gs-card__body { max-width: none; }
 }
+.tgs-starting-intro { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+.tgs-starting-title { margin: 0; font-weight: 200; font-size: 56px; line-height: 62px; letter-spacing: -0.04em; white-space: nowrap; }
+.tgs-starting-intro p { margin: 0; max-width: 720px; font-weight: 300; font-size: 18px; line-height: 27px; }
+@media (max-width: 1100px) {
+  .tgs-starting-title { white-space: normal; }
+}
 
 /* ---- Membership interest pop-up ---- */
 .tgs-modal[hidden] { display: none !important; }
@@ -255,10 +279,12 @@ main[hidden] { display: none !important; }
   border-radius: 40px; padding: 56px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25); outline: none; }
 .tgs-modal--choose .tgs-modal__panel { width: min(860px, 100%); }
 .tgs-modal__handle { display: none; }
-.tgs-modal__close { position: absolute; top: 24px; right: 24px; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--plum); background: transparent;
+.tgs-modal__tools { position: absolute; top: 24px; right: 24px; z-index: 3; }
+.tgs-modal__close { width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--plum); background: var(--cream);
   color: var(--plum); font-size: 22px; line-height: 1; cursor: pointer; }
 .tgs-modal__close:focus-visible, .tgs-link:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
 .tgs-modal__step { display: flex; flex-direction: column; gap: 24px; }
+.tgs-modal__scroll { display: contents; }
 .tgs-modal__step[hidden] { display: none; }
 .tgs-modal__title { margin: 0; padding-right: 48px; font-weight: 300; font-size: 40px; line-height: 44px; letter-spacing: -0.015em; outline: none; }
 .tgs-modal__text { margin: 0; font-weight: 300; font-size: 18px; line-height: 26px; }
@@ -305,10 +331,16 @@ main[hidden] { display: none !important; }
 .tgs-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 @media (max-width: 760px) {
   .tgs-modal { align-items: flex-end; padding: 0; }
-  .tgs-modal__panel, .tgs-modal--choose .tgs-modal__panel { width: 100%; max-height: calc(100vh - 24px); border-radius: 32px 32px 0 0;
-    padding: 40px 24px calc(32px + env(safe-area-inset-bottom, 0px)); }
+  .tgs-modal__panel, .tgs-modal--choose .tgs-modal__panel { display: flex; flex-direction: column; width: 100%; max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); overflow: hidden; border-radius: 32px 32px 0 0;
+    padding: 28px 20px calc(16px + env(safe-area-inset-bottom, 0px)); }
   .tgs-modal__handle { display: block; position: absolute; top: 12px; left: 50%; width: 44px; height: 4px; margin-left: -22px; border-radius: 999px; background: rgba(77, 40, 49, .25); }
-  .tgs-modal__close { top: 20px; right: 16px; }
+  .tgs-modal__tools { position: absolute; top: 16px; right: 16px; z-index: 3; }
+  .tgs-modal__meta { padding-right: 56px; }
+  .tgs-modal__step:not([hidden]) { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .tgs-form { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .tgs-modal__scroll { display: flex; flex-direction: column; gap: 16px; overflow: auto; min-height: 0; flex: 1 1 auto; }
+  .tgs-form__actions { flex: none; flex-direction: column; align-items: stretch; gap: 12px; background: var(--cream); padding-top: 12px; }
+  .tgs-form__actions .gs-btn { width: 100%; }
   .tgs-modal__step { gap: 20px; }
   .tgs-modal__title { font-size: 32px; line-height: 36px; }
   .tgs-modal__text { font-size: 16px; line-height: 22px; }
@@ -333,6 +365,7 @@ main[hidden] { display: none !important; }
 .tgs-news__text { margin: 20px 0 0; font-family: var(--font-display); font-weight: 300; font-size: 18px; line-height: 26px; max-width: 30em; }
 .tgs-news__text b { font-weight: 400; }
 .tgs-news__form { display: flex; flex-direction: column; gap: 14px; }
+.tgs-news__form[hidden] { display: none; }
 .tgs-news__label { font-family: var(--font-ui); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 .tgs-news__row { display: flex; gap: 8px; }
 .tgs-news__input { flex: 1; min-width: 0; box-sizing: border-box; height: 52px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--plum); background: #fff;
@@ -371,5 +404,15 @@ main[hidden] { display: none !important; }
   .tgs-beta { gap: 8px; padding: 8px 12px; font-size: 12px; letter-spacing: 0; }
   .tgs-beta__tag { padding: 1px 8px; font-size: 10px; }
   .tgs-beta__long { display: none; }
+}
 
+/* Membership plans: payment is not live yet. White card so it reads on the cream section. */
+.tgs-plans-notice { display: flex; align-items: center; gap: 16px; align-self: center; max-width: 760px; margin: 0;
+  padding: 8px 24px 8px 8px; background: #fff; color: var(--plum); border-radius: 999px; box-sizing: border-box; }
+.tgs-plans-notice__tag { flex: none; padding: 8px 14px; border-radius: 999px; background: var(--orange); color: #000;
+  font-family: var(--font-ui); font-size: 11px; line-height: 16px; letter-spacing: .08em; text-transform: uppercase; }
+.tgs-plans-notice__text { margin: 0; font-family: var(--font-display); font-weight: 300; font-size: 16px; line-height: 22px; }
+@media (max-width: 760px) {
+  .tgs-plans-notice { flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; max-width: none; padding: 18px 20px; border-radius: 28px; }
+  .tgs-plans-notice__text { font-size: 15px; line-height: 21px; }
 }
