@@ -218,7 +218,13 @@ main[hidden] { display: none !important; }
 /* ---- Final: hamburger menu + responsive fixes ---- */
 .tgs-burger { display: none; }
 .tgs-menu { display: none; }
-@media (max-width: 1320px) {
+/* A 14-inch laptop is often about 1280px wide. Keep the links on one line there. */
+@media (max-width: 1400px) {
+  .gs-header { padding-left: 48px; padding-right: 48px; }
+  .gs-header__nav { gap: 16px; }
+  .gs-header__link, .gs-btn--nav { font-size: 12px; letter-spacing: .02em; }
+}
+@media (max-width: 1180px) {
   .gs-header { display: grid; grid-template-columns: 1fr auto auto; align-items: center; height: auto; padding: 20px 40px; gap: 16px; }
   .gs-header__nav { display: none !important; }
   .gs-header__logo { grid-column: 1; grid-row: 1; justify-self: start; }
