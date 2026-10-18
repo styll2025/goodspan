@@ -60,7 +60,7 @@ route();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
   window.addEventListener('hashchange', closeAll);
-  window.addEventListener('resize', function () { if (innerWidth > 1180) closeAll(); });
+  window.addEventListener('resize', function () { if (innerWidth > 1100) closeAll(); });
 })();
 
 /* Membership interest pop-up.
@@ -77,7 +77,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
   var submit = modal.querySelector('[data-submit]');
   var SUMMARY = { 'Core': '€129/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
   var OPTION_LABEL = { 'six-month': 'Six-month commitment (€19/month)', 'trial': 'One-month trial (€25)' };
-  var state = { tier: '' }, lastFocus = null, sendToken = 0;
+  var state = { tier: '' }, lastFocus = null;
 
   function $(sel) { return modal.querySelectorAll(sel); }
   function show(step) {
@@ -107,7 +107,6 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     submit.disabled = false; submit.textContent = 'Register my interest';
   }
   function open(tier, option) {
-    sendToken++;
     lastFocus = document.activeElement;
     state.tier = tier;
     resetForm();
@@ -119,7 +118,6 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     show('email');
   }
   function close() {
-    sendToken++;
     modal.hidden = true;
     document.documentElement.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -170,25 +168,52 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
       website: form.website.value
     });
     function done() { modal.querySelector('[data-email-echo]').textContent = v; setTier(); show('thanks'); }
-    function failSend() {
-      show('email');
-      submit.disabled = false; submit.textContent = 'Register my interest';
-      modal.querySelector('[data-send-error]').hidden = false;
-    }
-    /* The sheet usually answers after a few seconds. Confirm straight away, and
-       only come back to the form if the sheet actually rejects the sign-up. */
-    var token = ++sendToken;
-    done();
-    if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); return; }
-    fetch(INTEREST_ENDPOINT, { method: 'POST', body: data, keepalive: true })
-      .then(function (res) { if (!res.ok) throw new Error('status'); return res.json(); })
-      .then(function (json) {
-        if (token !== sendToken) return;
-        if (!json || json.ok !== true) failSend();
-      })
+    if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); done(); return; }
+    submit.disabled = true; submit.textContent = 'Sending…';
+    fetch(INTEREST_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+      .then(done)
       .catch(function () {
-        if (token !== sendToken || modal.hidden) return;
-        failSend();
+        submit.disabled = false; submit.textContent = 'Register my interest';
+        modal.querySelector('[data-send-error]').hidden = false;
       });
+  });
+})();
+
+/* Newsletter sign-up: sends to the same Google Apps Script web app as the membership pop-up (form=newsletter). */
+(function () {
+  function valid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+  document.addEventListener('input', function (e) {
+    var input = e.target.closest('.tgs-news__input');
+    if (input && input.getAttribute('aria-invalid') === 'true' && valid(input.value.trim())) {
+      input.removeAttribute('aria-invalid'); input.form.querySelector('[data-news-email-error]').hidden = true;
+    }
+  });
+  document.addEventListener('change', function (e) {
+    if (e.target.matches('.tgs-news__form input[name=consent]') && e.target.checked) e.target.form.querySelector('[data-news-consent-error]').hidden = true;
+  });
+  document.addEventListener('submit', function (e) {
+    var form = e.target.closest('.tgs-news__form');
+    if (!form) return;
+    e.preventDefault();
+    var email = form.email, consent = form.consent, v = email.value.trim(), ok = true;
+    var errEmail = form.querySelector('[data-news-email-error]'), errConsent = form.querySelector('[data-news-consent-error]'), errSend = form.querySelector('[data-news-send-error]');
+    if (!valid(v)) { email.setAttribute('aria-invalid', 'true'); errEmail.hidden = false; ok = false; }
+    if (!consent.checked) { errConsent.hidden = false; ok = false; }
+    if (!ok) { (valid(v) ? consent : email).focus(); return; }
+    errSend.hidden = true;
+    var btn = form.querySelector('.tgs-news__submit');
+    var data = new URLSearchParams({ form: 'newsletter', email: v, consent: 'yes', page: location.pathname + location.hash,
+                                     language: navigator.language || '', website: form.website.value });
+    function done() {
+      var box = form.parentNode.querySelector('[data-news-done]');
+      box.querySelector('[data-news-echo]').textContent = v;
+      form.hidden = true; box.hidden = false; box.focus();
+    }
+    var endpoint = (typeof INTEREST_ENDPOINT !== 'undefined') ? INTEREST_ENDPOINT : '';
+    if (!endpoint) { console.info('[newsletter] preview mode, not sent:', Object.fromEntries(data)); done(); return; }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(endpoint, { method: 'POST', mode: 'no-cors', body: data })
+      .then(done)
+      .catch(function () { btn.disabled = false; btn.textContent = 'Subscribe'; errSend.hidden = false; });
   });
 })();
