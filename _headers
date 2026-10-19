@@ -1,23 +1,23 @@
-# Tell crawlers the preferred address when a trailing-slash alias is requested.
+# Tell crawlers the preferred address. The live page is the trailing-slash URL.
 /
   Link: <https://thegoodspan.com/>; rel="canonical"
 /how-it-works
-  Link: <https://thegoodspan.com/how-it-works>; rel="canonical"
+  Link: <https://thegoodspan.com/how-it-works/>; rel="canonical"
 /how-it-works/
-  Link: <https://thegoodspan.com/how-it-works>; rel="canonical"
+  Link: <https://thegoodspan.com/how-it-works/>; rel="canonical"
 /memberships
-  Link: <https://thegoodspan.com/memberships>; rel="canonical"
+  Link: <https://thegoodspan.com/memberships/>; rel="canonical"
 /memberships/
-  Link: <https://thegoodspan.com/memberships>; rel="canonical"
+  Link: <https://thegoodspan.com/memberships/>; rel="canonical"
 /evidence
-  Link: <https://thegoodspan.com/evidence>; rel="canonical"
+  Link: <https://thegoodspan.com/evidence/>; rel="canonical"
 /evidence/
-  Link: <https://thegoodspan.com/evidence>; rel="canonical"
+  Link: <https://thegoodspan.com/evidence/>; rel="canonical"
 /about
-  Link: <https://thegoodspan.com/about>; rel="canonical"
+  Link: <https://thegoodspan.com/about/>; rel="canonical"
 /about/
-  Link: <https://thegoodspan.com/about>; rel="canonical"
+  Link: <https://thegoodspan.com/about/>; rel="canonical"
 /find-your-good-span
-  Link: <https://thegoodspan.com/find-your-good-span>; rel="canonical"
+  Link: <https://thegoodspan.com/find-your-good-span/>; rel="canonical"
 /find-your-good-span/
-  Link: <https://thegoodspan.com/find-your-good-span>; rel="canonical"
+  Link: <https://thegoodspan.com/find-your-good-span/>; rel="canonical"

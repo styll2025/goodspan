@@ -24,7 +24,7 @@ thegoodspan-website/
 └── README.md
 ```
 
-Each page is its own address, for example `https://thegoodspan.com/memberships`. An older link such as `/#/memberships` still opens that page. The plans section is `https://thegoodspan.com/memberships#plans`.
+Each page is its own address, for example `https://thegoodspan.com/memberships/`. An older link such as `/#/memberships` still opens that page. The plans section is `https://thegoodspan.com/memberships/#plans`.
 
 ## 1. Open and preview it in Cursor
 

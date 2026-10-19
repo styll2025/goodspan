@@ -1,29 +1,24 @@
 # Old site addresses open the matching new page.
-# Fragments are applied by the browser, so hash addresses are handled in assets/js/main.js.
+# Each page lives at its trailing-slash address. Cloudflare already sends
+# /how-it-works to /how-it-works/, so do not redirect the slash form back.
 
 /home / 301
 /home/ / 301
 /index.html / 301
 
-/how-it-works/ /how-it-works 301
-/memberships/ /memberships 301
-/evidence/ /evidence 301
-/about/ /about 301
-/find-your-good-span/ /find-your-good-span 301
-
-/about.html /about 301
-/membership /memberships 301
-/membership.html /memberships 301
-/memberships.html /memberships 301
-/seasons /memberships 301
-/seasons.html /memberships 301
-/evidence.html /evidence 301
-/goodeat-insights /evidence 301
-/goodeat-insights.html /evidence 301
-/goodmind-insights /evidence 301
-/goodmind-insights.html /evidence 301
-/your-journey /find-your-good-span 301
-/your-journey.html /find-your-good-span 301
+/about.html /about/ 301
+/membership /memberships/ 301
+/membership.html /memberships/ 301
+/memberships.html /memberships/ 301
+/seasons /memberships/ 301
+/seasons.html /memberships/ 301
+/evidence.html /evidence/ 301
+/goodeat-insights /evidence/ 301
+/goodeat-insights.html /evidence/ 301
+/goodmind-insights /evidence/ 301
+/goodmind-insights.html /evidence/ 301
+/your-journey /find-your-good-span/ 301
+/your-journey.html /find-your-good-span/ 301
 /calendar / 301
 /calendar.html / 301
 /lisbon / 301

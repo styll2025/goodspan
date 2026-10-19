@@ -6,11 +6,11 @@ document.addEventListener('click', function (e) {
 });
 var PAGE_PATHS = {
   'home': '/',
-  'how-it-works': '/how-it-works',
-  'memberships': '/memberships',
-  'evidence': '/evidence',
-  'about': '/about',
-  'find-your-good-span': '/find-your-good-span'
+  'how-it-works': '/how-it-works/',
+  'memberships': '/memberships/',
+  'evidence': '/evidence/',
+  'about': '/about/',
+  'find-your-good-span': '/find-your-good-span/'
 };
 function followLegacyHash() {
   var h = location.hash || '';
