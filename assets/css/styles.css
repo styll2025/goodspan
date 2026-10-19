@@ -32,7 +32,7 @@
   background: var(--cream); --ink: var(--plum); --line: var(--plum); --surface: var(--cream); --button-fill: var(--plum); --button-ink: var(--cream); --focus: var(--plum);
 }
 .gs-header__nav { display: flex; flex-wrap: nowrap; gap: var(--space-4); }
-.gs-header__link { font-family: var(--font-ui); font-size: 13px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.gs-header__link { font-family: var(--font-ui); font-size: 10px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .gs-header__link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .gs-header__logo img { display: block; width: 375px; height: auto; }
 .gs-header__cta { display: flex; justify-content: flex-end; }
@@ -222,7 +222,8 @@ main[hidden] { display: none !important; }
 @media (max-width: 1400px) {
   .gs-header { padding-left: 48px; padding-right: 48px; }
   .gs-header__nav { gap: 16px; }
-  .gs-header__link, .gs-btn--nav { font-size: 12px; letter-spacing: .02em; }
+  .gs-header__link { font-size: 10px; letter-spacing: .02em; }
+  .gs-btn--nav { font-size: 12px; letter-spacing: .02em; }
 }
 @media (max-width: 1180px) {
   .gs-header { display: grid; grid-template-columns: 1fr auto auto; align-items: center; height: auto; padding: 20px 40px; gap: 16px; }
