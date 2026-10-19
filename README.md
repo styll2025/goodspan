@@ -82,9 +82,9 @@ A thin orange strip at the top of every page reads "The Good Span launches 1 Jan
 
 ## Cookie consent
 
-A cookie bar appears at the bottom of the screen on a visitor's first visit, with **Manage cookies**, **Decline all** and **Accept all**. "Manage cookies" opens a window with two categories: **Necessary** (always on) and **Performance and Analytics** (off until the visitor switches it on). The **Cookie settings** link in every footer reopens that window. Choices are remembered for 12 months, then the visitor is asked again.
+A cookie bar appears at the bottom of the screen on a visitor's first visit, with **Manage cookies**, **Decline all** and **Accept all**. **Accept all** opts in to Performance and Analytics and loads Google Analytics. **Decline all** leaves analytics off. "Manage cookies" opens a window with two categories: **Necessary** (always on) and **Performance and Analytics** (on until the visitor switches it off, matching Accept all). The **Cookie settings** link in every footer reopens that window. Choices are remembered for 12 months, then the visitor is asked again.
 
-Google Analytics (`G-EPME4LXRWR`) loads only after the visitor accepts Performance and Analytics. The measurement ID is `GA4_MEASUREMENT_ID` in `assets/js/main.js`. There is no Advertising category, because the site runs no ads.
+Google Analytics (`G-EPME4LXRWR`) loads when the visitor chooses Accept all, or saves preferences with Performance and Analytics on. The measurement ID is `GA4_MEASUREMENT_ID` in `assets/js/main.js`. There is no Advertising category, because the site runs no ads.
 
 
 ## Before going live: checklist

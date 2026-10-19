@@ -292,7 +292,7 @@ var GA4_MEASUREMENT_ID = 'G-EPME4LXRWR';
     }
     lastFocus = document.activeElement;
     var c = read();
-    analyticsSwitch.checked = !!(c && c.analytics);
+    analyticsSwitch.checked = c ? !!c.analytics : true;
     syncLabel();
     manageWin.hidden = false;
     document.documentElement.style.overflow = 'hidden';
@@ -308,7 +308,7 @@ var GA4_MEASUREMENT_ID = 'G-EPME4LXRWR';
     var b = e.target.closest('[data-ck]');
     if (!b) return;
     var a = b.getAttribute('data-ck');
-    if (a === 'accept') decide(true);
+    if (a === 'accept') { analyticsSwitch.checked = true; syncLabel(); decide(true); }
     else if (a === 'reject') decide(false);
     else if (a === 'manage') { banner.hidden = true; open(true); }
   });
