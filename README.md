@@ -87,7 +87,7 @@ These are open items that the website itself can't resolve:
 - [ ] **Interest pop-up connected:** `INTEREST_ENDPOINT` is set in `assets/js/main.js` and a test sign-up appears in the sheet.
 - [ ] **Font licence.** The BST Bazaine files are **trial versions**. A web licence is needed before the site goes public.
 - [ ] **"Book a Good Span Review"** buttons have no destination yet. Search `index.html` for `Book a Good Span Review` and replace `href="#"` with the booking link.
-- [ ] **Community Guidelines** in the footer is still a placeholder. Terms & Conditions, Privacy Policy and Cookie Policy are published and linked. Search for `data-dead` to find the remaining placeholders.
+- [x] **Footer legal links.** Terms & Conditions, Privacy Policy and Cookie Policy are published and linked. Community Guidelines is not in the footer.
 - [ ] **Photo branding.** Two photos show third-party logos: `boxing.jpg` (Top King shorts) and the shoe-painter photos `sneaker-close2.jpg` and `sneaker-wide.jpg` (Nike trainers, banners). Confirm you have clearance, or swap them.
 - [ ] **Assessment link.** "Find my Good Span" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
 - [ ] **Cookies and analytics.** The site sets no cookies today. If you add analytics (such as Google Analytics), EU rules require a cookie consent banner.
