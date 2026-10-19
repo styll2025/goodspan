@@ -227,7 +227,6 @@ var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyUwRucB_U1ap
       website: form.website.value
     });
     var box = form.parentNode.querySelector('[data-news-done]');
-    box.querySelector('[data-news-echo]').textContent = v;
     form.hidden = true;
     box.hidden = false;
     box.focus();
