@@ -65,6 +65,7 @@ route();
    Paste your Google Apps Script web app URL below. While it is empty, the pop-up works in preview mode:
    it shows every step but does not send anything. */
 var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278GSDccQ7tGHyM-v3_bEnIMnj26jx4cR2T_QmxpqyUrxTZXFKfEj9qR/exec';
+var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwH2_H0tkYAEdGBkNjdivRrxXMtno94sd2HcbqA1euA44X4UEde-iXzITS0grnEqjlcvA/exec';
 (function () {
   var modal = document.getElementById('interest-modal');
   if (!modal) return;
@@ -191,9 +192,8 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
   });
 })();
 
-/* Newsletter sign-up. Same web app as membership interest, with form=newsletter.
-   Confirm straight away. The live Apps Script only writes the Newsletter tab after
-   a new version is deployed; until then it rejects the row and this still shows thanks. */
+/* Newsletter sign-up. Posts to NEWSLETTER_ENDPOINT, a separate web app from membership interest.
+   Confirm straight away, then send the address in the background. */
 (function () {
   function valid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
   document.addEventListener('input', function (e) {
@@ -231,7 +231,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     form.hidden = true;
     box.hidden = false;
     box.focus();
-    var endpoint = (typeof INTEREST_ENDPOINT !== 'undefined') ? INTEREST_ENDPOINT : '';
+    var endpoint = (typeof NEWSLETTER_ENDPOINT !== 'undefined') ? NEWSLETTER_ENDPOINT : '';
     if (!endpoint) { console.info('[newsletter] preview mode, not sent:', Object.fromEntries(data)); return; }
     fetch(endpoint, { method: 'POST', body: data, keepalive: true }).catch(function () {});
   });

@@ -74,7 +74,7 @@ Until payments are live, **Choose Self**, **Choose Core** and **Choose Concierge
 
 ## Newsletter sign-up
 
-Every page has a "Stay in the loop." band above the footer. Sign-ups go to the same Google web app and land in a separate **Newsletter** tab of the sheet. After updating `Code.gs`, deploy a new web app version (Deploy → Manage deployments → New version) or newsletter rows will not be written.
+Every page has a "Stay in the loop." band above the footer. Sign-ups go to `NEWSLETTER_ENDPOINT` in `assets/js/main.js`, a separate Google web app from membership interest. The web app must be deployed with **Who has access: Anyone**, or the sheet will not receive the addresses.
 
 ## Beta notice
 
