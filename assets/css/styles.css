@@ -460,9 +460,13 @@ a.tgs-beta strong { font-weight: 700; }
 .tgs-cookies__text { margin: 0; flex: 1; font-weight: 300; font-size: 16px; line-height: 24px; }
 .tgs-cookies__text a { color: var(--plum); }
 .tgs-cookies__actions { display: flex; flex-wrap: wrap; gap: 10px; flex: none; }
-.tgs-ck-btn { height: 40px; padding: 0 20px; border: 0; border-radius: 999px; background: var(--plum); color: var(--cream); cursor: pointer;
+.tgs-ck-btn { box-sizing: border-box; height: 40px; padding: 0 20px; border: 1px solid var(--plum); border-radius: 999px; background: var(--plum); color: var(--cream); cursor: pointer;
   font-family: var(--font-ui); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
-.tgs-ck-btn:hover { background: #000; }
+.tgs-ck-btn:hover { background: #000; border-color: #000; }
+.tgs-ck-btn[data-ck="manage"],
+.tgs-ck-btn[data-ck="reject"] { background: var(--cream); color: var(--plum); }
+.tgs-ck-btn[data-ck="manage"]:hover,
+.tgs-ck-btn[data-ck="reject"]:hover { background: var(--plum); color: var(--cream); border-color: var(--plum); }
 .tgs-ck-btn:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px; }
 .tgs-ckm[hidden] { display: none !important; }
 .tgs-ckm { position: fixed; inset: 0; z-index: 950; display: flex; align-items: center; justify-content: center; padding: 24px; color: var(--plum); font-family: var(--font-display); }
