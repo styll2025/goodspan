@@ -322,9 +322,6 @@ var GA4_MEASUREMENT_ID = 'G-EPME4LXRWR';
     if (!manageWin.hidden) closeManage();
     else if (!banner.hidden) decide(false);
   });
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-cookie-settings]')) { e.preventDefault(); open(true); }
-  });
 
   var existing = read();
   if (existing) apply(existing);

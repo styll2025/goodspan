@@ -82,7 +82,7 @@ A thin orange strip at the top of every page reads "The Good Span launches 1 Jan
 
 ## Cookie consent
 
-A cookie bar appears at the bottom of the screen on a visitor's first visit, with **Manage cookies**, **Decline all** and **Accept all**. **Accept all** opts in to Performance and Analytics and loads Google Analytics. **Decline all** leaves analytics off. "Manage cookies" opens a window with two categories: **Necessary** (always on) and **Performance and Analytics** (on until the visitor switches it off, matching Accept all). The **Cookie settings** link in every footer reopens that window. Choices are remembered for 12 months, then the visitor is asked again.
+A cookie bar appears at the bottom of the screen on a visitor's first visit, with **Manage cookies**, **Decline all** and **Accept all**. **Accept all** opts in to Performance and Analytics and loads Google Analytics. **Decline all** leaves analytics off. "Manage cookies" opens a window with two categories: **Necessary** (always on) and **Performance and Analytics** (on until the visitor switches it off, matching Accept all). Choices are remembered for 12 months, then the visitor is asked again.
 
 Google Analytics (`G-EPME4LXRWR`) loads when the visitor chooses Accept all, or saves preferences with Performance and Analytics on. The measurement ID is `GA4_MEASUREMENT_ID` in `assets/js/main.js`. There is no Advertising category, because the site runs no ads.
 
@@ -97,7 +97,7 @@ These are open items that the website itself can't resolve:
 - [x] **Footer legal links.** Terms & Conditions, Privacy Policy and Cookie Policy are published and linked. Community Guidelines is not in the footer.
 - [ ] **Photo branding.** Two photos show third-party logos: `boxing.jpg` (Top King shorts) and the shoe-painter photos `sneaker-close2.jpg` and `sneaker-wide.jpg` (Nike trainers, banners). Confirm you have clearance, or swap them.
 - [ ] **Assessment link.** "Start Your Free Evaluation" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
-- [x] **Cookies and analytics.** The cookie bar asks before Google Analytics loads. Cookie settings in the footer reopens the choice.
+- [x] **Cookies and analytics.** The cookie bar asks before Google Analytics loads.
 - [x] **Search engines.** Each page has its own address, title, description and canonical URL. `sitemap.xml` lists them. Old `/#/page` links still redirect.
 
 ## Photo files
