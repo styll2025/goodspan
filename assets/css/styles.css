@@ -32,7 +32,7 @@
   background: var(--cream); --ink: var(--plum); --line: var(--plum); --surface: var(--cream); --button-fill: var(--plum); --button-ink: var(--cream); --focus: var(--plum);
 }
 .gs-header__nav { display: flex; flex-wrap: nowrap; gap: var(--space-4); }
-.gs-header__link { font-family: var(--font-ui); font-size: 10px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.gs-header__link { font-family: var(--font-ui); font-size: 13px; line-height: 16px; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .gs-header__link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .gs-header__logo img { display: block; width: 375px; height: auto; }
 .gs-header__cta { display: flex; justify-content: flex-end; }
@@ -218,7 +218,7 @@ main[hidden] { display: none !important; }
 /* ---- Final: hamburger menu + responsive fixes ---- */
 .tgs-burger { display: none; }
 .tgs-menu { display: none; }
-/* A 14-inch laptop is often about 1280px wide. Keep the links on one line there. */
+/* Smaller than a wide desktop, but still before the burger menu: keep the four links on one line. */
 @media (max-width: 1400px) {
   .gs-header { padding-left: 48px; padding-right: 48px; }
   .gs-header__nav { gap: 16px; }
