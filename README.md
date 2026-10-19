@@ -78,7 +78,7 @@ Every page has a "Stay in the loop." band above the footer. Sign-ups go to `NEWS
 
 ## Beta notice
 
-A thin orange strip at the top of every page reads "Coming soon. Register your interest to hear when The Good Span launches." and links to the membership plans. The membership plans section also has a "Coming soon" notice: no payment is taken yet. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html` and the `<div class="tgs-plans-notice" …>` block in the plans section.
+A thin orange strip at the top of every page reads "Launching 1 January 2027. Register your interest to be notified when The Good Span launches." and links to the membership plans. The membership plans section also has a "Coming soon" notice: no payment is taken yet. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html` and the `<div class="tgs-plans-notice" …>` block in the plans section.
 
 ## Before going live: checklist
 
