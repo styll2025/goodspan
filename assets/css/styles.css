@@ -39,6 +39,14 @@
 
 .gs-hero { display: grid; background: var(--surface-alt); }
 .gs-hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Homepage hero: keep the two men and the woman on the right centered in the frame. */
+.gs-hero__media img.tgs-hero-pilot { object-position: calc(50% - 238px) center; }
+@media (max-width: 900px) {
+  .gs-hero__media img.tgs-hero-pilot { object-position: 84% center; }
+}
+@media (max-width: 390px) {
+  .gs-hero__media img.tgs-hero-pilot { object-position: calc(50% - 120px) center; }
+}
 .gs-hero__title { margin: 0; font-family: var(--font-display); font-weight: 200; font-size: 68px; line-height: 74px; letter-spacing: -.04em; color: var(--ink); }
 .gs-hero__lead { margin-top: var(--space-9); max-width: 600px; font-family: var(--font-display); font-weight: 300; font-size: 20px; line-height: 30px; color: var(--ink); }
 .gs-hero__lead p { margin: 0 0 30px; } .gs-hero__lead p:last-child { margin-bottom: 0; }
