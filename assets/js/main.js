@@ -65,7 +65,7 @@ route();
    Paste your Google Apps Script web app URL below. While it is empty, the pop-up works in preview mode:
    it shows every step but does not send anything. */
 var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278GSDccQ7tGHyM-v3_bEnIMnj26jx4cR2T_QmxpqyUrxTZXFKfEj9qR/exec';
-var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwH2_H0tkYAEdGBkNjdivRrxXMtno94sd2HcbqA1euA44X4UEde-iXzITS0grnEqjlcvA/exec';
+var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyUwRucB_U1ap7wBr7mM6dzByr_VuNbhEdQL7zchRtyskrLjxLkhufxfZE6hCiFdJyojQ/exec';
 (function () {
   var modal = document.getElementById('interest-modal');
   if (!modal) return;
