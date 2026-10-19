@@ -218,14 +218,22 @@ main[hidden] { display: none !important; }
 /* ---- Final: hamburger menu + responsive fixes ---- */
 .tgs-burger { display: none; }
 .tgs-menu { display: none; }
-/* Smaller than a wide desktop, but still before the burger menu: keep the four links on one line. */
+/* Wide screens stay at 13px. On a laptop, including 14 inches, step the four links down so they stay on one line. */
 @media (max-width: 1400px) {
   .gs-header { padding-left: 48px; padding-right: 48px; }
   .gs-header__nav { gap: 16px; }
-  .gs-header__link { font-size: 10px; letter-spacing: .02em; }
+  .gs-header__link { font-size: 12px; letter-spacing: .02em; }
   .gs-btn--nav { font-size: 12px; letter-spacing: .02em; }
 }
-@media (max-width: 1180px) {
+@media (max-width: 1240px) {
+  .gs-header__link { font-size: 11px; }
+}
+@media (max-width: 1140px) {
+  .gs-header { padding-left: 32px; padding-right: 32px; }
+  .gs-header__link { font-size: 10px; }
+}
+/* Tablet held upright, and phones. A 14-inch laptop stays above this. */
+@media (max-width: 1024px) {
   .gs-header { display: grid; grid-template-columns: 1fr auto auto; align-items: center; height: auto; padding: 20px 40px; gap: 16px; }
   .gs-header__nav { display: none !important; }
   .gs-header__logo { grid-column: 1; grid-row: 1; justify-self: start; }

@@ -58,7 +58,7 @@ route();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
   window.addEventListener('hashchange', closeAll);
-  window.addEventListener('resize', function () { if (innerWidth > 1180) closeAll(); });
+  window.addEventListener('resize', function () { if (innerWidth > 1024) closeAll(); });
 })();
 
 /* Membership interest pop-up.
