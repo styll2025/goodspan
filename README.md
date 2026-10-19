@@ -78,7 +78,7 @@ Every page has a "Stay in the loop." band above the footer. Sign-ups go to `NEWS
 
 ## Beta notice
 
-A thin orange strip at the top of every page reads "Launching 1 January 2027. Register your interest to be notified when The Good Span launches." and links to the membership plans. The membership plans section also has a "Coming soon" notice: no payment is taken yet. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html` and the `<div class="tgs-plans-notice" …>` block in the plans section.
+A thin orange strip at the top of every page reads "The Good Span launches 1 January 2027. Subscribe to stay updated and be the first to hear when memberships open." and links to the Stay in the loop sign-up. On the legal pages, which have no sign-up band, it links to the homepage sign-up. The membership plans section also has a "Coming soon" notice: no payment is taken yet. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html` and the `<div class="tgs-plans-notice" …>` block in the plans section.
 
 ## Before going live: checklist
 
@@ -89,7 +89,7 @@ These are open items that the website itself can't resolve:
 - [ ] **"Book a Good Span Review"** buttons have no destination yet. Search `index.html` for `Book a Good Span Review` and replace `href="#"` with the booking link.
 - [x] **Footer legal links.** Terms & Conditions, Privacy Policy and Cookie Policy are published and linked. Community Guidelines is not in the footer.
 - [ ] **Photo branding.** Two photos show third-party logos: `boxing.jpg` (Top King shorts) and the shoe-painter photos `sneaker-close2.jpg` and `sneaker-wide.jpg` (Nike trainers, banners). Confirm you have clearance, or swap them.
-- [ ] **Assessment link.** "Find my Good Span" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
+- [ ] **Assessment link.** "Start Your Free Evaluation" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
 - [ ] **Cookies and analytics.** The site sets no cookies today. If you add analytics (such as Google Analytics), EU rules require a cookie consent banner.
 - [x] **Search engines.** Each page has its own address, title, description and canonical URL. `sitemap.xml` lists them. Old `/#/page` links still redirect.
 
