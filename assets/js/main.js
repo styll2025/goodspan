@@ -287,7 +287,7 @@ var GA4_MEASUREMENT_ID = 'G-EPME4LXRWR';
   function open(manage) {
     if (!manage) {
       banner.hidden = false;
-      setTimeout(function () { var f = banner.querySelector('[data-ck="manage"]'); if (f) f.focus(); }, 30);
+      setTimeout(function () { var f = banner.querySelector('[data-ck="accept"]'); if (f) f.focus(); }, 30);
       return;
     }
     lastFocus = document.activeElement;
