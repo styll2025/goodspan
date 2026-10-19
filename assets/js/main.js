@@ -1,42 +1,40 @@
-/* The Good Span: page routing, mobile menu */
+/* The Good Span: page addresses, mobile menu.
+   Each page is its own document. Old hash addresses (#/memberships) still open the right page. */
 document.addEventListener('click', function (e) {
   var a = e.target.closest('a[data-dead]');
   if (a) e.preventDefault();
 });
+var PAGE_PATHS = {
+  'home': '/',
+  'how-it-works': '/how-it-works',
+  'memberships': '/memberships',
+  'evidence': '/evidence',
+  'about': '/about',
+  'find-your-good-span': '/find-your-good-span'
+};
+function followLegacyHash() {
+  var h = location.hash || '';
+  if (h.indexOf('#/') !== 0) return false;
+  var parts = h.slice(2).split('/');
+  var slug = parts[0] || 'home';
+  var anchor = parts[1] || '';
+  var path = PAGE_PATHS[slug] || '/';
+  if (anchor) path += '#' + anchor;
+  location.replace(path);
+  return true;
+}
+function scrollToAnchor() {
+  var id = (location.hash || '').replace(/^#/, '');
+  if (!id || id.charAt(0) === '/') return;
+  var target = document.getElementById(id);
+  if (target) target.scrollIntoView();
+}
 function route() {
-  var h = location.hash || '#/home';
-  var parts = h.replace(/^#\/?/, '').split('/');
-  var slug = parts[0] || 'home', anchor = parts[1];
-  var page = document.getElementById('page-' + slug);
-  if (!page) { page = document.getElementById('page-home'); slug = 'home'; }
-  document.querySelectorAll('main').forEach(function (m) { m.hidden = m !== page; });
-  document.title = slug === 'home' ? 'The Good Span. More years that matter.' : page.dataset.title + ' · The Good Span';
-  var target = anchor ? page.querySelector('#' + CSS.escape(anchor)) : null;
-  if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
+  if (followLegacyHash()) return;
+  scrollToAnchor();
 }
 window.addEventListener('hashchange', route);
 route();
-
-(function(){
-  function show(h){
-    var parts=(h||'#/home').replace(/^#\/?/,'').split('/');
-    var slug=parts[0]||'home', anchor=parts[1];
-    var page=document.getElementById('page-'+slug);
-    if(!page){page=document.getElementById('page-home');slug='home';}
-    document.querySelectorAll('main').forEach(function(m){m.hidden=m!==page;});
-    page.querySelectorAll('img').forEach(function(i){i.loading='eager';});
-    var target=anchor?page.querySelector('#'+CSS.escape(anchor)):null;
-    if(target) target.scrollIntoView(); else window.scrollTo(0,0);
-  }
-  document.addEventListener('click',function(e){
-    var a=e.target.closest('a[href^="#"]');
-    if(!a||a.hasAttribute('data-dead'))return;
-    var h=a.getAttribute('href'); e.preventDefault();
-    if(h==='#')return;
-    try{history.replaceState(null,'',h);}catch(err){}
-    show(h);
-  },true);
-})();
 
 (function () {
   function closeAll() {

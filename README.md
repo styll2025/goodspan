@@ -6,18 +6,25 @@ The complete website: six pages, all photos, logos and fonts. It is a plain stat
 
 ```
 thegoodspan-website/
-├── index.html              all six pages (Home, How it works, Memberships, Evidence, About, Find your Good Span)
+├── index.html              Home
+├── how-it-works/           How it works
+├── memberships/            Memberships
+├── evidence/               Evidence
+├── about/                  About
+├── find-your-good-span/    Find your Good Span
 ├── assets/
 │   ├── css/styles.css      all styling, including the mobile menu and responsive layout
-│   ├── js/main.js          page navigation, mobile menu, membership pop-up and newsletter sign-up
+│   ├── js/main.js          legacy address redirects, mobile menu, membership pop-up and newsletter sign-up
 │   ├── img/                23 photos + 2 logos (SVG)
 │   └── fonts/              BST Bazaine (Thin, Light) and Archivo
+├── robots.txt              tells search engines they may index the site
+├── sitemap.xml             the six public page addresses
 ├── google-apps-script/     Code.gs + SETUP.md: collects membership interest and newsletter sign-ups in a Google Sheet
 ├── .nojekyll               tells GitHub Pages to serve the files exactly as they are
 └── README.md
 ```
 
-Each page lives in `index.html` inside its own `<main id="page-...">` block, for example `<main id="page-memberships">`. Links between pages use addresses like `/#/memberships`, so every page can be linked to directly.
+Each page is its own address, for example `https://thegoodspan.com/memberships`. An older link such as `/#/memberships` still opens that page. The plans section is `https://thegoodspan.com/memberships#plans`.
 
 ## 1. Open and preview it in Cursor
 
@@ -84,7 +91,7 @@ These are open items that the website itself can't resolve:
 - [ ] **Photo branding.** Two photos show third-party logos: `boxing.jpg` (Top King shorts) and the shoe-painter photos `sneaker-close2.jpg` and `sneaker-wide.jpg` (Nike trainers, banners). Confirm you have clearance, or swap them.
 - [ ] **Assessment link.** "Find my Good Span" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
 - [ ] **Cookies and analytics.** The site sets no cookies today. If you add analytics (such as Google Analytics), EU rules require a cookie consent banner.
-- [ ] **Search engines.** All six pages live in one file, so search engines see one page. That's fine for launch. If SEO becomes a priority, the pages can later be split into separate files (for example `/memberships/`).
+- [x] **Search engines.** Each page has its own address, title, description and canonical URL. `sitemap.xml` lists them. Old `/#/page` links still redirect.
 
 ## Photo files
 
