@@ -58,4 +58,4 @@ After editing `Code.gs`, go to **Deploy → Manage deployments**, click the penc
 - **Consent:** the form can't be submitted without the consent tickbox, and every row records "Consent: Yes". When you email these people, include an unsubscribe link, and link the Privacy Policy once it's live (it's still a placeholder in the pop-up).
 - **Spam:** the form has a hidden trap field that bots fill in and people don't. Those submissions are silently ignored.
 - **Duplicates:** if someone signs up twice, you'll see two rows. In the sheet, **Data → Data cleanup → Remove duplicates** on the Email column tidies this up.
-- **When payments go live:** point the Choose Self, Choose Core, Choose Concierge and Try one month buttons to checkout instead. In `index.html`, search for `data-interest` to find them.
+- **When payments go live:** point the Choose Self, Choose Core and Choose Concierge buttons to checkout instead. In `index.html`, search for `data-interest` to find them. The one-month Self trial is an option inside the Self pop-up, not a separate card button. Remove the coming-soon strip (`tgs-beta`) and the membership plans notice (`tgs-plans-notice`) in `index.html`.
