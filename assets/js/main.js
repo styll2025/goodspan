@@ -74,7 +74,7 @@ var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyUwRucB_U1ap
   var email = modal.querySelector('#im-email');
   var consent = modal.querySelector('input[name="consent"]');
   var submit = modal.querySelector('[data-submit]');
-  var SUMMARY = { 'Core': '€129/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
+  var SUMMARY = { 'Core': '€99/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
   var OPTION_LABEL = { 'six-month': 'Six-month commitment (€19/month)', 'trial': 'One-month trial (€25)' };
   var state = { tier: '' }, lastFocus = null, sendToken = 0;
 
