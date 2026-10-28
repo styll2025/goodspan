@@ -690,3 +690,28 @@ a.tgs-beta strong { font-weight: 700; }
   .tgs-hx__cards { grid-template-columns: minmax(0, 1fr); }
   .tgs-hx__map { max-width: 360px; }
 }
+
+/* Six-month journey as one timeline: month label, what happens, weekly time. No empty card space. */
+.tgs-jy.tgs-jy--line{display:block;background:#fff;border-radius:28px;padding:8px clamp(20px,3vw,36px) clamp(20px,3vw,32px);position:relative}
+.tgs-jy--line .tgs-jy__m{display:grid;grid-template-columns:220px minmax(0,1fr) 170px;gap:8px 28px;align-items:start;background:transparent;border-radius:0;padding:22px 0;border-top:1px solid rgba(77,40,49,.16);position:relative}
+.tgs-jy--line .tgs-jy__m:first-child{border-top:0}
+.tgs-jy--line .tgs-jy__when{display:flex;align-items:center;gap:10px;padding-top:1px}
+.tgs-jy--line .tgs-jy__dot{flex:none;width:10px;height:10px;border-radius:999px;border:1.5px solid var(--plum);background:#fff}
+.tgs-jy--line .tgs-jy__m:nth-child(-n+3) .tgs-jy__dot{background:var(--pink)}
+.tgs-jy--line .tgs-jy__body{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tgs-jy--line .tgs-jy__body p{margin:0;font-weight:300;font-size:16px;line-height:23px}
+.tgs-jy--line .tgs-jy__time{margin:0;padding:0;border:0;text-align:right;padding-top:2px;line-height:17px}
+.tgs-jy--line .tgs-jy__within{display:block;margin-top:6px;text-transform:none;letter-spacing:0;font-family:var(--font-display);font-weight:300;font-size:13px;line-height:18px}
+.tgs-jy--line .tgs-jy__add{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.tgs-jy--line .tgs-jy__add li{background:var(--cream);border-radius:16px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.tgs-jy--line .tgs-jy__add li .tgs-pc__dim{background:none;border:0;padding:0;justify-self:start;width:auto;font-family:var(--font-ui);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7a5a5f}
+.tgs-jy--line .tgs-jy__add b{font-weight:400;font-size:15px}
+.tgs-jy--line .tgs-jy__add span{margin:0}
+.tgs-jy--line .tgs-jy__m--end{background:var(--light-blue);border-top:0;border-radius:22px;margin:8px calc(-1 * clamp(14px,2vw,22px)) 0;padding:22px clamp(14px,2vw,22px);grid-template-columns:220px minmax(0,1fr)}
+.tgs-jy--line .tgs-jy__m--end > span:last-child{display:none}
+.tgs-jy--line .tgs-jy__m--end .tgs-jy__dot{background:var(--plum)}
+@media (max-width:900px){
+  .tgs-jy--line .tgs-jy__m,.tgs-jy--line .tgs-jy__m--end{grid-template-columns:minmax(0,1fr);gap:10px}
+  .tgs-jy--line .tgs-jy__time{text-align:left}
+  .tgs-jy--line .tgs-jy__m > span:last-child{display:none}
+}
