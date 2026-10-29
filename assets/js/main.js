@@ -1,48 +1,40 @@
-/* The Good Span: page navigation, mobile menu, sign-up forms, cookie consent, examples carousel */
+/* The Good Span: page addresses, mobile menu.
+   Each page is its own document. Old hash addresses (#/memberships) still open the right page. */
 document.addEventListener('click', function (e) {
   var a = e.target.closest('a[data-dead]');
   if (a) e.preventDefault();
 });
+var PAGE_PATHS = {
+  'home': '/',
+  'how-it-works': '/how-it-works/',
+  'memberships': '/memberships/',
+  'evidence': '/evidence/',
+  'about': '/about/',
+  'find-your-good-span': '/find-your-good-span/'
+};
+function followLegacyHash() {
+  var h = location.hash || '';
+  if (h.indexOf('#/') !== 0) return false;
+  var parts = h.slice(2).split('/');
+  var slug = parts[0] || 'home';
+  var anchor = parts[1] || '';
+  var path = PAGE_PATHS[slug] || '/';
+  if (anchor) path += '#' + anchor;
+  location.replace(path);
+  return true;
+}
+function scrollToAnchor() {
+  var id = (location.hash || '').replace(/^#/, '');
+  if (!id || id.charAt(0) === '/') return;
+  var target = document.getElementById(id);
+  if (target) target.scrollIntoView();
+}
 function route() {
-  var h = location.hash || '#/home';
-  var parts = h.replace(/^#\/?/, '').split('/');
-  var slug = parts[0] || 'home', anchor = parts[1];
-  var page = document.getElementById('page-' + slug);
-  if (!page) { page = document.getElementById('page-home'); slug = 'home'; }
-  document.querySelectorAll('main').forEach(function (m) { m.hidden = m !== page; });
-  document.title = slug === 'home' ? 'The Good Span. More years that matter.' : page.dataset.title + ' · The Good Span';
-  var target = anchor ? page.querySelector('#' + CSS.escape(anchor)) : null;
-  if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
+  if (followLegacyHash()) return;
+  scrollToAnchor();
 }
 window.addEventListener('hashchange', route);
 route();
-
-(function(){
-  function show(h){
-    var parts=(h||'#/home').replace(/^#\/?/,'').split('/');
-    var slug=parts[0]||'home', anchor=parts[1];
-    var page=document.getElementById('page-'+slug);
-    if(!page){page=document.getElementById('page-home');slug='home';}
-    document.querySelectorAll('main').forEach(function(m){m.hidden=m!==page;});
-    page.querySelectorAll('img').forEach(function(i){i.loading='eager';});
-    var target=anchor?page.querySelector('#'+CSS.escape(anchor)):null;
-    if(target) target.scrollIntoView(); else window.scrollTo(0,0);
-  }
-  document.addEventListener('click',function(e){
-    var a=e.target.closest('a[href^="#"]');
-    if(!a||a.hasAttribute('data-dead'))return;
-    var h=a.getAttribute('href'); e.preventDefault();
-    if(h==='#')return;
-    if(location.hash===h){show(h);return;}
-    // Add a real history entry (so Back works) and announce the page change,
-    // so the tab title, mobile menu and analytics all update as well.
-    try{history.pushState(null,'',h);}catch(err){location.hash=h;return;}
-    show(h);
-    var ev; try{ev=new HashChangeEvent('hashchange');}catch(err){ev=document.createEvent('HTMLEvents');ev.initEvent('hashchange',true,true);}
-    window.dispatchEvent(ev);
-  },true);
-  window.addEventListener('popstate',function(){show(location.hash);});
-})();
 
 (function () {
   function closeAll() {
@@ -66,13 +58,14 @@ route();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
   window.addEventListener('hashchange', closeAll);
-  window.addEventListener('resize', function () { if (innerWidth > 1100) closeAll(); });
+  window.addEventListener('resize', function () { if (innerWidth > 1024) closeAll(); });
 })();
 
 /* Membership interest pop-up.
    Paste your Google Apps Script web app URL below. While it is empty, the pop-up works in preview mode:
    it shows every step but does not send anything. */
 var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278GSDccQ7tGHyM-v3_bEnIMnj26jx4cR2T_QmxpqyUrxTZXFKfEj9qR/exec';
+var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyUwRucB_U1ap7wBr7mM6dzByr_VuNbhEdQL7zchRtyskrLjxLkhufxfZE6hCiFdJyojQ/exec';
 (function () {
   var modal = document.getElementById('interest-modal');
   if (!modal) return;
@@ -81,9 +74,9 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
   var email = modal.querySelector('#im-email');
   var consent = modal.querySelector('input[name="consent"]');
   var submit = modal.querySelector('[data-submit]');
-  var SUMMARY = { 'Core': '€129/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
+  var SUMMARY = { 'Core': '€99/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
   var OPTION_LABEL = { 'six-month': 'Six-month commitment (€19/month)', 'trial': 'One-month trial (€25)' };
-  var state = { tier: '' }, lastFocus = null;
+  var state = { tier: '' }, lastFocus = null, sendToken = 0;
 
   function $(sel) { return modal.querySelectorAll(sel); }
   function show(step) {
@@ -113,6 +106,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     submit.disabled = false; submit.textContent = 'Register my interest';
   }
   function open(tier, option) {
+    sendToken++;
     lastFocus = document.activeElement;
     state.tier = tier;
     resetForm();
@@ -124,6 +118,7 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
     show('email');
   }
   function close() {
+    sendToken++;
     modal.hidden = true;
     document.documentElement.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -174,67 +169,81 @@ var INTEREST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278G
       website: form.website.value
     });
     function done() { modal.querySelector('[data-email-echo]').textContent = v; setTier(); show('thanks'); }
-    if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); done(); return; }
-    submit.disabled = true; submit.textContent = 'Sending…';
-    fetch(INTEREST_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
-      .then(done)
+    function failSend() {
+      show('email');
+      submit.disabled = false; submit.textContent = 'Register my interest';
+      modal.querySelector('[data-send-error]').hidden = false;
+    }
+    /* The sheet usually answers after a few seconds. Confirm straight away, and
+       only come back to the form if the sheet actually rejects the sign-up. */
+    var token = ++sendToken;
+    done();
+    if (!INTEREST_ENDPOINT) { console.info('[interest] preview mode, not sent:', Object.fromEntries(data)); return; }
+    fetch(INTEREST_ENDPOINT, { method: 'POST', body: data, keepalive: true })
+      .then(function (res) { if (!res.ok) throw new Error('status'); return res.json(); })
+      .then(function (json) {
+        if (token !== sendToken) return;
+        if (!json || json.ok !== true) failSend();
+      })
       .catch(function () {
-        submit.disabled = false; submit.textContent = 'Register my interest';
-        modal.querySelector('[data-send-error]').hidden = false;
+        if (token !== sendToken || modal.hidden) return;
+        failSend();
       });
   });
 })();
 
-/* Newsletter sign-up: sends to the same Google Apps Script web app as the membership pop-up (form=newsletter). */
+/* Newsletter sign-up. Posts to NEWSLETTER_ENDPOINT, a separate web app from membership interest.
+   Confirm straight away, then send the address in the background. */
 (function () {
   function valid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
   document.addEventListener('input', function (e) {
     var input = e.target.closest('.tgs-news__input');
-    if (input && input.getAttribute('aria-invalid') === 'true' && valid(input.value.trim())) {
-      input.removeAttribute('aria-invalid'); input.form.querySelector('[data-news-email-error]').hidden = true;
-    }
+    if (!input || input.getAttribute('aria-invalid') !== 'true' || !valid(input.value.trim())) return;
+    input.removeAttribute('aria-invalid');
+    var err = input.form.querySelector('[data-news-email-error]');
+    if (err) err.hidden = true;
   });
   document.addEventListener('change', function (e) {
-    if (e.target.matches('.tgs-news__form input[name=consent]') && e.target.checked) e.target.form.querySelector('[data-news-consent-error]').hidden = true;
+    if (!e.target.matches('.tgs-news__form input[name=consent]') || !e.target.checked) return;
+    var err = e.target.form.querySelector('[data-news-consent-error]');
+    if (err) err.hidden = true;
   });
   document.addEventListener('submit', function (e) {
     var form = e.target.closest('.tgs-news__form');
     if (!form) return;
     e.preventDefault();
     var email = form.email, consent = form.consent, v = email.value.trim(), ok = true;
-    var errEmail = form.querySelector('[data-news-email-error]'), errConsent = form.querySelector('[data-news-consent-error]'), errSend = form.querySelector('[data-news-send-error]');
+    var errEmail = form.querySelector('[data-news-email-error]');
+    var errConsent = form.querySelector('[data-news-consent-error]');
     if (!valid(v)) { email.setAttribute('aria-invalid', 'true'); errEmail.hidden = false; ok = false; }
     if (!consent.checked) { errConsent.hidden = false; ok = false; }
     if (!ok) { (valid(v) ? consent : email).focus(); return; }
-    errSend.hidden = true;
-    var btn = form.querySelector('.tgs-news__submit');
-    var data = new URLSearchParams({ form: 'newsletter', email: v, consent: 'yes', page: location.pathname + location.hash,
-                                     language: navigator.language || '', website: form.website.value });
-    function done() {
-      var box = form.parentNode.querySelector('[data-news-done]');
-      box.querySelector('[data-news-echo]').textContent = v;
-      form.hidden = true; box.hidden = false; box.focus();
-    }
-    var endpoint = (typeof INTEREST_ENDPOINT !== 'undefined') ? INTEREST_ENDPOINT : '';
-    if (!endpoint) { console.info('[newsletter] preview mode, not sent:', Object.fromEntries(data)); done(); return; }
-    btn.disabled = true; btn.textContent = 'Sending…';
-    fetch(endpoint, { method: 'POST', mode: 'no-cors', body: data })
-      .then(done)
-      .catch(function () { btn.disabled = false; btn.textContent = 'Subscribe'; errSend.hidden = false; });
+    var data = new URLSearchParams({
+      form: 'newsletter',
+      email: v,
+      consent: 'yes',
+      page: location.pathname + location.hash,
+      language: navigator.language || '',
+      website: form.website.value
+    });
+    var box = form.parentNode.querySelector('[data-news-done]');
+    form.hidden = true;
+    box.hidden = false;
+    box.focus();
+    var endpoint = (typeof NEWSLETTER_ENDPOINT !== 'undefined') ? NEWSLETTER_ENDPOINT : '';
+    if (!endpoint) { console.info('[newsletter] preview mode, not sent:', Object.fromEntries(data)); return; }
+    fetch(endpoint, { method: 'POST', body: data, keepalive: true }).catch(function () {});
   });
 })();
 
-/* ---- Cookie consent (Google Analytics only) ----
-   Paste your Google Analytics 4 measurement ID below, e.g. 'G-XXXXXXXXXX'.
-   Analytics only loads after the visitor clicks Accept. Nothing loads while the ID is empty. */
-var GA4_MEASUREMENT_ID = '';
+/* Cookie consent. Google Analytics loads only after the visitor accepts. */
+var GA4_MEASUREMENT_ID = 'G-EPME4LXRWR';
 (function () {
   var KEY = 'tgs-consent', VERSION = 2, MAX_AGE_DAYS = 365;
   var banner = document.getElementById('cookie-banner');
   if (!banner) return;
   var gaLoaded = false;
 
-  // Google Consent Mode v2: denied until the visitor accepts. Advertising stays denied: the site runs no ads.
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { dataLayer.push(arguments); };
   gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' });
@@ -243,7 +252,7 @@ var GA4_MEASUREMENT_ID = '';
     try {
       var c = JSON.parse(localStorage.getItem(KEY));
       if (!c || c.v !== VERSION) return null;
-      if ((Date.now() - c.t) / 864e5 > MAX_AGE_DAYS) return null;   // ask again after a year
+      if ((Date.now() - c.t) / 864e5 > MAX_AGE_DAYS) return null;
       return c;
     } catch (e) { return null; }
   }
@@ -251,7 +260,8 @@ var GA4_MEASUREMENT_ID = '';
     gtag('consent', 'update', { analytics_storage: c.analytics ? 'granted' : 'denied' });
     if (c.analytics && GA4_MEASUREMENT_ID && !gaLoaded) {
       gaLoaded = true;
-      var s = document.createElement('script'); s.async = true;
+      var s = document.createElement('script');
+      s.async = true;
       s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA4_MEASUREMENT_ID);
       document.head.appendChild(s);
       gtag('js', new Date());
@@ -261,8 +271,10 @@ var GA4_MEASUREMENT_ID = '';
   function decide(accepted) {
     var before = read(), c = { analytics: accepted, v: VERSION, t: Date.now() };
     try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {}
-    banner.hidden = true; manageWin.hidden = true; document.documentElement.style.overflow = '';
-    if (before && before.analytics && !accepted && gaLoaded) { location.reload(); return; }   // switch Analytics off
+    banner.hidden = true;
+    manageWin.hidden = true;
+    document.documentElement.style.overflow = '';
+    if (before && before.analytics && !accepted && gaLoaded) { location.reload(); return; }
     apply(c);
   }
   var manageWin = document.getElementById('cookie-manage');
@@ -272,42 +284,48 @@ var GA4_MEASUREMENT_ID = '';
   function syncLabel() { stateLabel.textContent = analyticsSwitch.checked ? 'On' : 'Off'; }
   analyticsSwitch.addEventListener('change', syncLabel);
   function open(manage) {
-    if (!manage) { banner.hidden = false; setTimeout(function () { var f = banner.querySelector('[data-ck="manage"]'); if (f) f.focus(); }, 30); return; }
+    if (!manage) {
+      banner.hidden = false;
+      setTimeout(function () { var f = banner.querySelector('[data-ck="accept"]'); if (f) f.focus(); }, 30);
+      return;
+    }
     lastFocus = document.activeElement;
-    var c = read(); analyticsSwitch.checked = !!(c && c.analytics); syncLabel();
-    manageWin.hidden = false; document.documentElement.style.overflow = 'hidden';
+    var c = read();
+    analyticsSwitch.checked = c ? !!c.analytics : true;
+    syncLabel();
+    manageWin.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
     setTimeout(function () { analyticsSwitch.focus(); }, 30);
   }
   function closeManage() {
-    manageWin.hidden = true; document.documentElement.style.overflow = '';
-    if (!read()) banner.hidden = false;          // no choice made yet: keep asking
+    manageWin.hidden = true;
+    document.documentElement.style.overflow = '';
+    if (!read()) banner.hidden = false;
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
-  // Pages change via the address (#/memberships …): report them as page views.
-  window.addEventListener('hashchange', function () {
-    if (gaLoaded) gtag('event', 'page_view', { page_location: location.href, page_title: document.title });
-  });
   banner.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-ck]'); if (!b) return;
+    var b = e.target.closest('[data-ck]');
+    if (!b) return;
     var a = b.getAttribute('data-ck');
-    if (a === 'accept') decide(true);
+    if (a === 'accept') { analyticsSwitch.checked = true; syncLabel(); decide(true); }
     else if (a === 'reject') decide(false);
     else if (a === 'manage') { banner.hidden = true; open(true); }
   });
   manageWin.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-ckm]'); if (!b) return;
-    if (b.getAttribute('data-ckm') === 'save') decide(analyticsSwitch.checked); else closeManage();
+    var b = e.target.closest('[data-ckm]');
+    if (!b) return;
+    if (b.getAttribute('data-ckm') === 'save') decide(analyticsSwitch.checked);
+    else closeManage();
   });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    if (!manageWin.hidden) closeManage(); else if (!banner.hidden) decide(false);
-  });
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-cookie-settings]')) { e.preventDefault(); open(true); }
+    if (!manageWin.hidden) closeManage();
+    else if (!banner.hidden) decide(false);
   });
 
   var existing = read();
-  if (existing) apply(existing); else open(false);
+  if (existing) apply(existing);
+  else open(false);
 })();
 
 /* Personas carousel: arrow buttons scroll one card at a time; swipe and keyboard scrolling also work. */
