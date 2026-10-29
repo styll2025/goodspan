@@ -6,30 +6,20 @@ The complete website: six pages, all photos, logos and fonts. It is a plain stat
 
 ```
 thegoodspan-website/
-├── index.html              Home
-├── how-it-works/           How it works, including five example Good Spans
-├── good-span-anna/         Example Good Span
-├── good-span-claudio/      Example Good Span
-├── good-span-teresa/       Example Good Span
-├── good-span-manuel/       Example Good Span
-├── good-span-maria/        Example Good Span
-├── memberships/            Memberships
-├── evidence/               Evidence
-├── about/                  About
-├── find-your-good-span/    Find your Good Span
+├── index.html              all pages: Home, How it works, Memberships, Evidence, About, Find your Good Span,
+│                           and five example Good Spans (Anna, Claudio, Teresa, Manuel, Maria)
 ├── assets/
 │   ├── css/styles.css      all styling, including the mobile menu and responsive layout
-│   ├── js/main.js          legacy address redirects, mobile menu, membership pop-up, newsletter sign-up and cookie consent
+│   ├── js/main.js          page navigation, mobile menu, membership pop-up, newsletter sign-up, cookie consent,
+│                           examples carousel and Starting Position highlights
 │   ├── img/                23 photos + 2 logos (SVG)
 │   └── fonts/              BST Bazaine (Thin, Light) and Archivo
-├── robots.txt              tells search engines they may index the site
-├── sitemap.xml             the six public page addresses
 ├── google-apps-script/     Code.gs + SETUP.md: collects membership interest and newsletter sign-ups in a Google Sheet
 ├── .nojekyll               tells GitHub Pages to serve the files exactly as they are
 └── README.md
 ```
 
-Each page is its own address, for example `https://thegoodspan.com/memberships/`. An older link such as `/#/memberships` still opens that page. The plans section is `https://thegoodspan.com/memberships/#plans`.
+Each page lives in `index.html` inside its own `<main id="page-...">` block, for example `<main id="page-memberships">`. Links between pages use addresses like `/#/memberships`, so every page can be linked to directly.
 
 ## 1. Open and preview it in Cursor
 
@@ -75,35 +65,71 @@ Connect the GitHub repository, leave the build command empty and set the publish
 
 ## Membership interest pop-up
 
-Until payments are live, **Choose Self**, **Choose Core** and **Choose Concierge** open a pop-up that collects the visitor's email and the plan they're interested in, and saves it to a Google Sheet. The one-month Self trial is an option inside the Self pop-up, not a separate card button. Follow `google-apps-script/SETUP.md` to connect it, then paste the web app URL into `INTEREST_ENDPOINT` at the top of the pop-up code in `assets/js/main.js`. Until you do, the pop-up runs in preview mode and sends nothing.
+Until payments are live, **Choose Self**, **Try one month for €25**, **Choose Core** and **Choose Concierge** open a pop-up that collects the visitor's email and the plan they're interested in, and saves it to a Google Sheet. Follow `google-apps-script/SETUP.md` to connect it, then paste the web app URL into `INTEREST_ENDPOINT` at the top of the pop-up code in `assets/js/main.js`. Until you do, the pop-up runs in preview mode and sends nothing.
 
 ## Newsletter sign-up
 
-Every page has a "Stay in the loop." band above the footer. Sign-ups go to `NEWSLETTER_ENDPOINT` in `assets/js/main.js`, a separate Google web app from membership interest. The web app must be deployed with **Who has access: Anyone**, or the sheet will not receive the addresses.
+Every page has a "Stay in the loop." band above the footer. Sign-ups go to the same Google web app and land in a separate **Newsletter** tab of the sheet.
 
 ## Beta notice
 
-A thin orange strip at the top of every page reads "The Good Span launches 1 January 2027. Subscribe to stay updated and be the first to hear when memberships open." and links to the Stay in the loop sign-up. On the legal pages, which have no sign-up band, it links to the homepage sign-up. The membership plans section also has a "Coming soon" notice: no payment is taken yet. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html` and the `<div class="tgs-plans-notice" …>` block in the plans section.
+A thin orange strip at the top of every page reads "Coming soon. Register your interest to hear when The Good Span launches." and links to the membership plans. When payments go live, remove the `<div class="tgs-beta" …>` block near the top of `index.html`.
 
 ## Cookie consent
 
-A cookie bar appears at the bottom of the screen on a visitor's first visit, with **Manage cookies**, **Decline all** and **Accept all**. **Accept all** opts in to Performance and Analytics and loads Google Analytics. **Decline all** leaves analytics off. "Manage cookies" opens a window with two categories: **Necessary** (always on) and **Performance and Analytics** (on until the visitor switches it off, matching Accept all). Choices are remembered for 12 months, then the visitor is asked again.
+A cookie bar appears at the bottom of the screen on a visitor's first visit, with **Manage cookies**, **Decline all** and **Accept all**. "Manage cookies" opens a window with two categories: **Necessary** (always on) and **Performance and Analytics** (off until the visitor switches it on). The **Cookie settings** link in every footer reopens that window, so visitors can change their mind at any time. Choices are remembered for 12 months, then the visitor is asked again.
 
-Google Analytics (`G-EPME4LXRWR`) loads when the visitor chooses Accept all, or saves preferences with Performance and Analytics on. The measurement ID is `GA4_MEASUREMENT_ID` in `assets/js/main.js`. There is no Advertising category, because the site runs no ads.
+**Google Analytics only loads after the visitor agrees.** To switch it on, open `assets/js/main.js`, find:
 
+```js
+var GA4_MEASUREMENT_ID = '';
+```
+
+and paste your Google Analytics 4 measurement ID between the quotes (it starts with `G-`). Until then, the cookie bar still works, but nothing is tracked.
+
+There is no Advertising category, because the site runs no ads or ad pixels. If you later add Meta or LinkedIn pixels for ad campaigns, an Advertising category must be added to the cookie window first.
+
+## "No payment yet" note on Memberships
+
+The membership plans section starts with a "Coming soon" note explaining that choosing a membership registers interest and takes no payment. When payments go live, remove the `<div class="tgs-notice" …>` block in `index.html`, together with the "Coming soon" strip at the top of the page.
+
+## Example Good Spans
+
+How it works has a carousel, "See what a Good Span looks like", between Step two and Step three. Its five cards link to one page per example member, which explains what a Good Span contains, using that member as the illustration: 01 Starting Position (honeycomb), 02 Focus areas, 03 First two practices, 04 Designed to fit real life, 05 The six-month journey, then links to the other examples.
+
+| Page | Address |
+|---|---|
+| Anna, 52, school administrator | `/#/good-span-anna` |
+| Claudio, 38, architect and keen cyclist | `/#/good-span-claudio` |
+| Teresa, 56, going through menopause | `/#/good-span-teresa` |
+| Manuel, 68, recently retired | `/#/good-span-manuel` |
+| Maria, 34, busy professional | `/#/good-span-maria` |
+
+These are example members, not real people, and the pages say so. Maria's content comes from her real Good Span; the other four were written in the same format, with practices from the practice library.
+
+## About: Meet your Pilot and the team
+
+The About page has two sections after "Personal guidance, made possible by technology": **Meet your Pilot** (photo `pilot-conversation.jpg`) and **The people behind The Good Span**, with Joël, Sara and Beatriz (photos `joel.jpg`, `sara.jpg`, `beatriz.jpg`). To change a bio, search `index.html` for the person's name.
+
+## Evidence: Our Advisory Board
+
+The Evidence page has an "Our Advisory Board" panel marked **Coming soon**, after the research library. When advisers are announced, replace the "Coming soon" label and add their names and photos to this section (search `index.html` for `tgs-board`).
 
 ## Before going live: checklist
 
 These are open items that the website itself can't resolve:
 
 - [ ] **Interest pop-up connected:** `INTEREST_ENDPOINT` is set in `assets/js/main.js` and a test sign-up appears in the sheet.
+- [ ] **Google Analytics:** `GA4_MEASUREMENT_ID` is set in `assets/js/main.js`, if you want visitor statistics.
+- [ ] **Cookie Policy page:** the cookie bar links to a Cookie Policy. It should list the Google Analytics cookies, what they're for and how long they last.
+- [ ] **Team photos:** Sara's photo is small (554 × 620 px) and may look soft on high-resolution screens; Joël's portrait appears twice on the About page.
 - [ ] **Font licence.** The BST Bazaine files are **trial versions**. A web licence is needed before the site goes public.
 - [ ] **"Book a Good Span Review"** buttons have no destination yet. Search `index.html` for `Book a Good Span Review` and replace `href="#"` with the booking link.
-- [x] **Footer legal links.** Terms & Conditions and Privacy Policy are linked. Cookie Policy and Community Guidelines are not in the footer.
+- [ ] **Privacy Policy and footer links** (Terms & Conditions, Privacy Policy, Cookie Policy, Community Guidelines) are placeholders. Search for `data-dead` to find them.
 - [ ] **Photo branding.** Two photos show third-party logos: `boxing.jpg` (Top King shorts) and the shoe-painter photos `sneaker-close2.jpg` and `sneaker-wide.jpg` (Nike trainers, banners). Confirm you have clearance, or swap them.
-- [ ] **Assessment link.** "Start Your Free Evaluation" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
-- [x] **Cookies and analytics.** The cookie bar asks before Google Analytics loads.
-- [x] **Search engines.** Each page has its own address, title, description and canonical URL. `sitemap.xml` lists them. Old `/#/page` links still redirect.
+- [ ] **Assessment link.** "Find my Good Span" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
+- [ ] **Cookies and analytics.** The site sets no cookies today. If you add analytics (such as Google Analytics), EU rules require a cookie consent banner.
+- [ ] **Search engines.** All six pages live in one file, so search engines see one page. That's fine for launch. If SEO becomes a priority, the pages can later be split into separate files (for example `/memberships/`).
 
 ## Photo files
 
