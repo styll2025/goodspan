@@ -749,19 +749,18 @@ a.tgs-beta strong { font-weight: 700; }
 .tgs-board__text p { margin: 0; font-weight: 300; font-size: 18px; line-height: 27px; color: var(--plum); }
 .tgs-board__text p + p { margin-top: 18px; }
 .tgs-board__text p:first-child { font-size: 22px; line-height: 31px; }
-.tgs-board__seats { list-style: none; margin: 56px 0 0; padding: 40px 0 0; border-top: 1px solid rgba(77, 40, 49, 0.2); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
-.tgs-board__seat { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
-.tgs-board__seat svg { display: block; transition: transform .2s ease; }
-.tgs-board__seat:hover svg { transform: translateY(-3px); }
-.tgs-board__seat span { font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); }
+.tgs-board__areas { margin: 56px 0 0; padding-top: 28px; border-top: 1px solid rgba(77, 40, 49, 0.2); }
+.tgs-board__areas-label { margin: 0 0 16px; font-family: var(--font-ui); font-size: 12px; line-height: 16px; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); }
+.tgs-board__pills { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 12px; margin: 0; padding: 0; }
+.tgs-board__pills li { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 18px; border-radius: 999px; background: #fff; color: var(--plum); font-family: var(--font-display); font-weight: 300; font-size: 16px; line-height: 20px; }
 @media (min-width: 1500px) { .tgs-board { padding-left: calc((100% - 1440px) / 2 + 72px); padding-right: calc((100% - 1440px) / 2 + 72px); } }
-@media (max-width: 1100px) { .tgs-board { padding: 0 40px 96px; } .tgs-board__panel { padding: 56px 40px; } .tgs-board__grid { grid-template-columns: minmax(0, 1fr); } .tgs-board__title { font-size: 46px; line-height: 52px; } .tgs-board__seats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 16px; } }
+@media (max-width: 1100px) { .tgs-board { padding: 0 40px 96px; } .tgs-board__panel { padding: 56px 40px; } .tgs-board__grid { grid-template-columns: minmax(0, 1fr); } .tgs-board__title { font-size: 46px; line-height: 52px; } }
 @media (max-width: 760px) {
-  .tgs-board__seat svg { width: 84px; height: 76px; }
   .tgs-board { padding: 0 16px 72px; }
   .tgs-board__panel { padding: 40px 22px; border-radius: 28px; }
   .tgs-board__title { font-size: 36px; line-height: 42px; }
   .tgs-board__text p { font-size: 16px; line-height: 23px; }
   .tgs-board__text p:first-child { font-size: 19px; line-height: 27px; }
-  .tgs-board__seats { margin-top: 48px; padding-top: 32px; }
+  .tgs-board__areas { margin-top: 40px; padding-top: 24px; }
+  .tgs-board__pills li { font-size: 15px; }
 }
