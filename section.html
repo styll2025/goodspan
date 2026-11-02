@@ -1,0 +1,59 @@
+<!-- ===== The Good Span · "Interested in practising your Good Span?" (waitlist add-on) =====
+     Paste this block on the Memberships page, straight after the section with the three membership cards
+     and before the "Human guidance when you need it" section. -->
+<section class="tgs-wl" aria-labelledby="tgs-wl-title">
+  <div class="tgs-wl__panel">
+    <p class="tgs-wl__tag">January 2027</p>
+    <h2 class="tgs-wl__title" id="tgs-wl-title">Interested in practising your Good Span?</h2>
+    <p class="tgs-wl__text">Memberships open in January 2027.<br>Tell us if you’d like to be among the first to join.</p>
+    <button type="button" class="tgs-wl__btn" data-wl-open>I’m interested</button>
+  </div>
+</section>
+
+<div class="tgs-wl-modal" id="tgs-wl-modal" hidden>
+  <div class="tgs-wl-modal__backdrop" data-wl-close></div>
+  <div class="tgs-wl-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tgs-wl-q" tabindex="-1">
+    <span class="tgs-wl-modal__handle" aria-hidden="true"></span>
+    <button type="button" class="tgs-wl-modal__close" data-wl-close aria-label="Close">×</button>
+
+    <form class="tgs-wl-form" data-wl-step="form" novalidate>
+      <p class="tgs-wl-form__kicker">Memberships open in January 2027</p>
+      <fieldset class="tgs-wl-form__choices">
+        <legend class="tgs-wl-form__q" id="tgs-wl-q">Which level of support would you be most likely to consider?</legend>
+        <label class="tgs-wl-opt"><input type="radio" name="level" value="Self">
+          <span class="tgs-wl-opt__body"><span class="tgs-wl-opt__tier">Self</span><span class="tgs-wl-opt__desc">Continue independently</span></span>
+          <span class="tgs-wl-opt__price">€19/month</span></label>
+        <label class="tgs-wl-opt"><input type="radio" name="level" value="Core">
+          <span class="tgs-wl-opt__body"><span class="tgs-wl-opt__tier">Core</span><span class="tgs-wl-opt__desc">Stay on track with regular Pilot guidance</span></span>
+          <span class="tgs-wl-opt__price">€99/month</span></label>
+        <label class="tgs-wl-opt"><input type="radio" name="level" value="Concierge">
+          <span class="tgs-wl-opt__body"><span class="tgs-wl-opt__tier">Concierge</span><span class="tgs-wl-opt__desc">Let us guide you</span></span>
+          <span class="tgs-wl-opt__price">€249/month</span></label>
+        <label class="tgs-wl-opt"><input type="radio" name="level" value="Not sure yet">
+          <span class="tgs-wl-opt__body"><span class="tgs-wl-opt__unsure">I’m not sure yet</span></span></label>
+      </fieldset>
+      <p class="tgs-wl-form__error" data-wl-err="level" hidden>Please choose one option.</p>
+
+      <label class="tgs-wl-form__label" for="tgs-wl-email">Email address</label>
+      <input class="tgs-wl-form__input" id="tgs-wl-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com">
+      <p class="tgs-wl-form__error" data-wl-err="email" hidden>Please enter a valid email address.</p>
+
+      <div class="tgs-wl-form__hp" aria-hidden="true"><label for="tgs-wl-website">Leave this empty</label><input id="tgs-wl-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+
+      <label class="tgs-wl-form__consent"><input type="checkbox" name="consent">
+        <span>I agree to The Good Span emailing me when memberships open. You can unsubscribe at any time. <a href="#" data-dead>Privacy Policy</a></span></label>
+      <p class="tgs-wl-form__error" data-wl-err="consent" hidden>Please tick the box so we can let you know.</p>
+      <p class="tgs-wl-form__error" data-wl-err="send" hidden>Something went wrong. Please check your connection and try again.</p>
+
+      <button type="submit" class="tgs-wl__btn tgs-wl__btn--full" data-wl-submit>Keep me informed when memberships open</button>
+    </form>
+
+    <div class="tgs-wl-thanks" data-wl-step="thanks" hidden>
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="32" cy="32" r="27"/><circle cx="32" cy="32" r="19" stroke-dasharray="0.01 3" stroke-linecap="round"/><path d="M23 33 l6 6 l12 -13" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3 class="tgs-wl-thanks__title" tabindex="-1">Thank you. You’re on the list.</h3>
+      <p class="tgs-wl-thanks__text">We’ll let you know at <b data-wl-echo></b> as soon as memberships open in January 2027.</p>
+      <button type="button" class="tgs-wl__btn tgs-wl__btn--outline" data-wl-close>Close</button>
+    </div>
+  </div>
+</div>
+<!-- ===== end of waitlist add-on ===== -->
