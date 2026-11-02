@@ -82,7 +82,6 @@
     var data = new URLSearchParams({ form: 'waitlist', level: level.value, email: v, consent: 'yes',
       page: location.pathname + location.hash, language: navigator.language || '', website: form.website.value });
     function done() {
-      thanks.querySelector('[data-wl-echo]').textContent = v;
       form.hidden = true; thanks.hidden = false; panel.scrollTop = 0;
       setTimeout(function () { thanks.querySelector('.tgs-wl-thanks__title').focus(); }, 30);
     }
