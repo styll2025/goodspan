@@ -5,6 +5,7 @@
  * to the Google Sheet below:
  *   - Membership interest (pop-up on Choose Self / Core / Concierge) → "Interest" tab
  *   - Newsletter ("Stay in the loop." band above the footer)          → "Newsletter" tab
+ *   - Waitlist ("Interested in practising your Good Span?" on Memberships) → "Waitlist" tab
  * Each tab is created automatically, with headings, on its first sign-up.
  */
 
@@ -17,6 +18,8 @@ const NOTIFY_EMAIL = '';
 
 const INTEREST = { name: 'Interest', headers: ['Date', 'Email', 'Tier', 'Option', 'Consent', 'Page', 'Language'] };
 const NEWSLETTER = { name: 'Newsletter', headers: ['Date', 'Email', 'Consent', 'Page', 'Language'] };
+const WAITLIST = { name: 'Waitlist', headers: ['Date', 'Email', 'Level of support', 'Consent', 'Page', 'Language'] };
+const LEVELS = ['Self', 'Core', 'Concierge', 'Not sure yet'];
 const TIERS = ['Self', 'Core', 'Concierge'];
 
 function doPost(e) {
@@ -30,7 +33,13 @@ function doPost(e) {
   const consent = p.consent === 'yes' ? 'Yes' : 'No';
 
   let tab, row, subject;
-  if (p.form === 'newsletter') {
+  if (p.form === 'waitlist') {
+    const level = String(p.level || '').trim();
+    if (LEVELS.indexOf(level) === -1) return json({ ok: false, error: 'level' });
+    tab = WAITLIST;
+    row = [new Date(), email, level, consent, clip(p.page, 200), clip(p.language, 20)];
+    subject = 'New waitlist sign-up: ' + level;
+  } else if (p.form === 'newsletter') {
     tab = NEWSLETTER;
     row = [new Date(), email, consent, clip(p.page, 200), clip(p.language, 20)];
     subject = 'New newsletter subscriber';
@@ -83,5 +92,6 @@ function json(obj) {
 function testSetup() {
   doPost({ parameter: { email: 'test@example.com', tier: 'Core', option: '', consent: 'yes', page: '/test', language: 'en' } });
   doPost({ parameter: { form: 'newsletter', email: 'test@example.com', consent: 'yes', page: '/test', language: 'en' } });
-  Logger.log('Added a test row to the "Interest" and "Newsletter" tabs. Delete them once you have checked them.');
+  doPost({ parameter: { form: 'waitlist', level: 'Core', email: 'test@example.com', consent: 'yes', page: '/test', language: 'en' } });
+  Logger.log('Added a test row to the "Interest", "Newsletter" and "Waitlist" tabs. Delete them once you have checked them.');
 }

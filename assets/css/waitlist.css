@@ -1,0 +1,97 @@
+/* The Good Span · waitlist add-on ("Interested in practising your Good Span?") */
+.tgs-wl, .tgs-wl-modal {
+  --wl-plum: var(--plum, #4D2831); --wl-cream: var(--cream, #FFF2EA); --wl-blue: var(--light-blue, #D1E6E9); --wl-orange: var(--orange, #FE600C);
+  --wl-display: var(--font-display, "BST Bazaine", Georgia, serif); --wl-ui: var(--font-ui, "Archivo", Arial, sans-serif);
+}
+
+/* ---- Section ---- */
+.tgs-wl { background: var(--wl-cream); color: var(--wl-plum); padding: 96px 72px; }
+.tgs-wl__panel { max-width: 1296px; margin: 0 auto; box-sizing: border-box; background: #fff; border: 1.5px solid var(--wl-plum); border-radius: 44px; padding: 80px 72px; text-align: center; }
+.tgs-wl__tag { display: inline-block; margin: 0; padding: 9px 16px; border-radius: 999px; background: var(--wl-orange); color: #000;
+  font-family: var(--wl-ui); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.tgs-wl__title { margin: 26px auto 0; max-width: 820px; font-family: var(--wl-display); font-weight: 200; font-size: 60px; line-height: 1.08; letter-spacing: -0.03em; }
+.tgs-wl__text { margin: 22px 0 0; font-family: var(--wl-display); font-weight: 300; font-size: 22px; line-height: 1.4; }
+
+/* ---- Buttons ---- */
+.tgs-wl__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 56px; margin-top: 34px; padding: 0 34px; border: 0; border-radius: 999px;
+  background: var(--wl-plum); color: var(--wl-cream); font-family: var(--wl-ui); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.tgs-wl__btn:hover { background: #000; }
+.tgs-wl__btn:focus-visible, .tgs-wl-modal__close:focus-visible { outline: 2px solid var(--wl-plum); outline-offset: 3px; }
+.tgs-wl__btn[disabled] { opacity: .6; cursor: progress; }
+.tgs-wl__btn--full { margin-top: 0; align-self: flex-start; }
+.tgs-wl__btn--outline { margin-top: 0; background: transparent; color: var(--wl-plum); border: 1px solid var(--wl-plum); }
+.tgs-wl__btn--outline:hover { background: var(--wl-plum); color: var(--wl-cream); }
+
+/* ---- Pop-up ---- */
+.tgs-wl-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; color: var(--wl-plum); }
+.tgs-wl-modal[hidden] { display: none !important; }
+.tgs-wl-modal__backdrop { position: absolute; inset: 0; background: rgba(40, 18, 24, 0.62); }
+.tgs-wl-modal__panel { position: relative; width: min(720px, 100%); max-height: calc(100vh - 48px); overflow: auto; box-sizing: border-box; background: var(--wl-cream);
+  border-radius: 40px; padding: 56px; box-shadow: 0 24px 80px rgba(0, 0, 0, .25); outline: none; }
+.tgs-wl-modal__handle { display: none; }
+.tgs-wl-modal__close { position: absolute; top: 24px; right: 24px; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--wl-plum);
+  background: transparent; color: var(--wl-plum); font-size: 22px; line-height: 1; cursor: pointer; }
+
+/* ---- Form ---- */
+.tgs-wl-form { display: flex; flex-direction: column; }
+.tgs-wl-form[hidden], .tgs-wl-thanks[hidden] { display: none; }
+.tgs-wl-form__kicker { margin: 0 0 6px; font-family: var(--wl-ui); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.tgs-wl-form__choices { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.tgs-wl-form__q { margin: 0 0 24px; padding: 0 48px 0 0; font-family: var(--wl-display); font-weight: 300; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em; }
+.tgs-wl-opt { position: relative; display: flex; align-items: center; gap: 16px; padding: 18px 20px 18px 56px; border-radius: 20px; background: #fff;
+  border: 1px solid rgba(77, 40, 49, .25); cursor: pointer; }
+.tgs-wl-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tgs-wl-opt::before { content: ""; position: absolute; left: 20px; top: 50%; width: 22px; height: 22px; margin-top: -11px; border-radius: 999px;
+  border: 1.5px solid var(--wl-plum); background: #fff; box-sizing: border-box; }
+.tgs-wl-opt.is-checked { background: var(--wl-blue); border: 2px solid var(--wl-plum); padding: 17px 19px 17px 55px; }
+.tgs-wl-opt.is-checked::before { border-width: 7px; left: 19px; }
+.tgs-wl-opt.is-focus { outline: 2px solid var(--wl-plum); outline-offset: 2px; }
+.tgs-wl-opt__body { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.tgs-wl-opt__tier { font-family: var(--wl-ui); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.tgs-wl-opt__desc { font-family: var(--wl-display); font-weight: 300; font-size: 17px; line-height: 1.35; }
+.tgs-wl-opt__unsure { font-family: var(--wl-display); font-weight: 300; font-size: 19px; }
+.tgs-wl-opt__price { flex: none; font-family: var(--wl-display); font-weight: 300; font-size: 18px; white-space: nowrap; }
+.tgs-wl-form__label { margin: 26px 0 8px; font-family: var(--wl-ui); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.tgs-wl-form__input { box-sizing: border-box; width: 100%; height: 56px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--wl-plum); background: #fff;
+  color: var(--wl-plum); font-family: var(--wl-display); font-weight: 300; font-size: 18px; }
+.tgs-wl-form__input:focus { outline: 2px solid var(--wl-plum); outline-offset: 2px; }
+.tgs-wl-form__input[aria-invalid="true"] { border: 2px solid var(--wl-orange); }
+.tgs-wl-form__consent { display: flex; gap: 12px; align-items: flex-start; margin: 16px 0 26px; font-family: var(--wl-ui); font-size: 13px; line-height: 1.45; cursor: pointer; }
+.tgs-wl-form__consent input { margin: 1px 0 0; width: 18px; height: 18px; flex: none; accent-color: var(--wl-plum); }
+.tgs-wl-form__consent a { color: var(--wl-plum); }
+.tgs-wl-form__error { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; font-family: var(--wl-ui); font-size: 13px; }
+.tgs-wl-form__error::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--wl-orange); flex: none; }
+.tgs-wl-form__error[hidden] { display: none; }
+.tgs-wl-form__consent + .tgs-wl-form__error { margin: -16px 0 22px; }
+.tgs-wl-form__hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---- Thank you ---- */
+.tgs-wl-thanks { display: flex; flex-direction: column; align-items: flex-start; }
+.tgs-wl-thanks__title { margin: 22px 0 14px; font-family: var(--wl-display); font-weight: 300; font-size: 34px; line-height: 1.15; letter-spacing: -0.015em; outline: none; }
+.tgs-wl-thanks__text { margin: 0 0 28px; font-family: var(--wl-display); font-weight: 300; font-size: 19px; line-height: 1.45; }
+.tgs-wl-thanks__text b { font-weight: 400; }
+
+/* ---- Screen sizes ---- */
+@media (min-width: 1500px) { .tgs-wl { padding-left: calc((100% - 1440px) / 2 + 72px); padding-right: calc((100% - 1440px) / 2 + 72px); } }
+@media (max-width: 1100px) { .tgs-wl { padding: 80px 40px; } .tgs-wl__panel { padding: 64px 40px; } .tgs-wl__title { font-size: 46px; } }
+@media (max-width: 760px) {
+  .tgs-wl { padding: 64px 16px; }
+  .tgs-wl__panel { padding: 48px 22px; border-radius: 28px; }
+  .tgs-wl__title { font-size: 34px; }
+  .tgs-wl__text { font-size: 18px; }
+  .tgs-wl__btn { width: 100%; }
+  .tgs-wl-modal { align-items: flex-end; padding: 0; }
+  .tgs-wl-modal__panel { width: 100%; max-height: calc(100vh - 16px); border-radius: 30px 30px 0 0; padding: 40px 20px calc(24px + env(safe-area-inset-bottom, 0px)); }
+  .tgs-wl-modal__handle { display: block; position: absolute; top: 12px; left: 50%; width: 44px; height: 4px; margin-left: -22px; border-radius: 999px; background: rgba(77, 40, 49, .25); }
+  .tgs-wl-modal__close { top: 16px; right: 14px; width: 40px; height: 40px; }
+  .tgs-wl-form__q { font-size: 25px; margin-bottom: 18px; }
+  .tgs-wl-opt { padding: 14px 14px 14px 50px; gap: 10px; }
+  .tgs-wl-opt.is-checked { padding: 13px 13px 13px 49px; }
+  .tgs-wl-opt::before { left: 16px; }
+  .tgs-wl-opt.is-checked::before { left: 15px; }
+  .tgs-wl-opt__desc, .tgs-wl-opt__price { font-size: 15px; }
+  .tgs-wl-form__label { margin-top: 20px; }
+  .tgs-wl-form__consent { margin: 14px 0 20px; }
+  .tgs-wl__btn--full { width: 100%; }
+  .tgs-wl-thanks__title { font-size: 28px; }
+}
