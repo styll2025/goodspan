@@ -1,6 +1,8 @@
 /* The Good Span · waitlist add-on ("Interested in practising your Good Span?")
-   Sends sign-ups to the same Google Apps Script web app as the site's other forms (form=waitlist),
-   saved in the "Waitlist" tab. It uses the site's INTEREST_ENDPOINT if defined, otherwise the URL below.
+   Sends sign-ups to the same Google Apps Script web app as the site's other forms.
+   The live script saves Self, Core and Concierge on the Interest tab when tier and option are set.
+   Once that script is updated, form=waitlist is filed on the Waitlist tab of the same spreadsheet.
+   It uses the site's INTEREST_ENDPOINT if defined, otherwise the URL below.
    Any button or link with data-wl-open opens the form; add data-wl-level="Core" (Self, Core, Concierge)
    to open it with that level already selected. */
 (function () {
@@ -79,8 +81,17 @@
     if (!consent.checked) { err('consent', true); ok = false; }
     if (!ok) { (!level ? radios[0] : !valid(v) ? email : consent).focus(); return; }
     err('send', false);
-    var data = new URLSearchParams({ form: 'waitlist', level: level.value, email: v, consent: 'yes',
-      page: location.pathname + location.hash, language: navigator.language || '', website: form.website.value });
+    var data = new URLSearchParams({
+      form: 'waitlist',
+      level: level.value,
+      tier: level.value,
+      option: 'January 2027 waitlist',
+      email: v,
+      consent: 'yes',
+      page: location.pathname + location.hash,
+      language: navigator.language || '',
+      website: form.website.value
+    });
     function done() {
       form.hidden = true; thanks.hidden = false; panel.scrollTop = 0;
       setTimeout(function () { thanks.querySelector('.tgs-wl-thanks__title').focus(); }, 30);
