@@ -1,12 +1,9 @@
 /* The Good Span · waitlist add-on ("Interested in practising your Good Span?")
-   Sends sign-ups to the same Google Apps Script web app as the site's other forms.
-   The live script saves Self, Core and Concierge on the Interest tab when tier and option are set.
-   Once that script is updated, form=waitlist is filed on the Waitlist tab of the same spreadsheet.
-   It uses the site's INTEREST_ENDPOINT if defined, otherwise the URL below.
+   Sends this section's sign-ups to its own Google Apps Script web app.
    Any button or link with data-wl-open opens the form; add data-wl-level="Core" (Self, Core, Concierge)
    to open it with that level already selected. */
 (function () {
-  var FALLBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhYXNj7269278GSDccQ7tGHyM-v3_bEnIMnj26jx4cR2T_QmxpqyUrxTZXFKfEj9qR/exec';
+  var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwhykJ1OloBRnfjEpKBkgsOGc2X-_79NJxD5F5QSftkdVIm5TReHfuUv881k3yGxTHS/exec';
   var BUTTON_TEXT = 'Keep me informed when memberships open';
   var modal = document.getElementById('tgs-wl-modal');
   if (!modal) return;
@@ -24,7 +21,7 @@
   function valid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
   function chosen() { return form.querySelector('input[name="level"]:checked'); }
   function sync() { radios.forEach(function (r) { r.closest('.tgs-wl-opt').classList.toggle('is-checked', r.checked); }); }
-  function endpoint() { return (typeof INTEREST_ENDPOINT !== 'undefined' && INTEREST_ENDPOINT) ? INTEREST_ENDPOINT : FALLBACK_ENDPOINT; }
+  function endpoint() { return WAITLIST_ENDPOINT; }
 
   function open(level) {
     lastFocus = document.activeElement;
