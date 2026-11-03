@@ -101,7 +101,7 @@ These are open items that the website itself can't resolve:
 - [ ] **"Book a Good Span Review"** buttons have no destination yet. Search `index.html` for `Book a Good Span Review` and replace `href="#"` with the booking link.
 - [x] **Footer legal links.** Terms & Conditions and Privacy Policy are linked. Cookie Policy and Community Guidelines are not in the footer.
 - [ ] **Photo branding.** Two photos show third-party logos: `boxing.jpg` (Top King shorts) and the shoe-painter photos `sneaker-close2.jpg` and `sneaker-wide.jpg` (Nike trainers, banners). Confirm you have clearance, or swap them.
-- [ ] **Assessment link.** "Start Your Free Evaluation" goes to `https://thegoodspan-assessment.pages.dev/`. Update it if the evaluation moves to its own domain.
+- [x] **Assessment link.** "Start Your Free Evaluation" goes to `https://evaluation.thegoodspan.com/`.
 - [x] **Cookies and analytics.** The cookie bar asks before Google Analytics loads.
 - [x] **Search engines.** Each page has its own address, title, description and canonical URL. `sitemap.xml` lists them. Old `/#/page` links still redirect.
 
