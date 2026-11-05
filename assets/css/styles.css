@@ -279,6 +279,8 @@ main[hidden] { display: none !important; }
 @media (max-width: 900px) {
   .gs-hero--split { grid-template-columns: minmax(0, 1fr) !important; min-height: 0 !important; }
   body .gs-hero--split .gs-hero__media { min-height: 460px; }
+  /* Phone hero uses a tighter crop. Hold the faces while the wide frame trims the top and bottom. */
+  .gs-hero__media img.tgs-hero-home { object-position: center 28%; }
 }
 @media (max-width: 760px) {
   .gs-header { padding: 16px 24px; grid-template-columns: 1fr auto; }
