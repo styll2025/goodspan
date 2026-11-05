@@ -39,8 +39,8 @@
 
 .gs-hero { display: grid; background: var(--surface-alt); }
 .gs-hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* Homepage hero: centre the gathering, and keep the faces when the frame is wide. */
-.gs-hero__media img.tgs-hero-home { object-position: center 35%; }
+/* Homepage hero: the file is already cropped to the three people, so wide frames crop top and bottom. Keep the faces in view. */
+.gs-hero__media img.tgs-hero-home { object-position: center 18%; }
 .gs-hero__title { margin: 0; font-family: var(--font-display); font-weight: 200; font-size: 68px; line-height: 74px; letter-spacing: -.04em; color: var(--ink); }
 .gs-hero__lead { margin-top: var(--space-9); max-width: 600px; font-family: var(--font-display); font-weight: 300; font-size: 20px; line-height: 30px; color: var(--ink); }
 .gs-hero__lead p { margin: 0 0 30px; } .gs-hero__lead p:last-child { margin-bottom: 0; }
