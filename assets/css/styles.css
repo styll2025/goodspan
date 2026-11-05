@@ -758,3 +758,42 @@ a.tgs-beta strong { font-weight: 700; }
   .tgs-board__areas { margin-top: 40px; padding-top: 24px; }
   .tgs-board__pills li { font-size: 15px; }
 }
+
+/* About story hero: the portrait sits in the blue field, smaller than a full-bleed column. */
+body .gs-hero--split.tgs-hero-story {
+  align-items: center;
+  min-height: 0;
+  padding: 72px 0 72px 72px;
+}
+body .gs-hero--split.tgs-hero-story .gs-hero__media {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+body .gs-hero--split.tgs-hero-story .gs-hero__media img {
+  position: static;
+  inset: auto;
+  width: calc(100% - 72px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-image);
+  object-position: center 18%;
+}
+body .gs-hero--split.tgs-hero-story .gs-hero__panel {
+  padding: 24px 72px 24px 56px;
+}
+@media (max-width: 1100px) {
+  body .gs-hero--split.tgs-hero-story { padding-left: 48px; }
+  body .gs-hero--split.tgs-hero-story .gs-hero__media img { width: calc(100% - 40px); }
+  body .gs-hero--split.tgs-hero-story .gs-hero__panel { padding: 24px 48px 24px 40px !important; }
+}
+@media (max-width: 900px) {
+  body .gs-hero--split.tgs-hero-story { padding: 48px 24px 16px; }
+  body .gs-hero--split.tgs-hero-story .gs-hero__media { justify-content: center; min-height: 0; }
+  body .gs-hero--split.tgs-hero-story .gs-hero__media img { width: min(100%, 420px); }
+}
+@media (max-width: 760px) {
+  body .gs-hero--split.tgs-hero-story .gs-hero__panel { padding: 36px 0 48px !important; }
+  body .gs-hero--split.tgs-hero-story .gs-hero__media img { border-radius: 40px; }
+}
