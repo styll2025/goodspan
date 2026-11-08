@@ -74,31 +74,30 @@ var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyUwRucB_U1ap
   var email = modal.querySelector('#im-email');
   var consent = modal.querySelector('input[name="consent"]');
   var submit = modal.querySelector('[data-submit]');
-  var SUMMARY = { 'Core': '€99/month · cancel anytime', 'Concierge': '€249/month · cancel anytime' };
-  var OPTION_LABEL = { 'six-month': 'Six-month commitment (€19/month)', 'trial': 'One-month trial (€25)' };
+  var SUMMARY = {
+    'Self': '€19/month · six-month commitment',
+    'Core': '€99/month · cancel anytime',
+    'Concierge': '€249/month · cancel anytime'
+  };
   var state = { tier: '' }, lastFocus = null, sendToken = 0;
 
   function $(sel) { return modal.querySelectorAll(sel); }
   function show(step) {
     $('[data-step]').forEach(function (s) { s.hidden = s.getAttribute('data-step') !== step; });
-    modal.classList.toggle('tgs-modal--choose', step === 'email' && state.tier === 'Self');
     panel.setAttribute('aria-labelledby', 'im-title-' + step);
     panel.scrollTop = 0;
-    var first = step === 'thanks' ? modal.querySelector('#im-title-thanks') : (state.tier === 'Self' ? modal.querySelector('input[name=option]:checked') : email);
+    var first = step === 'thanks' ? modal.querySelector('#im-title-thanks') : email;
     if (first) setTimeout(function () { first.focus(); }, 30);
   }
   function setTier() {
-    var self = state.tier === 'Self';
     $('[data-tier-name]').forEach(function (n) { n.textContent = state.tier; });
     var pill = modal.querySelector('[data-tier-pill]');
     pill.textContent = state.tier; pill.className = 'tgs-pill tgs-pill--' + state.tier.toLowerCase();
-    modal.querySelector('[data-summary]').textContent = self ? '' : SUMMARY[state.tier];
-    modal.querySelector('[data-self-options]').hidden = !self;
-    modal.querySelector('[data-title]').innerHTML = self ? 'How would you like to start?'
-      : 'Thank you for your interest in <span data-tier-name>' + state.tier + '</span>.';
-    modal.querySelector('[data-intro]').textContent = self
-      ? 'Memberships open soon. Choose an option and leave your email, and we’ll let you know as soon as you can join.'
-      : 'Memberships open soon. Leave your email and we’ll come back to you as soon as you can join.';
+    modal.querySelector('[data-summary]').textContent = SUMMARY[state.tier] || '';
+    var options = modal.querySelector('[data-self-options]');
+    if (options) options.hidden = true;
+    modal.querySelector('[data-title]').innerHTML = 'Thank you for your interest in <span data-tier-name>' + state.tier + '</span>.';
+    modal.querySelector('[data-intro]').textContent = 'Memberships open soon. Leave your email and we’ll come back to you as soon as you can join.';
   }
   function resetForm() {
     form.reset(); email.removeAttribute('aria-invalid');
@@ -162,7 +161,7 @@ var NEWSLETTER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyUwRucB_U1ap
     var data = new URLSearchParams({
       email: v,
       tier: state.tier,
-      option: state.tier === 'Self' ? OPTION_LABEL[(form.querySelector('input[name=option]:checked') || {}).value] || '' : '',
+      option: '',
       consent: 'yes',
       page: location.pathname + location.hash,
       language: navigator.language || '',
